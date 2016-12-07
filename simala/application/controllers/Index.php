@@ -19,7 +19,7 @@ class Index extends CI_Controller
   }
   public function index()
   {
-    
+
     $count_mhs = $this->app_model->total_rows("v_sync_mhs");
     $count_mhs_lulus = $this->app_model->total_rows("v_sync_mhs_lulus");
     $count_mk_kur = $this->app_model->total_rows("v_sync_mk_kurikulum");
@@ -104,39 +104,6 @@ class Index extends CI_Controller
     );
     echo json_encode($data_result);
   }
-  // public function graphMhsLulus()
-  // {
-  //   $count_mhs_l_1 = $this->app_model->total_rows_where("v_mhs_lulus","smt_masuk","20071");
-  //   $count_mhs_l_2 = $this->app_model->total_rows_where("v_mhs_lulus","smt_masuk","20081");
-  //   $count_mhs_l_3 = $this->app_model->total_rows_where("v_mhs_lulus","smt_masuk","20091");
-  //   $count_mhs_l_4 = $this->app_model->total_rows_where("v_mhs_lulus","smt_masuk","20101");
-  //   $count_mhs_l_5 = $this->app_model->total_rows_where("v_mhs_lulus","smt_masuk","20111");
-  //   $data=array();
-  //
-  //   $data_lulus = array($count_mhs_l_1,$count_mhs_l_2,$count_mhs_l_3,$count_mhs_l_4,$count_mhs_l_5);
-  //   $a=0;
-  //   for ($i=2007; $i < 2011; $i++) {
-  //     $data[$i] = $data_lulus[$a];
-  //     $a++;
-  //   }
-  //   $count_mhs_2 = $this->app_model->total_rows_where("v_mhs_aktif","smt_masuk","20121");
-  //   $count_mhs_3 = $this->app_model->total_rows_where("v_mhs_aktif","smt_masuk","2013");
-  //   $count_mhs_4 = $this->app_model->total_rows_where("v_mhs_aktif","smt_masuk","20141");
-  //   $count_mhs_5 = $this->app_model->total_rows_where("v_mhs_aktif","smt_masuk","20151");
-  //   $count_mhs_6 = $this->app_model->total_rows_where("v_mhs_aktif","smt_masuk","20161");
-  //   $data_angkatan = array(
-  //     'ang_2012' => $count_mhs_2,
-  //     'ang_2013' => $count_mhs_3,
-  //     'ang_2014' => $count_mhs_4,
-  //     'ang_2015' => $count_mhs_5,
-  //     'ang_2016' => $count_mhs_6,
-  //   );
-  //   echo json_encode($data);
-  // }
 
-  public function contoh_json()
-  {
-    $data=$this->app_model->get_query("SELECT * FROM v_mhs_aktif limit 0,2")->result();
-    echo json_encode($data);
-  }
+  
 }

@@ -1,11 +1,8 @@
 <div class="container-fluid">
   <div class="page-header" style="margin-top: 50px;">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <h3><?php echo $title_page; ?></h3>
-      </div>
-      <div class="col-md-6">
-
       </div>
     </div>
   </div>
