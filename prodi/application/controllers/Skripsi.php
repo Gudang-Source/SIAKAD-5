@@ -118,7 +118,6 @@ class Skripsi extends CI_Controller
         		'valid_prodi' => $this->input->post('valid_prodi',TRUE),
         		'tgl_maju' => $this->input->post('tgl_maju',TRUE),
         	  );
-
             $this->Skripsi_model->update($this->input->post('id_skripsi', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('skripsi'));
