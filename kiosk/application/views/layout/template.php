@@ -7,6 +7,7 @@
 
 <link href="<?php echo base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
 <link href="<?php echo base_url('assets/css/datepicker3.css') ?>" rel="stylesheet">
+<link href="<?php echo base_url('assets/css/bootstrap-table.css') ?>" rel="stylesheet">
 <link href="<?php echo base_url('assets/css/styles.css') ?>" rel="stylesheet">
 <script src="<?php echo base_url('assets/js/lumino.glyphs.js') ?>"></script>
 </head>
@@ -81,7 +82,8 @@
 	<script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
 	<script src="<?php echo base_url('assets/js/easypiechart.js') ?>"></script>
 	<script src="<?php echo base_url('assets/js/easypiechart-data.js') ?>"></script>
-  <script src="<?php echo base_url('assets/js/bootstrap-datepicker.js') ?>"></script>
+	<script src="<?php echo base_url('assets/js/bootstrap-datepicker.js') ?>"></script>
+  <script src="<?php echo base_url('assets/js/bootstrap-table.js') ?>"></script>
   <?php
       if ($assign_js != '') {
           $this->load->view($assign_js);

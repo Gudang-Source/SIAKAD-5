@@ -113,49 +113,50 @@
         <div class="panel-heading" id="accordion"><svg class="glyph stroked two-messages"><use xlink:href="#stroked-two-messages"></use></svg> Pengumuman</div>
         <div class="panel-body">
           <ul>
-            <li class="left clearfix">
-              <span class="chat-img pull-left">
-                <img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
-              </span>
-              <div class="chat-body clearfix">
-                <div class="header">
-                  <strong class="primary-font">John Doe</strong> <small class="text-muted">32 mins ago</small>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies.
-                </p>
-              </div>
-            </li>
-            <li class="right clearfix">
-              <span class="chat-img pull-right">
-                <img src="http://placehold.it/80/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
-              </span>
-              <div class="chat-body clearfix">
-                <div class="header">
-                  <strong class="pull-left primary-font">Jane Doe</strong> <small class="text-muted">6 mins ago</small>
-                </div>
-                <p>
-                  Mauris dignissim porta enim, sed commodo sem blandit non. Ut scelerisque sapien eu mauris faucibus ultrices. Nulla ac odio nisl. Proin est metus, interdum scelerisque quam eu, eleifend pretium nunc. Suspendisse finibus auctor lectus, eu interdum sapien.
-                </p>
-              </div>
-            </li>
-            <li class="left clearfix">
-              <span class="chat-img pull-left">
-                <img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
-              </span>
-              <div class="chat-body clearfix">
-                <div class="header">
-                  <strong class="primary-font">John Doe</strong> <small class="text-muted">32 mins ago</small>
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies.
-                </p>
-              </div>
-            </li>
+            <?php
+            $i=1;
+            foreach ($pengumuman as $key) {
+              $i++;
+              if ($i % 2 == 0) {
+                ?>
+                <li class="left clearfix">
+                  <span class="chat-img pull-left">
+                    <img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
+                  </span>
+                  <div class="chat-body clearfix">
+                    <div class="header">
+                      <strong class="primary-font"><?php echo $key->judul ?></strong> <small class="text-muted"><?php echo $key->tanggal ?></small>
+                    </div>
+                    <p>
+                      <?php echo $key->tentang ?>
+                    </p>
+                  </div>
+                </li>
+                <?php
+              }
+              else {
+                ?>
+                <li class="right clearfix">
+                  <span class="chat-img pull-right">
+                    <img src="http://placehold.it/80/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
+                  </span>
+                  <div class="chat-body clearfix">
+                    <div class="header">
+                      <strong class="pull-left primary-font"><?php echo $key->judul ?></strong> <small class="text-muted"><?php echo $key->tanggal ?></small>
+                    </div>
+                    <p>
+                      <?php echo $key->tentang ?>
+                    </p>
+                  </div>
+                </li>
+                <?php
+              }
+            }
+            ?>
           </ul>
         </div>
         <div class="panel-footer">
-
+          <b>Pengumuan Kampus</b>
         </div>
       </div>
 

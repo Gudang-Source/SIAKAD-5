@@ -11,7 +11,7 @@ class Jadwal extends CI_Controller
         if (!$this->session->userdata('login')) {
     			redirect('auth');
     		}
-    		else if($this->session->userdata('level') != 'prodi'){
+    		else if($this->session->userdata('level') != 'baak'){
     				redirect('auth/logout');
     		}
     		else {
@@ -24,8 +24,8 @@ class Jadwal extends CI_Controller
 
     public function index()
     {
-        $jadwal = $this->App_model->get_query("SELECT * FROM v_jadwal WHERE kd_prodi='".$this->session->userdata('level_prodi')."'")->result();
-        $kurikulum_data = $this->kurikulum->get_all($this->session->userdata('level_prodi'));
+        $jadwal = $this->App_model->get_query("SELECT * FROM v_jadwal")->result();
+        $kurikulum_data = $this->kurikulum->get_all();
 
         $data = array(
             'jadwal_data' => $jadwal
@@ -223,7 +223,7 @@ class Jadwal extends CI_Controller
 
     public function get_jadwal($a='')
     {
-      $data_jadwal_kur = $this->App_model->get_query("SELECT * FROM v_jadwal WHERE id_kurikulum='".$a."' AND kd_prodi='".$this->session->userdata('level_prodi')."'")->result();
+      $data_jadwal_kur = $this->App_model->get_query("SELECT * FROM v_jadwal WHERE id_kurikulum='".$a."'")->result();
       $data['jadwal_data'] = $data_jadwal_kur;
       $data['site_title'] = 'SIMALA';
       $data['title_page'] = 'Olah Data Jadwal Perkuliahan';
@@ -236,10 +236,10 @@ class Jadwal extends CI_Controller
       $temp_cari = $cari==''?'':$cari;
       $page = $this->input->post('page');
       if ($page=='') {
-        $kurikulum = $this->App_model->get_query("SELECT * FROM tb_kurikulum where kd_prodi='".$this->session->userdata('level_prodi')."'")->result();
+        $kurikulum = $this->App_model->get_query("SELECT * FROM tb_kurikulum")->result();
       }
       else {
-        $kurikulum = $this->App_model->get_query("SELECT * FROM tb_kurikulum WHERE kd_prodi='".$this->session->userdata('level_prodi')."' AND nm_kurikulum LIKE '%".$cari."%' AND ta LIKE '%".$cari."%' ORDER BY ta DESC")->result();
+        $kurikulum = $this->App_model->get_query("SELECT * FROM tb_kurikulum WHERE nm_kurikulum LIKE '%".$cari."%' AND ta LIKE '%".$cari."%' ORDER BY ta DESC")->result();
       }
 
       $temps = array();
