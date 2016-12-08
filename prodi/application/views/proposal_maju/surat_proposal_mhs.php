@@ -11,7 +11,7 @@
               <br>
               <br>
               <b>TENTANG</b><br>
-              <b>PENETAPAN TIM PENGUJI UJIAN PROPOSAL</b><br>
+              <b>PENETAPAN UJIAN PROPOSAL</b><br>
               <b>SARJANA STRATA SATU (S1) STMIK ADHI GUNA</b>
               <br>
               <br>
@@ -193,70 +193,4 @@
       </div>
     </div>
   </div>
-</div>
-
-<div style="page-break-after:always;"></div>
-<div class="" style="margin-top: 40px; margin-left: 40px">
-  <table width="100%" class="laporan">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Nama Dosen</th>
-        <th>Jabatan</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php $a=1; ?>
-      <?php foreach ($data_penguji as $key): ?>
-        <tr>
-          <td><?php echo $a++ ?></td>
-          <td><?php echo $key->penguji ?></td>
-          <td>
-            <?php
-              if ($key->jabatan_penguji==1) {
-                $jabatan="Ketua";
-              }
-              elseif ($key->jabatan_penguji==2) {
-                $jabatan="Sekretaris";
-              }
-              else {
-                $jabatan="Anggota";
-              }
-
-            ?>
-            <?php echo $jabatan ?>
-          </td>
-        </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-  <br><br><br><br>
-  <table class="ttd_laporan">
-    <tbody>
-      <tr>
-        <td colspan="4" width="50%"></td>
-        <td>Ketua,</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td colspan="4" width="50%"></td>
-        <td><br><br><br><br></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td colspan="4" width="50%"></td>
-        <td colspan="3">
-          <b><u>Mus Aidah, S.Pd,. MM</u></b>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="4" width="50%"></td>
-        <td colspan="3">
-          NIK. 140 201 023
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

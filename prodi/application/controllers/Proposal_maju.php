@@ -258,4 +258,23 @@ class Proposal_maju extends CI_Controller
       $this->dompdf->render();
       $this->dompdf->stream(date('D-M-Y').$id_kur.".pdf",array('Attachment'=>0));
     }
+
+    public function cetak_surat_mhs($a)
+    {
+      $data_mhs = $this->App_model->get_query("SELECT * FROM v_proposal_maju WHERE id_proposal_maju='".$a."'")->row();
+      $data_penguji = $this->App_model->get_query("SELECT * FROM v_dosen_penguji WHERE id_proposal_maju='".$a."'")->result();
+
+      $data['data_mhs'] = $data_mhs;
+      $data['data_penguji'] = $data_penguji;
+
+      $data['assign_css'] = 'proposal_maju/css/app.css';
+      $data['assign_js'] = 'proposal_maju/js/index.js';
+      load_pdf('proposal_maju/surat_proposal', $data);
+      $this->load->library('fpdf_gen');
+      $html = $this->output->get_output();
+      $this->dompdf->set_paper('Legal', 'potrait');
+      $this->dompdf->load_html($html);
+      $this->dompdf->render();
+      $this->dompdf->stream(date('D-M-Y').$id_kur.".pdf",array('Attachment'=>0));
+    }
 }
