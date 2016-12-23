@@ -403,137 +403,139 @@ class Sync extends CI_Controller
       $a= $this->feeder->count_all($this->temp_token,"mahasiswa","");
       $total_data = $a['result'];
       $jumlahHal = ceil($total_data/169);
-      for ($i=0; $i<=$total_data; $i=$i+$jumlahHal){
-        $record_mhs = $this->feeder->getrset($this->temp_token,'mahasiswa','','','20',$i);
-        foreach ($record_mhs['result'] as $key => $value) {
-          $data_umum=$value;
-          $record_mhs_pt = $this->feeder->getrset($this->temp_token,'mahasiswa_pt',"p.id_pd='".$value["id_pd"]."'",'','','');
-          foreach ($record_mhs_pt['result'] as $key => $value) {
-            $temp_filter_prodi = "id_sms='".$value["id_sms"]."'";
-      			$temp_rec_prodi= $this->feeder->getrecord($this->temp_token,	'sms', $temp_filter_prodi);
-            $kode_prodi_temps = $temp_rec_prodi['result'];
-            $stat_mhs = $data_umum['stat_pd'];
-      			$tempt_status='';
-      			if ($stat_mhs == 'A'){
-      				$tempt_status ='1';
-      			}
-      			else if ($stat_mhs == 'C'){
-      				$tempt_status ='2';
-      			}
-      			else if ($stat_mhs == 'L'){
-      				$tempt_status ='3';
-      			}
-      			else if ($stat_mhs == 'D'){
-      				$tempt_status ='4';
-      			}
-      			else if ($stat_mhs == 'K'){
-      				$tempt_status ='5';
-      			}
-      			else if ($stat_mhs == 'N'){
-      				$tempt_status ='6';
-      			}
-      			else {
-      				$tempt_status ='7';
-      			}
-
-            $temps_sync = $this->app_model->get_mahasiswa($value["nipd"]);
-        		if ($temps_sync->num_rows() == 1) {
-        			$b++;
-        		}
-            else {
-              $temp_db = array(	'nim' =>$value["nipd"],
-        												'nm_mhs' =>$value["nm_pd"],
-        												'tpt_lhr' =>$data_umum["tmpt_lahir"],
-        												'tgl_lahir' =>$data_umum["tgl_lahir"],
-        												'jenkel' => $data_umum["jk"],
-        												'agama' =>$data_umum["id_agama"],
-        												'kelurahan'=>$data_umum["ds_kel"],
-        												'wilayah'=>$data_umum["id_wil"],
-        												'nm_ibu'=>$data_umum["nm_ibu_kandung"],
-        												'kd_prodi'=>$kode_prodi_temps["kode_prodi"],
-        												'tgl_masuk'=>$value['tgl_masuk_sp'],
-        												'smt_masuk'=>$value['mulai_smt'],
-        												'status_mhs'=>$tempt_status,
-        												'status_awal'=>$value['id_jns_daftar'],
-        												'email' => $data_umum["email"],
-                                'status_upload' => 'Y'
-        											);
-              $result_db = $this->app_model->insertRecordMahasiswa($temp_db);
-              $result_db=true;
-        			if ($result_db == true) {
-                $c++; //mahasiswa aktif
-        				if ($value['id_jns_daftar']=='2') {
-        					$temp_db_tr = array('id_trans' => NULL,
-        															'id_mhs' =>$value["nipd"],
-        															'sks_diakui' =>$value["sks_diakui"],
-        															'pt_asal' =>$value["nm_pt_asal"],
-        															'prodi_asal'=>$value["nm_prodi_asal"]
-        														);
-        					$result_db_tr = $this->app_model->insertRecord('tb_mhs_transfer',$temp_db_tr);
-        				}
-
-        				if ($stat_mhs=='L') {
-        					$temp_db_mhs_lulus = array(
-        																				'id_mhs' => $value["nipd"],
-        																				'id_jns_keluar' => $value['id_jns_keluar'],
-        																				'tgl_keluar'=>$value['tgl_keluar'],
-        																				'jalur_skripsi'=>$value['jalur_skripsi'],
-        																				'judul_skripsi'=>$value['judul_skripsi'],
-        																				'bln_awal_bim'=>$value['bln_awal_bimbingan'],
-        																				'bln_akhir_bim' =>$value['bln_akhir_bimbingan'],
-        																				'sk_yudisium' =>$value['sk_yudisium'],
-        																				'tgl_yudisium' => $value['tgl_sk_yudisium'],
-        																				'IPK' => $value['ipk'],
-        																				'no_ijazah' =>$value['no_seri_ijazah'],
-        																				'ket' => $value['ket'],
-                                                'status_upload' => 'Y'
-        																		);
-        					$result_db_lulus = $this->app_model->insertRecord('tb_mhs_lulus',$temp_db_mhs_lulus);
-        					if ($result_db_lulus == true){
-        						$d++; //mahasiswa lulus
-        					}
-        					else {
-        						$e++; //mahasiswa gagal input lulus
-        					}
-        				}
-        				else if($stat_mhs=='A'){
-        					$nm_mhs = strtolower($value["nm_pd"]);
-        					$username_baru = str_replace(' ', '', $nm_mhs);
-        					$temp_user = array(
-        															'id_user' =>NULL,
-        															'username' => base64_encode($username_baru),
-        															'password' => base64_encode($value["nipd"]),
-        															'id_mhs' =>$value["nipd"],
-        															'level' =>"mhs",
-        															'status' =>"N"
-        														);
-        					$result_db_user = $this->app_model->insertRecord('login_mhs',$temp_user);
-        					if ($result_db_user == true){
-        						$f++; //login add berhasil
-        					}
-        					else {
-        						$g++; //login add gagal
-        					}
-        				}
-        				else {
-        					$h++;
-
-        				}
-        			}
-        			else {
-        				$k++;
-        			}
-            }
-          }
-        }
-      }
-      $temp_akhir = array(
-        'berhasil' => $c,
-        'gagal_input'=>$d,
-        'error'=>$e,
-      );
-      echo json_encode($temp_akhir);
+      echo $total_data;
+      // for ($i=0; $i<=$total_data; $i=$i+$jumlahHal){
+      //   $record_mhs = $this->feeder->getrset($this->temp_token,'mahasiswa','','','20',$i);
+      //   foreach ($record_mhs['result'] as $key => $value) {
+      //     $data_umum=$value;
+      //     $record_mhs_pt = $this->feeder->getrset($this->temp_token,'mahasiswa_pt',"p.id_pd='".$value["id_pd"]."'",'','','');
+      //     foreach ($record_mhs_pt['result'] as $key => $value) {
+      //       $temp_filter_prodi = "id_sms='".$value["id_sms"]."'";
+      // 			$temp_rec_prodi= $this->feeder->getrecord($this->temp_token,	'sms', $temp_filter_prodi);
+      //       $kode_prodi_temps = $temp_rec_prodi['result'];
+      //       $stat_mhs = $data_umum['stat_pd'];
+      // 			$tempt_status='';
+      // 			if ($stat_mhs == 'A'){
+      // 				$tempt_status ='1';
+      // 			}
+      // 			else if ($stat_mhs == 'C'){
+      // 				$tempt_status ='2';
+      // 			}
+      // 			else if ($stat_mhs == 'L'){
+      // 				$tempt_status ='3';
+      // 			}
+      // 			else if ($stat_mhs == 'D'){
+      // 				$tempt_status ='4';
+      // 			}
+      // 			else if ($stat_mhs == 'K'){
+      // 				$tempt_status ='5';
+      // 			}
+      // 			else if ($stat_mhs == 'N'){
+      // 				$tempt_status ='6';
+      // 			}
+      // 			else {
+      // 				$tempt_status ='7';
+      // 			}
+      //
+      //       $temps_sync = $this->app_model->get_mahasiswa($value["nipd"]);
+      //   		if ($temps_sync->num_rows() == 1) {
+      //   			$b++;
+      //   		}
+      //       else {
+      //         $temp_db = array(	'nim' =>$value["nipd"],
+      //   												'nm_mhs' =>$value["nm_pd"],
+      //   												'tpt_lhr' =>$data_umum["tmpt_lahir"],
+      //   												'tgl_lahir' =>$data_umum["tgl_lahir"],
+      //   												'jenkel' => $data_umum["jk"],
+      //   												'agama' =>$data_umum["id_agama"],
+      //   												'kelurahan'=>$data_umum["ds_kel"],
+      //   												'wilayah'=>$data_umum["id_wil"],
+      //   												'nm_ibu'=>$data_umum["nm_ibu_kandung"],
+      //   												'kd_prodi'=>$kode_prodi_temps["kode_prodi"],
+      //   												'tgl_masuk'=>$value['tgl_masuk_sp'],
+      //   												'smt_masuk'=>$value['mulai_smt'],
+      //   												'status_mhs'=>$tempt_status,
+      //   												'status_awal'=>$value['id_jns_daftar'],
+      //   												'email' => $data_umum["email"],
+      //                           'status_upload' => 'Y'
+      //   											);
+      //         $result_db = $this->app_model->insertRecordMahasiswa($temp_db);
+      //         $result_db=true;
+      //   			if ($result_db == true) {
+      //           $c++; //mahasiswa aktif
+      //   				if ($value['id_jns_daftar']=='2') {
+      //   					$temp_db_tr = array('id_trans' => NULL,
+      //   															'id_mhs' =>$value["nipd"],
+      //   															'sks_diakui' =>$value["sks_diakui"],
+      //   															'pt_asal' =>$value["nm_pt_asal"],
+      //   															'prodi_asal'=>$value["nm_prodi_asal"]
+      //   														);
+      //   					$result_db_tr = $this->app_model->insertRecord('tb_mhs_transfer',$temp_db_tr);
+      //   				}
+      //
+      //   				if ($stat_mhs=='L') {
+      //   					$temp_db_mhs_lulus = array(
+      //   																				'id_mhs' => $value["nipd"],
+      //   																				'id_jns_keluar' => $value['id_jns_keluar'],
+      //   																				'tgl_keluar'=>$value['tgl_keluar'],
+      //   																				'jalur_skripsi'=>$value['jalur_skripsi'],
+      //   																				'judul_skripsi'=>$value['judul_skripsi'],
+      //   																				'bln_awal_bim'=>$value['bln_awal_bimbingan'],
+      //   																				'bln_akhir_bim' =>$value['bln_akhir_bimbingan'],
+      //   																				'sk_yudisium' =>$value['sk_yudisium'],
+      //   																				'tgl_yudisium' => $value['tgl_sk_yudisium'],
+      //   																				'IPK' => $value['ipk'],
+      //   																				'no_ijazah' =>$value['no_seri_ijazah'],
+      //   																				'ket' => $value['ket'],
+      //                                           'status_upload' => 'Y'
+      //   																		);
+      //   					$result_db_lulus = $this->app_model->insertRecord('tb_mhs_lulus',$temp_db_mhs_lulus);
+      //   					if ($result_db_lulus == true){
+      //   						$d++; //mahasiswa lulus
+      //   					}
+      //   					else {
+      //   						$e++; //mahasiswa gagal input lulus
+      //   					}
+      //   				}
+      //   				else if($stat_mhs=='A'){
+      //   					$nm_mhs = strtolower($value["nm_pd"]);
+      //   					$username_baru = str_replace(' ', '', $nm_mhs);
+      //   					$temp_user = array(
+      //   															'id_user' =>NULL,
+      //   															'username' => base64_encode($username_baru),
+      //   															'password' => base64_encode($value["nipd"]),
+      //   															'id_mhs' =>$value["nipd"],
+      //   															'level' =>"mhs",
+      //   															'status' =>"N"
+      //   														);
+      //   					$result_db_user = $this->app_model->insertRecord('login_mhs',$temp_user);
+      //   					if ($result_db_user == true){
+      //   						$f++; //login add berhasil
+      //   					}
+      //   					else {
+      //   						$g++; //login add gagal
+      //   					}
+      //   				}
+      //   				else {
+      //   					$h++;
+      //
+      //   				}
+      //   			}
+      //   			else {
+      //   				$k++;
+      //   			}
+      //       }
+      //     }
+      //   }
+      // }
+      // $temp_akhir = array(
+      //   'berhasil' => $c,
+      //   'gagal_input'=>$d,
+      //   'error'=>$e,
+      // );
+      // echo json_encode($temp_akhir);
     }
+
 
     public function feeder_to_dosen()
     {
@@ -596,13 +598,25 @@ class Sync extends CI_Controller
         $record_mk= $this->feeder->getrset($this->temp_token,'mata_kuliah',"",'','20',$i);
         foreach ($record_mk['result'] as $key => $value) {
           //echo "Kode MK : ".$value["kode_mk"]." NM MK : ".$value["nm_mk"]." SKS : ".$value["sks_mk"]."<br>";
+          $str = $value["kode_mk"];
+          $aar = explode(" ",$str);
+          if (count($aar) > 1 && count($aar) < 2) {
+            $matkul= $aar[0].$aar[1];
+          }
+          else if (count($aar) > 2) {
+            $matkul= $aar[0].$aar[1].$aar[2];
+          }
+          else {
+            $matkul= $value["kode_mk"];
+          }
           $temps_mk = array(
-            'kode_mk' => $value["kode_mk"],
+            'kode_mk' => $matkul,
             'nm_mk' => $value["nm_mk"],
             'sks' =>$value["sks_mk"],
             'semester' => ""
           );
-          $temps_sync = $this->app_model->get_mk($value["kode_mk"]);
+          echo json_encode($temps_mk);
+          $temps_sync = $this->app_model->get_mk($matkul);
           if ($temps_sync->num_rows() == 1) {
             $b++;
           }
@@ -646,20 +660,20 @@ class Sync extends CI_Controller
           'kd_prodi'=>$kode_prodi_temps["kode_prodi"],
           'status'=>$smt_berlaku["a_periode_aktif"]
         );
-
-        $temps_sync = $this->app_model->get_kurikulum($value["nm_kurikulum_sp"]);
-        if ($temps_sync->num_rows() == 1) {
-          $b++;
-        }
-        else {
-          $result_db_user = $this->app_model->insertRecord('tb_kurikulum',$temps_kur);
-          if ($result_db_user == true){
-            $c++;
-          }
-          else {
-            $d++;
-          }
-        }
+        echo json_encode($temps_kur);
+        // $temps_sync = $this->app_model->get_kurikulum($value["nm_kurikulum_sp"]);
+        // if ($temps_sync->num_rows() == 1) {
+        //   $b++;
+        // }
+        // else {
+        //   $result_db_user = $this->app_model->insertRecord('tb_kurikulum',$temps_kur);
+        //   if ($result_db_user == true){
+        //     $c++;
+        //   }
+        //   else {
+        //     $d++;
+        //   }
+        // }
       }
       $temp_akhir = array(
         'duplikat' => $b,
@@ -675,34 +689,54 @@ class Sync extends CI_Controller
       $c=0;
       $d=0;
       $this->getAkses();
-      $a= $this->feeder->count_all($this->temp_token,"mata_kuliah_kurikulum","");
+      $a= $this->feeder->count_all($this->temp_token,"mata_kuliah_kurikulum","p.id_kurikulum_sp='	b127789c-7325-43bc-b44a-3cec25e7c6b9'");
       $total_data = $a['result'];
-      $jumlahHal = ceil($total_data/15);
+      $jumlahHal = ceil($total_data/21);
       for ($i=0; $i<=$total_data; $i=$i+$jumlahHal){
-        $record_mk_kurikulum= $this->feeder->getrset($this->temp_token,'mata_kuliah_kurikulum',"",'','20',$i);
+        $record_mk_kurikulum= $this->feeder->getrset($this->temp_token,'mata_kuliah_kurikulum',"p.id_kurikulum_sp='	b127789c-7325-43bc-b44a-3cec25e7c6b9'",'','22',$i);
         foreach ($record_mk_kurikulum['result'] as $key => $value) {
-          //echo json_encode($value);
-          $data_kur_db= $this->app_model->get_query("SELECT * FROM tb_kurikulum WHERE nm_kurikulum='".$value["fk__id_kurikulum_sp"]."'")->result();
-          foreach ($data_kur_db as $key) {
-            $id_kur = $key->id_kurikulum;
-          }
-          $temps_mk_kur = array(
-            'kode_mk' => $value["fk__id_mk"],
-            'id_kurikulum'=>$id_kur
-          );
-          //echo "SELECT * FROM tb_mk_kurikulum WHERE kode_mk='".$value["fk__id_mk"]."' AND id_kurikulum='".$id_kur."'<br>";
-          $temps_sync = $this->app_model->get_query("SELECT * FROM tb_mk_kurikulum WHERE kode_mk='".$value["fk__id_mk"]."' AND id_kurikulum='".$id_kur."'");
-          if ($temps_sync->num_rows() == 1) {
-            $b++;
-          }
-          else {
-            $result_db_user = $this->app_model->insertRecord('tb_mk_kurikulum',$temps_mk_kur);
-            if ($result_db_user == true){
-              $c++;
+          // echo json_encode($value["fk__id_kurikulum_sp"]);
+          $data_kur_db_temp= $this->app_model->get_query("SELECT * FROM tb_kurikulum WHERE nm_kurikulum='".$value["fk__id_kurikulum_sp"]."'");
+          $id_kur=0;
+          if ($data_kur_db_temp->num_rows() == 1) {
+            $data_kur_db = $data_kur_db_temp->result();
+            foreach ($data_kur_db as $key) {
+              $id_kur = $key->id_kurikulum;
+            }
+
+            $str = $value["fk__id_mk"];
+            $aar = explode(" ",$str);
+            if (count($aar) > 1 && count($aar) < 2) {
+              $matkul= $aar[0].$aar[1];
+            }
+            else if (count($aar) > 2) {
+              $matkul= $aar[0].$aar[1].$aar[2];
             }
             else {
-              $d++;
+              $matkul=$value["fk__id_mk"];
             }
+            // echo $matkul."<br>";
+            $temps_mk_kur = array(
+              'kode_mk' => $matkul,
+              'id_kurikulum'=>$id_kur
+            );
+            //echo json_encode($temps_mk_kur)."<br>";
+            $temps_sync = $this->app_model->get_query("SELECT * FROM tb_mk_kurikulum WHERE kode_mk='".$matkul."' AND id_kurikulum='".$id_kur."'");
+            if ($temps_sync->num_rows() == 1) {
+              $b++;
+            }
+            else {
+              $result_db_user = $this->app_model->insertRecord('tb_mk_kurikulum',$temps_mk_kur);
+              if ($result_db_user == true){
+                $c++;
+              }
+              else {
+                $d++;
+              }
+            }
+          }
+          else {
+            echo "not ok<br>";
           }
         }
       }
@@ -721,12 +755,13 @@ class Sync extends CI_Controller
       $d=0;
       $e=0;
       $this->getAkses();
-      $a= $this->feeder->count_all($this->temp_token,"kelas_kuliah","");
+      $a= $this->feeder->count_all($this->temp_token,"kelas_kuliah","p.id_smt='20142'");
       $total_data = $a['result'];
-      $jumlahHal = ceil($total_data/150);
+      $jumlahHal = ceil($total_data/20);
       for ($i=0; $i<=$total_data; $i=$i+$jumlahHal){
-        $record_kelas_kul= $this->feeder->getrset($this->temp_token,'kelas_kuliah',"",'id_smt DESC','20',$i);
+        $record_kelas_kul= $this->feeder->getrset($this->temp_token,'kelas_kuliah',"p.id_smt='20142'",'id_smt DESC','20',$i);
         foreach ($record_kelas_kul['result'] as $key => $value) {
+          // echo json_encode($value["id_smt"]);
           $data_kur_db= $this->app_model->get_query("SELECT * FROM tb_kurikulum WHERE ta='".$value["id_smt"]."'");
           if ($data_kur_db->num_rows() == 1) {
             $e++;
@@ -737,15 +772,21 @@ class Sync extends CI_Controller
               $temp_filter_prodi = "id_sms='".$value["id_sms"]."'";
               $temp_rec_prodi= $this->feeder->getrecord($this->temp_token,'sms', $temp_filter_prodi);
               $kode_prodi_temps = $temp_rec_prodi['result'];
-
+              $str = $value["kode_mk"];
+              $aar = explode(" ",$str);
+              if (count($aar) > 1) {
+                $matkul= $aar[0].$aar[1].$aar[2];
+              }
+              else {
+                $matkul= $value["kode_mk"];
+              }
               $temps_kelas_kul = array(
                 'nm_kelas' => $value["nm_kls"],
-                'id_matkul' => $value["kode_mk"],
+                'id_matkul' => $matkul,
                 'id_kurikulum' =>$id_kur,
                 'id_prodi'=>$kode_prodi_temps["kode_prodi"],
                 'status_upload'=>'Y'
               );
-              //echo json_encode($temps_kelas_kul)."<br>";
               $result_db_user = $this->app_model->insertRecord('tb_kelas_kul',$temps_kelas_kul);
               if ($result_db_user == true){
                 $c++;
@@ -763,5 +804,152 @@ class Sync extends CI_Controller
         'error'=>$e,
       );
       echo json_encode($temp_akhir);
+    }
+
+    public function feeder_to_nilai()
+    {
+      $b=0;
+      $c=0;
+      $d=0;
+      $e=0;
+      $f=0;
+      $g=0;
+      $h=0;
+      $k=0;
+      $this->getAkses();
+      $a= $this->feeder->count_all($this->temp_token,"nilai","");
+      $total_data = $a['result'];
+      $jumlahHal = ceil($total_data/169);
+      echo $total_data." DAN JUMLAH HAL ".$jumlahHal;
+      // for ($i=0; $i<=$total_data; $i=$i+$jumlahHal){
+      //   $record_mhs = $this->feeder->getrset($this->temp_token,'mahasiswa','','','20',$i);
+      //   foreach ($record_mhs['result'] as $key => $value) {
+      //     $data_umum=$value;
+      //     $record_mhs_pt = $this->feeder->getrset($this->temp_token,'mahasiswa_pt',"p.id_pd='".$value["id_pd"]."'",'','','');
+      //     foreach ($record_mhs_pt['result'] as $key => $value) {
+      //       $temp_filter_prodi = "id_sms='".$value["id_sms"]."'";
+      // 			$temp_rec_prodi= $this->feeder->getrecord($this->temp_token,	'sms', $temp_filter_prodi);
+      //       $kode_prodi_temps = $temp_rec_prodi['result'];
+      //       $stat_mhs = $data_umum['stat_pd'];
+      // 			$tempt_status='';
+      // 			if ($stat_mhs == 'A'){
+      // 				$tempt_status ='1';
+      // 			}
+      // 			else if ($stat_mhs == 'C'){
+      // 				$tempt_status ='2';
+      // 			}
+      // 			else if ($stat_mhs == 'L'){
+      // 				$tempt_status ='3';
+      // 			}
+      // 			else if ($stat_mhs == 'D'){
+      // 				$tempt_status ='4';
+      // 			}
+      // 			else if ($stat_mhs == 'K'){
+      // 				$tempt_status ='5';
+      // 			}
+      // 			else if ($stat_mhs == 'N'){
+      // 				$tempt_status ='6';
+      // 			}
+      // 			else {
+      // 				$tempt_status ='7';
+      // 			}
+      //
+      //       $temps_sync = $this->app_model->get_mahasiswa($value["nipd"]);
+      //   		if ($temps_sync->num_rows() == 1) {
+      //   			$b++;
+      //   		}
+      //       else {
+      //         $temp_db = array(	'nim' =>$value["nipd"],
+      //   												'nm_mhs' =>$value["nm_pd"],
+      //   												'tpt_lhr' =>$data_umum["tmpt_lahir"],
+      //   												'tgl_lahir' =>$data_umum["tgl_lahir"],
+      //   												'jenkel' => $data_umum["jk"],
+      //   												'agama' =>$data_umum["id_agama"],
+      //   												'kelurahan'=>$data_umum["ds_kel"],
+      //   												'wilayah'=>$data_umum["id_wil"],
+      //   												'nm_ibu'=>$data_umum["nm_ibu_kandung"],
+      //   												'kd_prodi'=>$kode_prodi_temps["kode_prodi"],
+      //   												'tgl_masuk'=>$value['tgl_masuk_sp'],
+      //   												'smt_masuk'=>$value['mulai_smt'],
+      //   												'status_mhs'=>$tempt_status,
+      //   												'status_awal'=>$value['id_jns_daftar'],
+      //   												'email' => $data_umum["email"],
+      //                           'status_upload' => 'Y'
+      //   											);
+      //         $result_db = $this->app_model->insertRecordMahasiswa($temp_db);
+      //         $result_db=true;
+      //   			if ($result_db == true) {
+      //           $c++; //mahasiswa aktif
+      //   				if ($value['id_jns_daftar']=='2') {
+      //   					$temp_db_tr = array('id_trans' => NULL,
+      //   															'id_mhs' =>$value["nipd"],
+      //   															'sks_diakui' =>$value["sks_diakui"],
+      //   															'pt_asal' =>$value["nm_pt_asal"],
+      //   															'prodi_asal'=>$value["nm_prodi_asal"]
+      //   														);
+      //   					$result_db_tr = $this->app_model->insertRecord('tb_mhs_transfer',$temp_db_tr);
+      //   				}
+      //
+      //   				if ($stat_mhs=='L') {
+      //   					$temp_db_mhs_lulus = array(
+      //   																				'id_mhs' => $value["nipd"],
+      //   																				'id_jns_keluar' => $value['id_jns_keluar'],
+      //   																				'tgl_keluar'=>$value['tgl_keluar'],
+      //   																				'jalur_skripsi'=>$value['jalur_skripsi'],
+      //   																				'judul_skripsi'=>$value['judul_skripsi'],
+      //   																				'bln_awal_bim'=>$value['bln_awal_bimbingan'],
+      //   																				'bln_akhir_bim' =>$value['bln_akhir_bimbingan'],
+      //   																				'sk_yudisium' =>$value['sk_yudisium'],
+      //   																				'tgl_yudisium' => $value['tgl_sk_yudisium'],
+      //   																				'IPK' => $value['ipk'],
+      //   																				'no_ijazah' =>$value['no_seri_ijazah'],
+      //   																				'ket' => $value['ket'],
+      //                                           'status_upload' => 'Y'
+      //   																		);
+      //   					$result_db_lulus = $this->app_model->insertRecord('tb_mhs_lulus',$temp_db_mhs_lulus);
+      //   					if ($result_db_lulus == true){
+      //   						$d++; //mahasiswa lulus
+      //   					}
+      //   					else {
+      //   						$e++; //mahasiswa gagal input lulus
+      //   					}
+      //   				}
+      //   				else if($stat_mhs=='A'){
+      //   					$nm_mhs = strtolower($value["nm_pd"]);
+      //   					$username_baru = str_replace(' ', '', $nm_mhs);
+      //   					$temp_user = array(
+      //   															'id_user' =>NULL,
+      //   															'username' => base64_encode($username_baru),
+      //   															'password' => base64_encode($value["nipd"]),
+      //   															'id_mhs' =>$value["nipd"],
+      //   															'level' =>"mhs",
+      //   															'status' =>"N"
+      //   														);
+      //   					$result_db_user = $this->app_model->insertRecord('login_mhs',$temp_user);
+      //   					if ($result_db_user == true){
+      //   						$f++; //login add berhasil
+      //   					}
+      //   					else {
+      //   						$g++; //login add gagal
+      //   					}
+      //   				}
+      //   				else {
+      //   					$h++;
+      //
+      //   				}
+      //   			}
+      //   			else {
+      //   				$k++;
+      //   			}
+      //       }
+      //     }
+      //   }
+      // }
+      // $temp_akhir = array(
+      //   'berhasil' => $c,
+      //   'gagal_input'=>$d,
+      //   'error'=>$e,
+      // );
+      // echo json_encode($temp_akhir);
     }
 }
