@@ -335,17 +335,57 @@ class Data_krs extends CI_Controller
 
     public function cetak_uas($nim,$ta,$id_krs)
     {
-      # code...
+      $this->load->library('ciqrcode');
+      $this->load->library('fpdf_gen');
+      $row_mhs = $this->App_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
+      //qr
+      header("Content-Type: image/png");
+      $params['data'] = $row_mhs->nim;
+      $params['level']='H';
+      $params['size']=5;
+      $params['savename']=FCPATH."/assets/qrcode/".$nim.'_uas.png';
+      $this->ciqrcode->generate($params);
+
+      //tampil
+      $data['qr']=FCPATH."/assets/qrcode/".$nim.'.png';
+      $data['mhs']=$row_mhs;
+      $data['assign_css'] = 'kartu/css/app.css';
+      $data['assign_js'] = 'kartu/js/index.js';
+      load_pdf('kartu/uts', $data);
+
+      //passing pdf
+      $html = $this->output->get_output();
+      $this->dompdf->set_paper(array(0,0,684.00,400.00), 'potrait');
+      $this->dompdf->load_html($html);
+      $this->dompdf->render();
+      $this->dompdf->stream(date('D-M-Y').$nim.".pdf",array('Attachment'=>0));
     }
 
     public function cetak_uts($nim,$ta,$id_krs)
     {
-      
-      // $this->load->library('fpdf_gen');
-      // $html = $this->output->get_output();
-      // $this->dompdf->set_paper('Legal', 'potrait');
-      // $this->dompdf->load_html($html);
-      // $this->dompdf->render();
-      // $this->dompdf->stream(date('D-M-Y').$id_kur.".pdf",array('Attachment'=>0));
+      $this->load->library('ciqrcode');
+      $this->load->library('fpdf_gen');
+      $row_mhs = $this->App_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
+      //qr
+      header("Content-Type: image/png");
+      $params['data'] = $row_mhs->nim;
+      $params['level']='H';
+      $params['size']=5;
+      $params['savename']=FCPATH."/assets/qrcode/".$nim.'_uts.png';
+      $this->ciqrcode->generate($params);
+
+      //tampil
+      $data['qr']=FCPATH."/assets/qrcode/".$nim.'.png';
+      $data['mhs']=$row_mhs;
+      $data['assign_css'] = 'kartu/css/app.css';
+      $data['assign_js'] = 'kartu/js/index.js';
+      load_pdf('kartu/uts', $data);
+
+      //passing pdf
+      $html = $this->output->get_output();
+      $this->dompdf->set_paper(array(0,0,684.00,400.00), 'potrait');
+      $this->dompdf->load_html($html);
+      $this->dompdf->render();
+      $this->dompdf->stream(date('D-M-Y').$nim.".pdf",array('Attachment'=>0));
     }
 }

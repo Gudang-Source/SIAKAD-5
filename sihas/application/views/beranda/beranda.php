@@ -182,7 +182,7 @@
             <div class="chat">
                 <div class="right">
                     <span class="chat-img pull-right">
-                        <img src="<?php echo base_url('assets/img/ui-divya.jpg') ?>" alt="User Avatar" class="img-circle">
+                        <img src="<?php echo base_url('assets/img/ui-divya1.jpg') ?>" alt="User Avatar" class="img-circle">
                     </span>
                     <div class="chat-body clearfix">
                       <b>Sukardi, S.Kom, M.Kom</b><hr>

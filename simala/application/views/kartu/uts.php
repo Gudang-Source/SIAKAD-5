@@ -12,13 +12,12 @@ table.laporan th {
   padding: 5px;
 }
 </style>
-
 <table width="100%">
   <tbody>
     <tr>
       <td width="150px">Nama Mahasiswa </td>
       <td width="5px">:</td>
-      <td> <?php echo $nama ?></td>
+      <td> <?php echo $mhs->nm_mhs ?></td>
       <td width="100px">Tanggal </td>
       <td width="5px">:</td>
       <td> <?php echo date('D-M-Y') ?></td>
@@ -26,13 +25,14 @@ table.laporan th {
     <tr>
       <td>NIM </td>
       <td>:</td>
-      <td> <?php echo $nim ?></td>
+      <td> <?php echo $mhs->nim ?></td>
     </tr>
     <tr>
       <td>Jurusan</td>
       <td>:</td>
-      <td> <?php echo $jurusan ?></td>
+      <td> <?php echo $mhs->nm_prodi ?></td>
     </tr>
   </tbody>
 </table>
-<br>
+
+<img src="<?php echo $qr ?>" alt="" /> 
