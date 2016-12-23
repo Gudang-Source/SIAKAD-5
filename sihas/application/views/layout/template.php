@@ -88,6 +88,13 @@
                     <li><a href="<?php echo base_url('keuangan/keuangan_lain.html') ?>"><i class="fa fa-sticky-note"></i> Tagihan Lainnya</a></li>
                   </ul>
                 </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="	fa fa-bar-chart"></i> Skripsi Dan Proposal <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <!-- <li><a href="<?php echo base_url('') ?>"><i class="fa fa-sticky-note"></i> Format Pengajuan Judul</a></li> -->
+                    <li><a href="<?php echo base_url('index/carijudul.html') ?>"><i class="fa fa-sticky-note"></i> Cari Judul</a></li>
+                  </ul>
+                </li>
             </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">

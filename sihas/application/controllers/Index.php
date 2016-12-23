@@ -60,7 +60,7 @@ class Index extends CI_Controller
     $data_jadwal=[];
     foreach ($data_mhs_jadwal as $key) {
       $data_jadwal_cari = $this->app_model->get_query("SELECT * FROM v_jadwal WHERE nm_hari='".$namahari."' AND (kode_mk ='".$key->id_matkul."' AND (nm_kelas='".$key->nm_kelas."' AND id_kurikulum='". $this->session->userdata('id_kurikulum')."'))");
-      
+
       if ($data_jadwal_cari->num_rows()==1) {
         array_push($data_jadwal,$data_jadwal_cari->row());
       }
@@ -71,9 +71,22 @@ class Index extends CI_Controller
     $data['pengumuman_penting']= $pengumuman;
     $data['mhs_aktif'] = $data_angkatan;
     $data['mhs_lulus'] = $data_lulus;
-    $data['site_title'] = 'SIPAD';
+    $data['site_title'] = 'SIMALA';
     $data['title_page'] = 'SELAMAT DATANG DI SIHAS || SISTEM INFORMASI HASIL ANALISA STUDI';
     $data['assign_js'] = 'beranda/js/index.js';
     load_view('beranda/beranda', $data);
+  }
+  public function cariJudul()
+  {
+    $data['site_title'] = 'SIHAS';
+    $data['title_page'] = 'Cari Judul Skripsi';
+    $data['assign_js'] = 'judul/js/index.js';
+    load_view('judul/cari_judul', $data);
+  }
+  public function cariJudulAct()
+  {
+    $keyword = $this->input->post('judul');
+    $data_judul = $this->app_model->get_query("SELECT * FROM v_proposal WHERE judul LIKE '%".$keyword."%'")->result();
+    echo json_encode($data_judul);
   }
 }
