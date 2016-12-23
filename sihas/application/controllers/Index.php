@@ -87,6 +87,10 @@ class Index extends CI_Controller
   {
     $keyword = $this->input->post('judul');
     $data_judul = $this->app_model->get_query("SELECT * FROM v_proposal WHERE judul LIKE '%".$keyword."%'")->result();
-    echo json_encode($data_judul);
+    $data['judul']=$data_judul;
+    $data['site_title'] = 'SIHAS';
+    $data['title_page'] = 'Pencarian Berdasarkan Kata Kunci';
+    $data['assign_js'] = 'judul/js/index.js';
+    load_view('judul/act_judul', $data);
   }
 }

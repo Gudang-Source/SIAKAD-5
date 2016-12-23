@@ -1,3 +1,9 @@
+<style>
+video {
+    width: 100%;
+    height: auto;
+}
+</style>
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
   <div class="row">
     <div class="col-lg-12">
@@ -9,13 +15,13 @@
     <div class="col-xs-12 col-md-6 col-lg-3">
       <div class="panel panel-blue panel-widget ">
         <div class="row no-padding">
-          <a href="#">
+          <a href="http://stmikadhiguna.ac.id" target="_blank">
             <div class="col-sm-3 col-lg-5 widget-left">
               <svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
             </div>
             <div class="col-sm-9 col-lg-7 widget-right">
-              <div class="large">120</div>
-              <div class="text-muted">Mahasiswa</div>
+              <div class="large">WEBSITE</div>
+              <div class="text-muted">stmikadhiguna.ac.id</div>
             </div>
           </a>
         </div>
@@ -24,13 +30,13 @@
     <div class="col-xs-12 col-md-6 col-lg-3">
       <div class="panel panel-orange panel-widget">
         <div class="row no-padding">
-          <a href="#">
+          <a href="http://10.10.10.4/">
             <div class="col-sm-3 col-lg-5 widget-left">
               <svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
             </div>
             <div class="col-sm-9 col-lg-7 widget-right">
-              <div class="large">52</div>
-              <div class="text-muted">Alumni</div>
+              <div class="large">SIAKAD</div>
+              <div class="text-muted">Sistem Akademik</div>
             </div>
           </a>
         </div>
@@ -39,13 +45,13 @@
     <div class="col-xs-12 col-md-6 col-lg-3">
       <div class="panel panel-teal panel-widget">
         <div class="row no-padding">
-          <a href="#">
+          <a href="http://scele.stmikadhiguna.ac.id">
             <div class="col-sm-3 col-lg-5 widget-left">
               <svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
             </div>
             <div class="col-sm-9 col-lg-7 widget-right">
-              <div class="large">24</div>
-              <div class="text-muted">Dosen</div>
+              <div class="large">SCELE</div>
+              <div class="text-muted">E-Learning</div>
             </div>
           </a>
         </div>
@@ -59,8 +65,8 @@
               <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
             </div>
             <div class="col-sm-9 col-lg-7 widget-right">
-              <div class="large">25.2k</div>
-              <div class="text-muted">Kariawan</div>
+              <div class="large">Perpustakaan</div>
+              <div class="text-muted">Digital Reader</div>
             </div>
           </a>
         </div>
@@ -99,9 +105,7 @@
     <div class="col-xs-6 col-md-3">
       <div class="panel panel-default">
         <div class="panel-body easypiechart-panel">
-          <h4>Visitors</h4>
-          <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span>
-          </div>
+
         </div>
       </div>
     </div>
@@ -175,44 +179,21 @@
     </div><!--/.col-->
 
     <div class="col-md-4">
-
       <div class="panel panel-blue">
-        <div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper"><use xlink:href="#stroked-clipboard-with-paper"></use></svg>SISTEM INFORMASI KAMPUS</div>
+        <div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper"><use xlink:href="#stroked-clipboard-with-paper"></use></svg>Baca Kode Batang</div>
         <div class="panel-body">
-          <ul class="todo-list">
-            <li class="todo-list-item">
-              <div class="">
-                <a href="#" class="btn btn-success btn-block">Website STMIK Adhi Guna</a>
+          <div class="col-md-12">
+            <div class="thumbnail">
+              <div class="caption">
+                <video autoplay></video>
               </div>
-            </li>
-            <li class="todo-list-item">
-              <div class="">
-                <a href="#" class="btn btn-success btn-block">Website STMIK Adhi Guna</a>
-              </div>
-            </li>
-            <li class="todo-list-item">
-              <div class="">
-                <a href="#" class="btn btn-success btn-block">Website STMIK Adhi Guna</a>
-              </div>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
         <div class="panel-footer">
 
         </div>
-        <div class="col-md-12">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-            <div class="thumbnail">
-              <div class="caption">
-                <video  width="320" height="200" autoplay></video>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3"></div>
-        </div>
       </div>
-
     </div><!--/.col-->
   </div><!--/.row-->
 </div>	<!--/.main-->
