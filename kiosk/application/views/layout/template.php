@@ -84,6 +84,7 @@
 	<script src="<?php echo base_url('assets/js/easypiechart-data.js') ?>"></script>
 	<script src="<?php echo base_url('assets/js/bootstrap-datepicker.js') ?>"></script>
   <script src="<?php echo base_url('assets/js/bootstrap-table.js') ?>"></script>
+	<script src="<?php echo base_url('assets/js/qcode-decoder.min.js') ?>"></script>
   <?php
       if ($assign_js != '') {
           $this->load->view($assign_js);

@@ -116,12 +116,24 @@
             <?php
             $i=1;
             foreach ($pengumuman as $key) {
+              if ($key->author == 'BAAK') {
+                $img='baak';
+              }
+              elseif ($key->author == 'Prodi') {
+                $img = 'prodi';
+              }
+              elseif ($key->author == 'Admin') {
+                $img = 'admin';
+              }
+              else {
+                $img = 'pengumuman';
+              }
               $i++;
               if ($i % 2 == 0) {
                 ?>
                 <li class="left clearfix">
                   <span class="chat-img pull-left">
-                    <img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
+                    <img src="<?php echo base_url("assets/img/").$img.".png" ?>" alt="Pengumuman" class="img-circle" />
                   </span>
                   <div class="chat-body clearfix">
                     <div class="header">
@@ -138,7 +150,7 @@
                 ?>
                 <li class="right clearfix">
                   <span class="chat-img pull-right">
-                    <img src="http://placehold.it/80/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
+                    <img src="<?php echo base_url("assets/img/").$img.".png" ?>" alt="User Avatar" class="img-circle" />
                   </span>
                   <div class="chat-body clearfix">
                     <div class="header">
@@ -183,20 +195,21 @@
                 <a href="#" class="btn btn-success btn-block">Website STMIK Adhi Guna</a>
               </div>
             </li>
-            <li class="todo-list-item">
-              <div class="">
-                <a href="#" class="btn btn-success btn-block">Website STMIK Adhi Guna</a>
-              </div>
-            </li>
-            <li class="todo-list-item">
-              <div class="">
-                <a href="#" class="btn btn-success btn-block">Website STMIK Adhi Guna</a>
-              </div>
-            </li>
           </ul>
         </div>
         <div class="panel-footer">
 
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <div class="thumbnail">
+              <div class="caption">
+                <video  width="320" height="200" autoplay></video>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
         </div>
       </div>
 
