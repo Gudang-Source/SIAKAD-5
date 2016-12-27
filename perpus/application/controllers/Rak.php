@@ -47,6 +47,7 @@ class Rak extends CI_Controller
 
     public function create()
     {
+        $data_kategori = $this->App_model->get_query("SELECT * FROM tb_kategori")->result();
         $data = array(
             'button' => 'Create',
             'action' => site_url('rak/create_action'),
@@ -54,6 +55,7 @@ class Rak extends CI_Controller
       	    'id_kategori' => set_value('id_kategori'),
       	    'nm_rak' => set_value('nm_rak'),
       	);
+        $data['kategori']=$data_kategori;
         $data['breadcrumb']='Rak Buku';
         $data['title']='Olah Data Rak Buku';
         $data['assign_js']='rak/js/index.js';
