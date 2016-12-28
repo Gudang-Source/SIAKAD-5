@@ -308,4 +308,32 @@ class Mahasiswa extends CI_Controller
         load_view('mahasiswa/tb_mhs_doc',$data);
     }
 
+    public function kartu_mhs($nim='')
+    {
+      $this->load->library('ciqrcode');
+      $this->load->library('fpdf_gen');
+      $row_mhs = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
+      //qr
+      header("Content-Type: image/png");
+      $params['data'] = $row_mhs->nim;
+      $params['level']='H';
+      $params['size']=2;
+      $params['savename']=FCPATH."/assets/qrcode/".$nim.'_ktm.png';
+      $this->ciqrcode->generate($params);
+
+      //tampil
+      $data['qr']=FCPATH."/assets/qrcode/".$nim.'_ktm.png';
+      $data['mhs']=$row_mhs;
+      $data['assign_css'] = 'kartu/css/app.css';
+      $data['assign_js'] = 'kartu/js/index.js';
+      load_pdf('kartu/ktm', $data);
+
+      //passing pdf
+      $html = $this->output->get_output();
+      $this->dompdf->set_paper(array(0,0,250.00,150.00), 'potrait');
+      $this->dompdf->load_html($html);
+      $this->dompdf->render();
+      $this->dompdf->stream(date('D-M-Y').$nim.".pdf",array('Attachment'=>0));
+    }
+
 }

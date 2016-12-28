@@ -338,24 +338,28 @@ class Data_krs extends CI_Controller
       $this->load->library('ciqrcode');
       $this->load->library('fpdf_gen');
       $row_mhs = $this->App_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
+      $data_krs = $this->Data_krs_model->get_query("SELECT * FROM v_data_krs WHERE nim='".$nim."' AND (ta='".$ta."' AND id_krs='".$id_krs."')")->result();
+      // echo json_encode($data_krs);
+      // echo "SELECT * FROM v_data_krs WHERE nim='".$nim."' AND (ta='".$ta."' AND id_krs='".$id_krs."')";
       //qr
       header("Content-Type: image/png");
       $params['data'] = $row_mhs->nim;
       $params['level']='H';
-      $params['size']=5;
+      $params['size']=2;
       $params['savename']=FCPATH."/assets/qrcode/".$nim.'_uas.png';
       $this->ciqrcode->generate($params);
 
       //tampil
-      $data['qr']=FCPATH."/assets/qrcode/".$nim.'.png';
+      $data['qr']=FCPATH."/assets/qrcode/".$nim.'_uas.png';
       $data['mhs']=$row_mhs;
+      $data['data_krs']=$data_krs;
       $data['assign_css'] = 'kartu/css/app.css';
       $data['assign_js'] = 'kartu/js/index.js';
-      load_pdf('kartu/uts', $data);
+      load_pdf('kartu/uas', $data);
 
       //passing pdf
       $html = $this->output->get_output();
-      $this->dompdf->set_paper(array(0,0,684.00,400.00), 'potrait');
+      $this->dompdf->set_paper('A4', 'potrait');
       $this->dompdf->load_html($html);
       $this->dompdf->render();
       $this->dompdf->stream(date('D-M-Y').$nim.".pdf",array('Attachment'=>0));
@@ -366,24 +370,26 @@ class Data_krs extends CI_Controller
       $this->load->library('ciqrcode');
       $this->load->library('fpdf_gen');
       $row_mhs = $this->App_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
+      $data_krs = $this->Data_krs_model->get_query("SELECT * FROM v_data_krs WHERE nim='".$nim."' AND (ta='".$ta."' AND id_krs='".$id_krs."')")->result();
       //qr
       header("Content-Type: image/png");
       $params['data'] = $row_mhs->nim;
       $params['level']='H';
-      $params['size']=5;
+      $params['size']=2;
       $params['savename']=FCPATH."/assets/qrcode/".$nim.'_uts.png';
       $this->ciqrcode->generate($params);
 
       //tampil
-      $data['qr']=FCPATH."/assets/qrcode/".$nim.'.png';
+      $data['qr']=FCPATH."/assets/qrcode/".$nim.'_uts.png';
       $data['mhs']=$row_mhs;
+      $data['data_krs']=$data_krs;
       $data['assign_css'] = 'kartu/css/app.css';
       $data['assign_js'] = 'kartu/js/index.js';
       load_pdf('kartu/uts', $data);
 
       //passing pdf
       $html = $this->output->get_output();
-      $this->dompdf->set_paper(array(0,0,684.00,400.00), 'potrait');
+      $this->dompdf->set_paper("A4", 'potrait');
       $this->dompdf->load_html($html);
       $this->dompdf->render();
       $this->dompdf->stream(date('D-M-Y').$nim.".pdf",array('Attachment'=>0));

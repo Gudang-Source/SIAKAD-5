@@ -46,8 +46,8 @@
                 <td><?php echo  $key->ta ?></td>
                 <td><?php echo  $key->status_ambil ?></td>
                 <td>
-                  <a href="<?php echo site_url('data_krs/cetak_uts/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>"><i class='fa fa-archive'> UTS</i></a> |
-                  <a href="<?php echo site_url('data_krs/cetak_uas/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>"><i class='fa fa-archive'> UAS</i></a>
+                  <a href="<?php echo site_url('data_krs/cetak_uts/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>" onclick='javasciprt: return confirm("Are You Sure ?")' target="_blank"><i class='fa fa-archive'> UTS</i></a> |
+                  <a href="<?php echo site_url('data_krs/cetak_uas/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>" onclick='javasciprt: return confirm("Are You Sure ?")' target="_blank"><i class='fa fa-archive'> UAS</i></a>
                 </td>
                 <td style="text-align:center" width="200px">
                   <a href="<?php echo site_url('data_krs/konfirmasi/'.$key->nim.'/'.$key->kode_pembayaran) ?>"><i class='fa fa-pencil-square-o'></i></a> |
