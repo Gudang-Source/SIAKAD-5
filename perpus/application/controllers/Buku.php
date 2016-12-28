@@ -33,7 +33,8 @@ class Buku extends CI_Controller
             $data = array(
           		'id_buku' => $row->id_buku,
           		'id_rak' => $row->id_rak,
-          		'id_penerbit' => $row->id_penerbit,
+              'id_penerbit' => $row->id_penerbit,
+          		'kode_buku' => $row->kode_buku,
           		'nm_buku' => $row->nm_buku,
           		'thn_terbit' => $row->thn_terbit,
               'nm_penulis' => $row->nm_penulis,
@@ -57,7 +58,8 @@ class Buku extends CI_Controller
             'action' => site_url('buku/create_action'),
       	    'id_buku' => set_value('id_buku'),
       	    'id_rak' => set_value('id_rak'),
-      	    'id_penerbit' => set_value('id_penerbit'),
+            'id_penerbit' => set_value('id_penerbit'),
+      	    'kode_buku' => set_value('kode_buku'),
       	    'nm_buku' => set_value('nm_buku'),
       	    'thn_terbit' => set_value('thn_terbit'),
             'nm_penulis' => set_value('nm_penulis'),
@@ -80,7 +82,8 @@ class Buku extends CI_Controller
         } else {
             $data = array(
           		'id_rak' => $this->input->post('id_rak',TRUE),
-          		'id_penerbit' => $this->input->post('id_penerbit',TRUE),
+              'id_penerbit' => $this->input->post('id_penerbit',TRUE),
+          		'kode_buku' => $this->input->post('kode_buku',TRUE),
           		'nm_buku' => $this->input->post('nm_buku',TRUE),
           		'thn_terbit' => $this->input->post('thn_terbit',TRUE),
               'nm_penulis' => $this->input->post('nm_penulis',TRUE),
@@ -107,7 +110,8 @@ class Buku extends CI_Controller
                 'action' => site_url('buku/update_action'),
             		'id_buku' => set_value('id_buku', $row->id_buku),
             		'id_rak' => set_value('id_rak', $row->id_rak),
-            		'id_penerbit' => set_value('id_penerbit', $row->id_penerbit),
+                'id_penerbit' => set_value('id_penerbit', $row->id_penerbit),
+            		'kode_buku' => set_value('kode_buku', $row->kode_buku),
             		'nm_buku' => set_value('nm_buku', $row->nm_buku),
             		'thn_terbit' => set_value('thn_terbit', $row->thn_terbit),
                 'nm_penulis' => set_value('nm_penulis', $row->nm_penulis),
@@ -136,7 +140,8 @@ class Buku extends CI_Controller
         } else {
             $data = array(
           		'id_rak' => $this->input->post('id_rak',TRUE),
-          		'id_penerbit' => $this->input->post('id_penerbit',TRUE),
+              'id_penerbit' => $this->input->post('id_penerbit',TRUE),
+          		'kode_buku' => $this->input->post('kode_buku',TRUE),
           		'nm_buku' => $this->input->post('nm_buku',TRUE),
           		'thn_terbit' => $this->input->post('thn_terbit',TRUE),
               'nm_penulis' => $this->input->post('nm_penulis',TRUE),
@@ -165,7 +170,8 @@ class Buku extends CI_Controller
     public function _rules()
     {
     	$this->form_validation->set_rules('id_rak', 'id rak', 'trim|required');
-    	$this->form_validation->set_rules('id_penerbit', 'id penerbit', 'trim|required');
+      $this->form_validation->set_rules('id_penerbit', 'id penerbit', 'trim|required');
+    	$this->form_validation->set_rules('kode_buku', 'kode buku', 'trim|required');
     	$this->form_validation->set_rules('nm_buku', 'nm buku', 'trim|required');
     	$this->form_validation->set_rules('thn_terbit', 'thn terbit', 'trim|required');
       $this->form_validation->set_rules('nm_penulis', 'nm penulis', 'trim|required');
