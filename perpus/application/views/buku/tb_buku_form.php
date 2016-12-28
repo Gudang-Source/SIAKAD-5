@@ -66,6 +66,10 @@
         <label for="varchar">Nama Penulis <?php echo form_error('nm_penulis') ?></label>
         <input type="text" class="form-control" name="nm_penulis" id="nm_penulis" placeholder="Nm Penulis" value="<?php echo $nm_penulis; ?>" />
       </div>
+      <div class="form-group">
+        <label for="varchar">ISBN <?php echo form_error('isbn') ?></label>
+        <input type="text" class="form-control" name="isbn" id="isbn" placeholder="ISBN" value="<?php echo $isbn; ?>" />
+      </div>
       <input type="hidden" name="id_buku" value="<?php echo $id_buku; ?>" />
       <button type="submit" class="btn btn-primary"><?php echo $button ?></button>
       <a href="<?php echo site_url('buku') ?>" class="btn btn-default">Cancel</a>

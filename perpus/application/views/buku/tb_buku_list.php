@@ -9,6 +9,7 @@
           <th>Nama Buku</th>
           <th>Tahun Terbit</th>
           <th>Penulis</th>
+          <th>ISBN</th>
           <th>Kategori</th>
           <th>Action</th>
         </tr>
@@ -26,6 +27,7 @@
         <td><?php echo $buku->nm_buku ?></td>
         <td><?php echo $buku->thn_terbit ?></td>
         <td><?php echo $buku->nm_penulis ?></td>
+        <td><?php echo $buku->isbn ?></td>
         <td><?php echo $buku->nm_kategori ?></td>
         <td style="text-align:center" width="200px">
         <?php

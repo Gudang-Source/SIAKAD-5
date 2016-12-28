@@ -19,47 +19,55 @@ class Pinjam extends CI_Controller
         $data = array(
             'pinjam_data' => $pinjam
         );
-
-        $this->load->view('pinjam/tb_pinjam_list', $data);
+        $data['breadcrumb']='pinjam';
+    		$data['title']='Olah Data Peminjaman';
+        $data['assign_js']='pinjam/js/index.js';
+        load_view('pinjam/tb_pinjam_list', $data);
     }
 
-    public function read($id) 
+    public function read($id)
     {
         $row = $this->Pinjam_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'id_pinjam' => $row->id_pinjam,
-		'id_buku' => $row->id_buku,
-		'tgl_pjm' => $row->tgl_pjm,
-		'lama_pjm' => $row->lama_pjm,
-		'tgl_kembali' => $row->tgl_kembali,
-		'id_mhs' => $row->id_mhs,
-		'status_pjm' => $row->status_pjm,
-	    );
-            $this->load->view('pinjam/tb_pinjam_read', $data);
+          		'id_pinjam' => $row->id_pinjam,
+          		'id_buku' => $row->id_buku,
+          		'tgl_pjm' => $row->tgl_pjm,
+          		'lama_pjm' => $row->lama_pjm,
+          		'tgl_kembali' => $row->tgl_kembali,
+          		'id_mhs' => $row->id_mhs,
+          		'status_pjm' => $row->status_pjm,
+      	    );
+            $data['breadcrumb']='pinjam';
+            $data['title']='Olah Data Peminjaman';
+            $data['assign_js']='pinjam/js/index.js';
+            load_view('pinjam/tb_pinjam_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('pinjam'));
         }
     }
 
-    public function create() 
+    public function create()
     {
         $data = array(
             'button' => 'Create',
             'action' => site_url('pinjam/create_action'),
-	    'id_pinjam' => set_value('id_pinjam'),
-	    'id_buku' => set_value('id_buku'),
-	    'tgl_pjm' => set_value('tgl_pjm'),
-	    'lama_pjm' => set_value('lama_pjm'),
-	    'tgl_kembali' => set_value('tgl_kembali'),
-	    'id_mhs' => set_value('id_mhs'),
-	    'status_pjm' => set_value('status_pjm'),
-	);
-        $this->load->view('pinjam/tb_pinjam_form', $data);
+      	    'id_pinjam' => set_value('id_pinjam'),
+      	    'id_buku' => set_value('id_buku'),
+      	    'tgl_pjm' => set_value('tgl_pjm'),
+      	    'lama_pjm' => set_value('lama_pjm'),
+      	    'tgl_kembali' => set_value('tgl_kembali'),
+      	    'id_mhs' => set_value('id_mhs'),
+      	    'status_pjm' => set_value('status_pjm'),
+      	);
+        $data['breadcrumb']='pinjam';
+    		$data['title']='Olah Data Peminjaman';
+        $data['assign_js']='pinjam/js/index.js';
+        load_view('pinjam/tb_pinjam_form', $data);
     }
-    
-    public function create_action() 
+
+    public function create_action()
     {
         $this->_rules();
 
@@ -67,21 +75,20 @@ class Pinjam extends CI_Controller
             $this->create();
         } else {
             $data = array(
-		'id_buku' => $this->input->post('id_buku',TRUE),
-		'tgl_pjm' => $this->input->post('tgl_pjm',TRUE),
-		'lama_pjm' => $this->input->post('lama_pjm',TRUE),
-		'tgl_kembali' => $this->input->post('tgl_kembali',TRUE),
-		'id_mhs' => $this->input->post('id_mhs',TRUE),
-		'status_pjm' => $this->input->post('status_pjm',TRUE),
-	    );
-
+          		'id_buku' => $this->input->post('id_buku',TRUE),
+          		'tgl_pjm' => $this->input->post('tgl_pjm',TRUE),
+          		'lama_pjm' => $this->input->post('lama_pjm',TRUE),
+          		'tgl_kembali' => $this->input->post('tgl_kembali',TRUE),
+          		'id_mhs' => $this->input->post('id_mhs',TRUE),
+          		'status_pjm' => $this->input->post('status_pjm',TRUE),
+      	    );
             $this->Pinjam_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('pinjam'));
         }
     }
-    
-    public function update($id) 
+
+    public function update($id)
     {
         $row = $this->Pinjam_model->get_by_id($id);
 
@@ -89,22 +96,25 @@ class Pinjam extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('pinjam/update_action'),
-		'id_pinjam' => set_value('id_pinjam', $row->id_pinjam),
-		'id_buku' => set_value('id_buku', $row->id_buku),
-		'tgl_pjm' => set_value('tgl_pjm', $row->tgl_pjm),
-		'lama_pjm' => set_value('lama_pjm', $row->lama_pjm),
-		'tgl_kembali' => set_value('tgl_kembali', $row->tgl_kembali),
-		'id_mhs' => set_value('id_mhs', $row->id_mhs),
-		'status_pjm' => set_value('status_pjm', $row->status_pjm),
-	    );
-            $this->load->view('pinjam/tb_pinjam_form', $data);
+            		'id_pinjam' => set_value('id_pinjam', $row->id_pinjam),
+            		'id_buku' => set_value('id_buku', $row->id_buku),
+            		'tgl_pjm' => set_value('tgl_pjm', $row->tgl_pjm),
+            		'lama_pjm' => set_value('lama_pjm', $row->lama_pjm),
+            		'tgl_kembali' => set_value('tgl_kembali', $row->tgl_kembali),
+            		'id_mhs' => set_value('id_mhs', $row->id_mhs),
+            		'status_pjm' => set_value('status_pjm', $row->status_pjm),
+      	    );
+            $data['breadcrumb']='pinjam';
+        		$data['title']='Olah Data Peminjaman';
+            $data['assign_js']='pinjam/js/index.js';
+            load_view('pinjam/tb_pinjam_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('pinjam'));
         }
     }
-    
-    public function update_action() 
+
+    public function update_action()
     {
         $this->_rules();
 
@@ -112,21 +122,21 @@ class Pinjam extends CI_Controller
             $this->update($this->input->post('id_pinjam', TRUE));
         } else {
             $data = array(
-		'id_buku' => $this->input->post('id_buku',TRUE),
-		'tgl_pjm' => $this->input->post('tgl_pjm',TRUE),
-		'lama_pjm' => $this->input->post('lama_pjm',TRUE),
-		'tgl_kembali' => $this->input->post('tgl_kembali',TRUE),
-		'id_mhs' => $this->input->post('id_mhs',TRUE),
-		'status_pjm' => $this->input->post('status_pjm',TRUE),
-	    );
+          		'id_buku' => $this->input->post('id_buku',TRUE),
+          		'tgl_pjm' => $this->input->post('tgl_pjm',TRUE),
+          		'lama_pjm' => $this->input->post('lama_pjm',TRUE),
+          		'tgl_kembali' => $this->input->post('tgl_kembali',TRUE),
+          		'id_mhs' => $this->input->post('id_mhs',TRUE),
+          		'status_pjm' => $this->input->post('status_pjm',TRUE),
+          	);
 
             $this->Pinjam_model->update($this->input->post('id_pinjam', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('pinjam'));
         }
     }
-    
-    public function delete($id) 
+
+    public function delete($id)
     {
         $row = $this->Pinjam_model->get_by_id($id);
 
@@ -140,7 +150,7 @@ class Pinjam extends CI_Controller
         }
     }
 
-    public function _rules() 
+    public function _rules()
     {
 	$this->form_validation->set_rules('id_buku', 'id buku', 'trim|required');
 	$this->form_validation->set_rules('tgl_pjm', 'tgl pjm', 'trim|required');

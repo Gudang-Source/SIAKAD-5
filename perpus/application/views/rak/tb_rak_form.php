@@ -9,7 +9,7 @@
         <select class="form-control" name="id_kategori" id="id_kategori" >
           <option value="">--- Select One ---</option>
           <?php foreach ($kategori as $key): ?>
-            <option value="<?php echo $key->nm_kategori ?>"><?php echo $key->nm_kategori ?></option>
+            <option value="<?php echo $key->id_kategori ?>"><?php echo $key->nm_kategori ?></option>
           <?php endforeach; ?>
         </select>
       </div>
