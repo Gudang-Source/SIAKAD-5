@@ -66,16 +66,34 @@
     </div>
 
     <div class="col-md-8">
-      <h3>Transkrip Nilai Sementara</h3><hr>
-      <form class="" action="nilai/transkrip_nilai" method="post">
-        <div class="form-group">
-          <label for="">NIM</label>
-          <input type="text" class="form-control" name="nim_tr" id="nim_tr" value="" placeholder="Masukan NIM" value="" />
-        </div>
-        <div class="form-group">
-          <button type="submit" name="" class="btn btn-primary" > <i class="fa fa-pencil-square-o"></i> Buat Transkrip Nilai</button>
-        </div>
-      </form>
+      <div class="col-md-6">
+        <h3>Transkrip Nilai Sementara</h3><hr>
+        <form class="" action="nilai/transkrip_nilai" method="post">
+          <div class="form-group">
+            <label for="">NIM</label>
+            <input type="text" class="form-control" name="nim_tr" id="nim_tr" value="" placeholder="Masukan NIM" value="" />
+          </div>
+          <div class="form-group">
+            <button type="submit" name="" class="btn btn-primary" > <i class="fa fa-pencil-square-o"></i> Buat Transkrip Nilai</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <h3>Kartu Hasil Studi</h3><hr>
+        <form class="" action="" method="post">
+          <div class="form-group">
+            <label for="">NIM</label>
+            <input type="text" class="form-control" name="nim_tr" id="nim_tr" value="" placeholder="Masukan NIM" value="" />
+          </div>
+          <div class="form-group">
+            <label for="">Tahun Akademik</label>
+            <input type="text" class="form-control" name="ta_khs" id="ta_khs" value="" placeholder="T A" value="" />
+          </div>
+          <div class="form-group">
+            <button type="submit" name="" class="btn btn-primary" > <i class="fa fa-pencil-square-o"></i> Buat KHS</button>
+          </div>
+        </form>
+      </div>
     </div>
     <div class="col-md-4">
       <h3>Panduan Pengisian</h3><hr>
