@@ -16,7 +16,7 @@ class Sync extends CI_Controller
         private $npsn;
         private $ws_a;
 
-        private $password_f='78stm1k093111ADH1gun@86';
+        private $password_f='';
       	private $username_f='093111';
         // private $password_f='';
       	// private $username_f='';
