@@ -20,42 +20,28 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <table class="table table-bordered table-striped" id="mytable">
-          <thead>
-              <tr>
-                  <th width="80px">No</th>
-                  <th>NIM</th>
-          		    <th>Nama Mahasiswa</th>
-          		    <th>Tempat Lahir</th>
-          		    <th>Tanggal Lahir</th>
-          		    <th>Jenis Kelamin</th>
-          		    <th>Action</th>
-                </tr>
-          </thead>
-          <tbody>
-            <?php
-            $start = 0;
-            foreach ($mahasiswa_data as $mahasiswa)
-            {
-                ?>
-                <tr>
-          		    <td><?php echo ++$start ?></td>
-                  <td><?php echo $mahasiswa->nim ?></td>
-          		    <td><?php echo $mahasiswa->nm_mhs ?></td>
-          		    <td><?php echo $mahasiswa->tpt_lhr ?></td>
-          		    <td><?php echo $mahasiswa->tgl_lahir ?></td>
-          		    <td><?php echo $mahasiswa->jenkel ?></td>
-          		    <td style="text-align:center" width="200px">
-        			      <a href='<?php echo site_url('mahasiswa/read/'.$mahasiswa->nim) ?>'><i class='fa fa-eye'></i></a>
-        			      <!-- <a href='<?php echo site_url('mahasiswa/update/'.$mahasiswa->nim) ?>'><i class='fa fa-pencil-square-o'></i></a> | -->
-        			      <!-- <a href='<?php echo site_url('mahasiswa/delete/'.$mahasiswa->nim) ?>' onclick='javasciprt: return confirm("Are You Sure ?")'><i class='fa fa-trash-o'></i></a> -->
-          		    </td>
-        	      </tr>
-              <?php
-          }
-          ?>
-          </tbody>
-      </table>
+      <div class="col-md-8">
+        <table class="table">
+            <tr><td>Nm Mhs</td><td><?php echo $nm_mhs; ?></td></tr>
+            <tr><td>Tpt Lhr</td><td><?php echo $tpt_lhr; ?></td></tr>
+            <tr><td>Tgl Lahir</td><td><?php echo $tgl_lahir; ?></td></tr>
+            <tr><td>Jenkel</td><td><?php echo $jenkel; ?></td></tr>
+            <tr><td>Agama</td><td><?php echo $agama; ?></td></tr>
+            <tr><td>Kelurahan</td><td><?php echo $kelurahan; ?></td></tr>
+            <tr><td>Wilayah</td><td><?php echo $wilayah; ?></td></tr>
+            <tr><td>Nm Ibu</td><td><?php echo $nm_ibu; ?></td></tr>
+            <tr><td>Kd Prodi</td><td><?php echo $kd_prodi; ?></td></tr>
+            <tr><td>Tgl Masuk</td><td><?php echo $tgl_masuk; ?></td></tr>
+            <tr><td>Smt Masuk</td><td><?php echo $smt_masuk; ?></td></tr>
+            <tr><td>Status Mhs</td><td><?php echo $status_mhs; ?></td></tr>
+            <tr><td>Status Awal</td><td><?php echo $status_awal; ?></td></tr>
+            <tr><td>Email</td><td><?php echo $email; ?></td></tr>
+            <tr><td></td><td><a href="<?php echo site_url('mahasiswa') ?>" class="btn btn-default">Cancel</a></td></tr>
+        </ta
+      </div>
+      <div class="col-md-4">
+
+      </div>
     </div>
   </div>
 </div>

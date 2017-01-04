@@ -26,12 +26,41 @@ class Mahasiswa extends CI_Controller
 
     public function index()
     {
-        $mahasiswa = $this->Mahasiswa_model->get_all();
-        $data['mahasiswa_data'] = $mahasiswa;
-        $data['site_title'] = 'SIPAD';
-    		$data['title_page'] = 'Olah Data Mahasiswa';
-    		$data['assign_js'] = 'mahasiswa/js/index.js';
-        load_view('mahasiswa/tb_mhs_list', $data);
+        // $mahasiswa = $this->Mahasiswa_model->get_all();
+        // $mahasiswa = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$this->session->userdata("nim")."'")->row();
+        // $data['mahasiswa_data'] = $mahasiswa;
+        // $data['site_title'] = 'SIPAD';
+    		// $data['title_page'] = 'Olah Data Mahasiswa';
+    		// $data['assign_js'] = 'mahasiswa/js/index.js';
+        // load_view('mahasiswa/tb_mhs_list', $data);
+        $row = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$this->session->userdata("nim")."'")->row();
+        if ($row) {
+          $data = array(
+          		'nim' => $row->nim,
+          		'nm_mhs' => $row->nm_mhs,
+          		'tpt_lhr' => $row->tpt_lhr,
+          		'tgl_lahir' => $row->tgl_lahir,
+          		'jenkel' => $row->jenkel,
+          		'agama' => $row->agama,
+          		'kelurahan' => $row->alamat,
+          		'wilayah' => $row->wilayah,
+              'kd_prodi' => $row->kd_prodi,
+          		'nm_prodi' => $row->nm_prodi,
+          		'tgl_masuk' => $row->tgl_masuk,
+          		'smt_masuk' => $row->smt_masuk,
+          		'status_mhs' => $row->nm_status,
+          		'status_awal' => $row->keterangan,
+          		'email' => $row->email,
+        	);
+          $data['site_title'] = 'SIPAD';
+      		$data['title_page'] = 'Olah Data Mahasiswa';
+      		$data['assign_js'] = 'mahasiswa/js/index.js';
+          load_view('mahasiswa/tb_mhs_read', $data);
+        }
+        else{
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('mahasiswa'));
+        }
     }
 
     public function read($id){
