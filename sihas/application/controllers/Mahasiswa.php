@@ -16,7 +16,7 @@ class Mahasiswa extends CI_Controller
         else {
           $this->load->model('Mahasiswa_model');
           $this->load->model('Agama_model','agama');
-          $this->load->model('Prodi_model','mhs');
+          $this->load->model('Prodi_model','prodi');
           $this->load->model('Status_mhs_model','status');
           $this->load->model('App_model','app_model');
           $this->load->library('form_validation');
@@ -117,10 +117,10 @@ class Mahasiswa extends CI_Controller
       	);
 
         $agama = $this->agama->get_all();
-        $prodi = $this->prodi->get_all();
+        $prodi = $this->app_model->get_query("SELECT * FROM tb_prodi")->result();
         $status_mhs = $this->status->get_all();
         $data['agama'] = $agama;
-        $data['mhs'] = $prodi;
+        $data['prodi'] = $prodi;
         $data['status_mahasiswa'] = $status_mhs;
         $data['site_title'] = 'SIPAD';
     		$data['title_page'] = 'Olah Data Mahasiswa';
@@ -185,7 +185,7 @@ class Mahasiswa extends CI_Controller
             $prodi = $this->prodi->get_all();
             $status_mhs = $this->status->get_all();
             $data['agama'] = $agama;
-            $data['mhs'] = $prodi;
+            $data['prodi'] = $prodi;
             $data['status_mahasiswa'] = $status_mhs;
 
             $data['site_title'] = 'SIPAD';
@@ -334,6 +334,65 @@ class Mahasiswa extends CI_Controller
         );
 
         load_view('mahasiswa/tb_mhs_doc',$data);
+    }
+
+    public function ket_kuliah($nim='')
+    {
+      $kurikulum = $this->app_model->get_query("SELECT * FROM tb_kurikulum WHERE id_kurikulum=".$this->session->userdata('id_kurikulum'))->row();
+      $ket_pro = $this->app_model->get_query("SELECT * FROM tb_prodi WHERE id_prodi=".$this->session->userdata('kode_prodi'))->row();
+      $row = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$this->session->userdata("nim")."'")->row();
+      $data['nm_mhs'] = $row->nm_mhs;
+      $data['nim'] = $row->nim;
+      $data['ttl'] = $row->tpt_lhr.", ".$row->tgl_lahir;
+      $data['nm_prodi'] = $row->nm_prodi;
+      $data['angkatan'] = $row->smt_masuk;
+      $data['ta'] = $kurikulum->ta;
+      $data['ket_prodi'] = $ket_pro->nm_ketua;
+
+      $data['site_title'] = 'SIPAD';
+      $data['title_page'] = 'Olah Data Mahasiswa';
+      $data['assign_js'] = 'surat/js/index.js';
+      $data['assign_css'] = 'surat/css/app.css';
+      load_pdf('surat/surat_keterangan_kuliah', $data);
+      $this->load->library('fpdf_gen');
+      $html = $this->output->get_output();
+      $this->dompdf->set_paper('A4', 'potrait');
+      $this->dompdf->load_html($html);
+      $this->dompdf->render();
+      $this->dompdf->stream("ket_kuliah".$nim.".pdf",array('Attachment'=>0));
+    }
+    public function ket_mhs($nim='')
+    {
+      $kurikulum = $this->app_model->get_query("SELECT * FROM tb_kurikulum WHERE id_kurikulum=".$this->session->userdata('id_kurikulum'))->row();
+      $ket_pro = $this->app_model->get_query("SELECT * FROM tb_prodi WHERE id_prodi=".$this->session->userdata('kode_prodi'))->row();
+      $row = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$this->session->userdata("nim")."'")->row();
+      $data['nm_mhs'] = $row->nm_mhs;
+      $data['nim'] = $row->nim;
+      $data['ttl'] = $row->tpt_lhr.", ".$row->tgl_lahir;
+      $data['nm_prodi'] = $row->nm_prodi;
+      $data['angkatan'] = $row->smt_masuk;
+      $data['ta'] = $kurikulum->ta;
+      $data['ket_prodi'] = $ket_pro->nm_ketua;
+
+      $data['site_title'] = 'SIPAD';
+      $data['title_page'] = 'Olah Data Mahasiswa';
+      $data['assign_js'] = 'surat/js/index.js';
+      $data['assign_css'] = 'surat/css/app.css';
+      load_pdf('surat/surat_keterangan_mhs', $data);
+      $this->load->library('fpdf_gen');
+      $html = $this->output->get_output();
+      $this->dompdf->set_paper('A4', 'potrait');
+      $this->dompdf->load_html($html);
+      $this->dompdf->render();
+      $this->dompdf->stream("ket_mhs".$nim.".pdf",array('Attachment'=>0));
+    }
+    public function ket_pindah($nim='')
+    {
+      # code...
+    }
+    public function ket_penelitian($nim='')
+    {
+      # code...
     }
 
 }

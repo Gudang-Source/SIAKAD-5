@@ -54,6 +54,7 @@
           <div class="form-group">
             <label for="int">Prodi <?php echo form_error('kd_prodi') ?></label>
             <select type="text" class="form-control" name="kd_prodi" id="kd_prodi" placeholder="Kd Prodi" value="<?php echo $kd_prodi; ?>">
+              <option value="">------Silahkan Pilih Salah Satunya ------</option>
               <?php foreach ($prodi as $key => $value): ?>
                   <option value="<?php echo $value->id_prodi; ?>"><?php echo $value->nm_prodi; ?></option>
               <?php endforeach; ?>
@@ -70,6 +71,7 @@
           <div class="form-group">
             <label for="int">Status Mahasiswa <?php echo form_error('status_mhs') ?></label>
             <select type="text" class="form-control" name="status_mhs" id="status_mhs" value="<?php echo $status_mhs; ?>">
+              <option value="">------Silahkan Pilih Salah Satunya ------</option>
               <?php foreach ($status_mahasiswa as $key => $value): ?>
                 <option value="<?php echo $value->id_status; ?>"><?php echo $value->nm_status; ?></option>
               <?php endforeach; ?>
@@ -81,7 +83,7 @@
           </div>
           <div class="form-group">
             <label for="email">Email <?php echo form_error('email') ?></label>
-            <textarea class="form-control" rows="3" name="email" id="email" placeholder="Email"><?php echo $email; ?></textarea>
+            <input class="form-control" rows="3" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>">
           </div>
 
           <button type="submit" class="btn btn-primary"><?php echo $button ?></button>
