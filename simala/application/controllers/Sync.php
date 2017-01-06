@@ -16,7 +16,7 @@ class Sync extends CI_Controller
         private $npsn;
         private $ws_a;
 
-        private $password_f='';
+        private $password_f=''; //pass feeder
       	private $username_f='093111';
         // private $password_f='';
       	// private $username_f='';
@@ -45,7 +45,7 @@ class Sync extends CI_Controller
           $setting = $this->app_model->get_query("SELECT * FROM tb_setting WHERE role='A'")->result();
           foreach ($setting as $key) {
       			$this->dir_ws = $key->link;
-            $this->password_f="78stm1k093111ADH1gun@86";
+            $this->password_f=""; //pass feeder
             $this->kode_feed=base64_decode($key->kode_feed);
       			$this->host_ws = parse_url($this->dir_ws, PHP_URL_HOST);
       			$this->port_ws = parse_url($this->dir_ws, PHP_URL_PORT)==''?80:parse_url($this->dir_ws, PHP_URL_PORT);
@@ -951,5 +951,53 @@ class Sync extends CI_Controller
       //   'error'=>$e,
       // );
       // echo json_encode($temp_akhir);
+    }
+
+    public function sync_edit_mhs($nim)
+    {
+      $id_pd='';
+      $id_reg_pd='';
+      $this->getAkses();
+      $mhs = $this->feeder->getrset($this->temp_token, "mahasiswa_pt","p.nipd='".$nim."'","","","");
+      $db = $this->app_model->get_query("SELECT * FROM v_mhs_aktif m1 WHERE m1.nim='".$nim."'")->row();
+      // echo json_encode($mhs['result']);
+      $data_mhs = $mhs['result'];
+      foreach ($data_mhs as $key => $value) {
+        $id_pd=$value['id_pd'];
+        $id_reg_pd=$value['id_reg_pd'];
+        echo $value['nm_pd'];
+      }
+      echo "<br>";
+      echo "<br>";
+      echo "<br>";
+      $key_mhs_pt = array(
+          'id_reg_pd' => $id_reg_pd
+      );
+      $data_ubah_mhs_pt = array(
+        'nm_pd' => $db->nm_mhs,
+        'jk' => $db->jenkel,
+        'id_agama' => $db->id_agama,
+        'tmpt_lahir'=> $db->tpt_lhr,
+        'tgl_lahir' => $db->tgl_lahir
+      );
+      $record_mhs_pt=array('key'=>$key_mhs_pt,'data'=>$data_ubah_mhs_pt);
+      echo json_encode($record_mhs_pt);
+      echo "<br>";
+      echo "<br>";
+      echo "<br>";
+      // $result= $this->feeder->update($this->temp_token,"mahasiswa_pt",$record_mhs_pt);
+      // echo json_encode($result);
+      echo "<br>";
+      echo "<br>";
+      echo "<br>";
+      $key_mhs = array(
+          'id_pd' => $id_pd
+      );
+      $data_ubah_mhs = array(
+        'nm_pd' => $db->nm_mhs,
+      );
+      $record_mhs=array('key'=>$key_mhs,'data'=>$data_ubah_mhs);
+      $result= $this->feeder->update($this->temp_token,"mahasiswa",$record_mhs);
+      echo json_encode($result);
     }
 }
