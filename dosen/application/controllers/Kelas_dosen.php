@@ -293,8 +293,6 @@ class Kelas_dosen extends CI_Controller
     {
       $id_kelas = $this->input->post('id_kelas');
       $id_data_krs = $this->input->post('id_data_krs');
-
-      //  echo json_encode($id_mhs);
       $nilai_angka = $this->input->post('nilai_angka');
       $this->rules_nilai();
       if ($this->form_validation->run() == FALSE) {
@@ -348,7 +346,7 @@ class Kelas_dosen extends CI_Controller
                   $nilai_index= '0';
                 }
                 else if ($nilai_angka >= 0 && $nilai_angka <= 5) {
-                  $nilai_huruf = 'B-';
+                  $nilai_huruf = 'E';
                   $nilai_index= '0';
                 }
                 else {
