@@ -293,7 +293,9 @@ class Kelas_dosen extends CI_Controller
     {
       $id_kelas = $this->input->post('id_kelas');
       $id_data_krs = $this->input->post('id_data_krs');
-       echo $nilai_angka = $this->input->post('nilai_angka');
+
+      //  echo json_encode($id_mhs);
+      $nilai_angka = $this->input->post('nilai_angka');
       $this->rules_nilai();
       if ($this->form_validation->run() == FALSE) {
           $this->view_data_krs($id_kelas);
@@ -308,29 +310,77 @@ class Kelas_dosen extends CI_Controller
           redirect(site_url('kelas_dosen/view_data_krs/'.$id_kelas));
         }
         else {
-          if ($nilai_angka >= 85 && $nilai_angka <= 100) {
-            $nilai_huruf = 'A';
-            $nilai_index= '4';
-          } else if ($nilai_angka >= 75 && $nilai_angka <= 84) {
-            $nilai_huruf = 'B';
-            $nilai_index= '3';
-          }
-          else if ($nilai_angka >= 65 && $nilai_angka <= 74) {
-            $nilai_huruf = 'C';
-            $nilai_index= '2';
-          }
-          else if ($nilai_angka >= 45 && $nilai_angka <= 64) {
-            $nilai_huruf = 'D';
-            $nilai_index= '1';
-          }
-          else if ($nilai_angka >= 0 && $nilai_angka <= 44) {
-            $nilai_huruf = 'E';
-            $nilai_index= '0';
-          }
-          else {
-            $nilai_huruf = 'T';
-            $nilai_index= '0';
-          }
+            $id_ta = $this->App_model->get_query("SELECT ta FROM v_data_krs WHERE id_data_krs=".$id_data_krs)->row();
+            if ($id_ta->ta >= 20161) {
+                if ($nilai_angka >= 90 && $nilai_angka <= 100) {
+                  $nilai_huruf = 'A';
+                  $nilai_index= '4';
+                } else if ($nilai_angka >= 86 && $nilai_angka <= 90) {
+                  $nilai_huruf = 'A-';
+                  $nilai_index= '3.75';
+                }
+                else if ($nilai_angka >= 81 && $nilai_angka <= 85) {
+                  $nilai_huruf = 'B+';
+                  $nilai_index= '3.5';
+                }
+                else if ($nilai_angka >= 76 && $nilai_angka <= 80) {
+                  $nilai_huruf = 'B';
+                  $nilai_index= '3.0';
+                }
+                else if ($nilai_angka >= 71 && $nilai_angka <= 75) {
+                  $nilai_huruf = 'B-';
+                  $nilai_index= '2.75';
+                }
+                else if ($nilai_angka >= 66 && $nilai_angka <= 70) {
+                  $nilai_huruf = 'C+';
+                  $nilai_index= '2.5';
+                }
+                else if ($nilai_angka >= 61 && $nilai_angka <= 65) {
+                  $nilai_huruf = 'C';
+                  $nilai_index= '2.0';
+                }
+                else if ($nilai_angka >= 56 && $nilai_angka <= 60) {
+                  $nilai_huruf = 'C-';
+                  $nilai_index= '1.75';
+                }
+                else if ($nilai_angka >= 51 && $nilai_angka <= 60) {
+                  $nilai_huruf = 'D';
+                  $nilai_index= '0';
+                }
+                else if ($nilai_angka >= 0 && $nilai_angka <= 5) {
+                  $nilai_huruf = 'B-';
+                  $nilai_index= '0';
+                }
+                else {
+                  $nilai_huruf = 'T';
+                  $nilai_index= '0';
+                }
+            }
+            else {
+                if ($nilai_angka >= 85 && $nilai_angka <= 100) {
+                  $nilai_huruf = 'A';
+                  $nilai_index= '4';
+                } else if ($nilai_angka >= 75 && $nilai_angka <= 84) {
+                  $nilai_huruf = 'B';
+                  $nilai_index= '3';
+                }
+                else if ($nilai_angka >= 65 && $nilai_angka <= 74) {
+                  $nilai_huruf = 'C';
+                  $nilai_index= '2';
+                }
+                else if ($nilai_angka >= 45 && $nilai_angka <= 64) {
+                  $nilai_huruf = 'D';
+                  $nilai_index= '1';
+                }
+                else if ($nilai_angka >= 0 && $nilai_angka <= 44) {
+                  $nilai_huruf = 'E';
+                  $nilai_index= '0';
+                }
+                else {
+                  $nilai_huruf = 'T';
+                  $nilai_index= '0';
+                }
+            }
 
           $data_nilai = array(
             'id_krs' => $id_data_krs,
