@@ -86,11 +86,11 @@
     </tr>
     <tr>
       <td colspan="4"></td>
-      <td><u><b><?php echo $nm_dosen ?>,...........,..........</u></b></td>
+      <td><u><b><?php echo $nm_dosen ?></u></b></td>
     </tr>
     <tr>
       <td colspan="4"></td>
-      <td><b>NIK. </b></td>
+      <td><b>NIDN. <?php echo $nidn ?> </b></td>
     </tr>
   </tbody>
 </table>

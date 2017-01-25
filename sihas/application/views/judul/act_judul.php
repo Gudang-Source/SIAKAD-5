@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <table class="table table-bordered table-striped" id="mytable">
+      <table class="table table-bordered table-striped" id="">
           <thead>
               <tr>
                   <th width="80px">No</th>
@@ -17,7 +17,6 @@
                   <th>Judul</th>
                   <th>Nama Pembimbing 1</th>
                   <th>Nama Pembimbing 2</th>
-                  <th>Action</th>
               </tr>
           </thead>
       <tbody>
@@ -32,7 +31,6 @@
                 <td><?php echo $proposal->judul ?></td>
                 <td><?php echo $proposal->pembimbing_1 ?></td>
                 <td><?php echo $proposal->pembimbing_2 ?></td>
-                <td></td>
               </tr>
           <?php
           }

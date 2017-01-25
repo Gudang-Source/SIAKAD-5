@@ -419,6 +419,7 @@ class Kelas_dosen extends CI_Controller
       $data['jur'] = $data_kelas->nm_prodi;
       $data['mata_kuliah'] = $data_kelas->nm_mk;
       $data['nm_dosen'] = $data_kelas->nm_dosen;
+      $data['nidn'] = $data_kelas->nidn;
       $data['kelas'] = $data_kelas->nm_kelas;
 
       $data['assign_css'] = 'kelas_dosen/css/app.css';
