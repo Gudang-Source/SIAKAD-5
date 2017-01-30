@@ -308,7 +308,8 @@ class Kelas_dosen extends CI_Controller
           redirect(site_url('kelas_dosen/view_data_krs/'.$id_kelas));
         }
         else {
-            $id_ta = $this->App_model->get_query("SELECT ta FROM v_data_krs WHERE id_data_krs=".$id_data_krs)->row();
+            $nim = $this->App_model->get_query("SELECT nim FROM v_data_krs WHERE id_data_krs=".$id_data_krs)->row();
+            $id_ta = $this->App_model->get_query("SELECT smt_masuk FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
             if ($id_ta->ta >= 20161) {
                 if ($nilai_angka >= 90 && $nilai_angka <= 100) {
                   $nilai_huruf = 'A';
