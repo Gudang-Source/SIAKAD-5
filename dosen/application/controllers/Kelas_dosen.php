@@ -309,8 +309,8 @@ class Kelas_dosen extends CI_Controller
         }
         else {
             $nim = $this->App_model->get_query("SELECT nim FROM v_data_krs WHERE id_data_krs=".$id_data_krs)->row();
-            $id_ta = $this->App_model->get_query("SELECT smt_masuk FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
-            if ($id_ta->ta >= 20161) {
+            $id_ta = $this->App_model->get_query("SELECT smt_masuk FROM v_mhs_aktif WHERE nim='".$nim->nim."'")->row();
+            if ($id_ta->smt_masuk >= 20161) {
                 if ($nilai_angka >= 90 && $nilai_angka <= 100) {
                   $nilai_huruf = 'A';
                   $nilai_index= '4';
@@ -344,7 +344,7 @@ class Kelas_dosen extends CI_Controller
                 }
                 else if ($nilai_angka >= 51 && $nilai_angka <= 60) {
                   $nilai_huruf = 'D';
-                  $nilai_index= '0';
+                  $nilai_index= '1';
                 }
                 else if ($nilai_angka >= 0 && $nilai_angka <= 5) {
                   $nilai_huruf = 'E';

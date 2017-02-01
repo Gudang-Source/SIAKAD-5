@@ -1,12 +1,12 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#krstable").dataTable();
-        $("#mytable").dataTable();
-        $('#id_kurikulum').select2({
-          placeholder: "Masukan Kata Kunci Kurikulum Nama | Periode| Kode Prodi",
+        $(".table").dataTable();
+        $('#filter_kelas').select2({
+          placeholder: "Masukan Kata Kunci Kelas Nama",
           //minimumInputLength: 1,
           ajax: {
-            url: top_url+'krs/getKurikulum',
+            url: top_url+'krs/getKelasMataKuliah',
             type: "POST",
             dataType: 'json',
             delay: 20,
@@ -20,8 +20,8 @@
               return {
                 results: $.map(data, function(obj) {
                   return {
-                    id: obj.id_kurikulum,
-      							text: obj.nm_kurikulum+" | "+obj.ta+" | "+obj.kd_prodi
+                    id: obj.nm_kelas,
+      				text: obj.nm_kelas+" | "+obj.ta
                   };
                 })
               };

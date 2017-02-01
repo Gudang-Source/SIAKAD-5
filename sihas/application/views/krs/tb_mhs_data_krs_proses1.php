@@ -16,12 +16,12 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
       <b>Daftar Beli Mata Kuliah Periode Berjalan</b><hr>
       <?php
         if ($status_tutup==false && $status_buka==true) {
           ?>
-          <table class="table table-bordered table-striped" id="mytable">
+          <table class="table_data table table-bordered table-striped">
               <thead>
                   <tr>
                       <th>No</th>
@@ -48,7 +48,7 @@
                   <td><?php echo $data_krs->nm_kelas ?></td>
                   <td><?php echo $data_krs->sks ?></td>
                   <td style="text-align:center">
-                    <a href='<?php echo site_url('krs/delete/'.$data_krs->id_data_krs.'/'.$this->uri->segment(5)) ?>' onclick=''><i class='fa fa-trash-o'></i></a>
+                    <a href='<?php echo site_url('krs/delete/'.$data_krs->id_data_krs.'/'.$this->uri->segment(5).'/'.$id_kurikulum) ?>' onclick=''><i class='fa fa-trash-o'></i></a>
                   </td>
                  </tr>
                   <?php
@@ -115,35 +115,68 @@
         }
       ?>
     </div>
+    <div class="col-md-12">
+      <hr>
+    </div>
     <div class="col-md-4">
-      <b>Beli Mata Kuliah Tersisa <?php echo 24 - $total_sks; ?> SKS Lagi</b> <div style="margin-top: 4px"  id="message">
-          <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
-      </div><hr>
-      <?php if ($total_sks>=0 && $total_sks<=24 && $total_sks<=23 && $status_tutup==false && $status_buka==true): ?>
-        <div class="col-md-12">
-          <form action="<?php echo site_url('krs/krs_add') ?>" method="post">
-            <div class="form-group">
-              <label for="varchar">Kurikulum :</label>
-            </div>
-            <div class="input-group">
-            <select type="text" class="form-control" name="id_kurikulum" id="id_kurikulum"></select>
-              <span class="input-group-btn">
-                  <a class="btn btn-warning btn-sm" id="btnCariMatkul">
-                      Set Kurikulum
-                  </a>
-              </span>
-            </div>
-            <div class="form-group">
-              <label for="varchar"></label>
-            </div>
-            <div class="form-group">
-              <label for="int">Kelas</label>
-              <select type="text" class="form-control select2" name="id_kelas" id="id_matkul" readOnly></select>
-            </div>
-            <input type="text" class="form-control hide" name="id_krs" id="id_krs" value="<?php echo $id_krs ?>" />
-            <button type="submit" class="btn btn-primary">Add</button>
-          </form>
+      <b>Filter Daftar Belanja Mata Kuliah</b><hr>
+      <form class="form" action="<?php echo site_url('krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs.'/'.$id_kurikulum) ?>" method="post">
+        <div class="form-group">
+          <label for="">Kelas</label>
+          <select class="form-control" name="filter_kelas" id="filter_kelas" ></select>
         </div>
+        <div class="form-group">
+          <center><button type="submit" class="btn btn-warning btn-block"  name="">Filter</button></center>
+        </div>
+      </form>
+      <div id="message">
+          <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <b>Beli Mata Kuliah Tersisa <?php echo 24 - $total_sks; ?> SKS Lagi</b>
+      <?php if ($total_sks>=0 && $total_sks<=24 && $total_sks<=23 && $status_tutup==false && $status_buka==true): ?>
+        <form action="<?php echo site_url('krs/add_baru') ?>" method="post">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Mata Kuliah</th>
+                <th>Kelas</th>
+                <th>Ambil</th>
+                <th>SKS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $no=1;
+              ?>
+              <?php foreach ($krs_data as $key => $value): ?>
+                <div class="form-group">
+                  <tr>
+                    <td width="40px"><?php echo $no++ ?></td>
+                    <td><?php echo $value['nm_mk'] ?></td>
+                    <td><?php echo $value['nm_kelas'] ?></td>
+                    <td align="center">
+                      <?php if ($value['status_pesan']==true): ?>
+                        <input type='checkbox' name='item[]' value="<?php echo $value['id_kelas'] ?>" checked>
+                      <?php else: ?>
+                        <input type='checkbox' name='item[]' value="<?php echo $value['id_kelas'] ?>">
+                      <?php endif; ?>
+
+                    </td>
+                    <td>
+                      <?php echo $value['sks'] ?>
+                    </td>
+                  </tr>
+                </div>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+          <input type="text" class="form-control hide" name="id_krs" id="id_krs" value="<?php echo $id_krs ?>" />
+          <input type="text" class="form-control hide" name="id_kurikulum" id="id_kurikulum" value="<?php echo $id_kurikulum ?>" />
+          <button type="submit" class="btn btn-primary btn-block" onclick='javasciprt: return confirm("Dengan Mengunggah Kartu Rencan STUDI Anda Berarti Anda Telah Memberikan Data Yang Valid Dan Jika Suatu Hari Saya Terbukti Memberikan Data Yang Tidak Benar Maka Saya Bersedia Untuk Menyelesaikan dengan baik")'>Upload Kartu Rencana Studi</button>
+        </form>
       <?php else: ?>
         <div class="col-md-12">
           <div class="well text-center">
