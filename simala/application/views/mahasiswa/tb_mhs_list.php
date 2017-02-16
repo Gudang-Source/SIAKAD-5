@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="page-header" style="margin-top: 50px;">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-">
         <div class="col-md-4">
               <h3><?php echo $title_page; ?></h3>
         </div>
@@ -56,9 +56,32 @@
       </table>
     </div>
     <div class="col-md-2">
-      <a href='<?php echo site_url('mahasiswa/create') ?>' class="btn btn-success btn-block"><i class='fa fa-pencil-square-o'> Tambah Data</i></a>
-      <a href='<?php echo site_url('mahasiswa/excel') ?>' class="btn btn-primary btn-block"><i class='fa fa-newspaper-o'></i> Import Excel</a>
-      <a href='<?php echo site_url('mahasiswa/word') ?>' class="btn btn-danger btn-block" ><i class='fa fa-newspaper-o'></i> Import Word</a>
+      <div class="col-md-12">
+        <form class="for" action="" method="post" id='filter_form' role="form">
+          <div class="form-group">
+            <label for="">Kategori</label>
+            <select class="form-control" name="kat_filter" id="kat_filter">
+              <option value="">--- Pilih Filter ---</option>
+              <option value="nim">NIM</option>
+              <option value="kd_prodi">Kode Prodi</option>
+              <option value="smt_masuk">Angkatan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">Nama Filter</label>
+            <input type="text" name="nm_filter" class="form-control" value="" id="nm_filter">
+          </div>
+        </form>
+        <div class="form-action">
+          <button type="button" name="" id="btn_filter" class="btn btn-warning btn-block">Filter</button>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <br>
+        <a href='<?php echo site_url('mahasiswa/create') ?>' class="btn btn-success btn-block"><i class='fa fa-pencil-square-o'> Tambah Data</i></a>
+        <a href='<?php echo site_url('mahasiswa/excel') ?>' class="btn btn-primary btn-block"><i class='fa fa-newspaper-o'></i> Export Excel</a>
+        <a href='<?php echo site_url('mahasiswa/word') ?>' class="btn btn-danger btn-block" ><i class='fa fa-newspaper-o'></i> Export Word</a>
+      </div>
     </div>
   </div>
 </div>

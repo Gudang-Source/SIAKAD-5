@@ -59,9 +59,34 @@
       </table>
     </div>
     <div class="col-md-2">
-      <?php echo anchor(site_url('mhs_krs/create'), 'Create', 'class="btn btn-primary btn-block"'); ?>
-      <?php echo anchor(site_url('mhs_krs/excel'), 'Excel', 'class="btn btn-primary btn-block"'); ?>
-      <?php echo anchor(site_url('mhs_krs/word'), 'Word', 'class="btn btn-primary btn-block"'); ?>
+      <div class="col-md-12">
+        <form class="for" action="" method="post" id='filter_form' role="form">
+          <div class="form-group">
+            <label for="">Kategori</label>
+            <select class="form-control" name="kat_filter" id="kat_filter">
+              <option value="">--- Pilih Filter ---</option>
+              <option value="nim">NIM</option>
+              <option value="nama">Nama Mahasiswa</option>
+              <option value="ta">Periode</option>
+              <option value="kd_prodi">Kode Prodi</option>
+              <option value="nm_prodi">Nama Prodi</option>
+              <option value="status_ambil">Status Ambil (T/Y)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">Nama Filter</label>
+            <input type="text" name="nm_filter" class="form-control" value="" id="nm_filter">
+          </div>
+        </form>
+        <div class="form-action">
+          <button type="button" name="" id="btn_filter" class="btn btn-warning btn-block">Filter</button>
+        </div>
+      </div>
+      <div class="col-md-12"><br>
+        <?php echo anchor(site_url('mhs_krs/create'), 'Create', 'class="btn btn-primary btn-block"'); ?>
+        <?php echo anchor(site_url('mhs_krs/excel'), 'Excel', 'class="btn btn-primary btn-block"'); ?>
+        <?php echo anchor(site_url('mhs_krs/word'), 'Word', 'class="btn btn-primary btn-block"'); ?>
+      </div>
     </div>
   </div>
 </div>

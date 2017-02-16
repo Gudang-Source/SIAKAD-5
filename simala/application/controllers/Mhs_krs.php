@@ -20,17 +20,32 @@ class Mhs_krs extends CI_Controller
         }
     }
 
-    public function index()
+    public function index($filter='',$nm_filter='')
     {
-        $mhs_krs = $this->app_model->get_all_view_val_krs();
+        if ($filter == '') {
+          $count_mhs_krs = $this->app_model->get_query("SELECT count(*) as jumlah FROM v_mhs_krs WHERE status_ambil='T'")->row();
+          $mhs_krs = $this->app_model->get_query("SELECT * FROM v_mhs_krs WHERE status_ambil='T' ORDER BY id_krs DESC LIMIT 0,".$count_mhs_krs->jumlah)->result();
 
-        $data = array(
-            'data_mhs_krs' => $mhs_krs
-        );
-        $data['site_title'] = 'SIMALA';
-        $data['title_page'] = 'Olah Data Validasi KRS';
-        $data['assign_js'] = 'mhs_krs/js/index.js';
-        load_view('mhs_krs/tb_mhs_krs_list', $data);
+          $data = array(
+              'data_mhs_krs' => $mhs_krs
+          );
+          $data['site_title'] = 'SIMALA';
+          $data['title_page'] = 'Olah Data Validasi KRS';
+          $data['assign_js'] = 'mhs_krs/js/index.js';
+          load_view('mhs_krs/tb_mhs_krs_list', $data);
+        }
+        else
+        {
+          $mhs_krs = $this->app_model->get_query("SELECT * FROM v_mhs_krs WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
+          $data = array(
+              'data_mhs_krs' => $mhs_krs
+          );
+          $data['site_title'] = 'SIMALA';
+          $data['title_page'] = 'Olah Data Validasi KRS';
+          $data['assign_js'] = 'mhs_krs/js/index.js';
+          load_view('mhs_krs/tb_mhs_krs_list', $data);
+        }
+
     }
 
     public function read($id)

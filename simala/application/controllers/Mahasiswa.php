@@ -24,14 +24,25 @@ class Mahasiswa extends CI_Controller
 
     }
 
-    public function index()
+    public function index($filter='',$nm_filter='')
     {
-        $mahasiswa = $this->Mahasiswa_model->get_all();
-        $data['mahasiswa_data'] = $mahasiswa;
-        $data['site_title'] = 'SIMALA';
+        if ($filter == '') {
+            $mahasiswa = $this->app_model->get_query("SELECT * FROM tb_mhs ORDER BY smt_masuk DESC LIMIT 0,10")->result();
+            $data['mahasiswa_data'] = $mahasiswa;
+            $data['site_title'] = 'SIMALA';
     		$data['title_page'] = 'Olah Data Mahasiswa';
     		$data['assign_js'] = 'mahasiswa/js/index.js';
-        load_view('mahasiswa/tb_mhs_list', $data);
+            load_view('mahasiswa/tb_mhs_list', $data);
+        }
+        else {
+            $mahasiswa = $this->app_model->get_query("SELECT * FROM tb_mhs WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
+            $data['mahasiswa_data'] = $mahasiswa;
+            $data['site_title'] = 'SIMALA';
+    		$data['title_page'] = 'Olah Data Mahasiswa';
+    		$data['assign_js'] = 'mahasiswa/js/index.js';
+            load_view('mahasiswa/tb_mhs_list', $data);
+        }
+
     }
 
     public function read($id){

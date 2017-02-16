@@ -51,13 +51,24 @@
                   <td><?php echo $nilai->nilai_huruf ?></td>
                   <td>
                     <?php
-                    if (($nilai->nilai_angka >= 65 && $nilai->nilai_angka <= 74) && $nilai->sks == 2 ) {
-                      ?>
-                      <span class="label label-warning">Warning</span>
-                      <?php
-                    } else {
+                    if (($nilai->nilai_index >= 3.5 && $nilai->nilai_angka <= 4)) {
                       ?>
                       <span class="label label-success">Great</span>
+                      <?php
+                    }
+                    elseif ($nilai->nilai_index >= 2.75 && $nilai->nilai_angka <= 3.0) {
+                      ?>
+                        <span class="label label-default">Ok</span>
+                      <?php
+                    }
+                    elseif ($nilai->nilai_index >= 1.0 && $nilai->nilai_angka <= 2.5) {
+                      ?>
+                        <span class="label label-warning">Warning</span>
+                      <?php
+                    }
+                    else {
+                      ?>
+                      <span class="label label-danger">Error</span>
                       <?php
                     }
 

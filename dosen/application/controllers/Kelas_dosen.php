@@ -361,15 +361,15 @@ class Kelas_dosen extends CI_Controller
                   $nilai_index= '4';
                 } else if ($nilai_angka >= 75 && $nilai_angka <= 84) {
                   $nilai_huruf = 'B';
-                  $nilai_index= '3';
+                  $nilai_index= '3.0';
                 }
                 else if ($nilai_angka >= 65 && $nilai_angka <= 74) {
                   $nilai_huruf = 'C';
-                  $nilai_index= '2';
+                  $nilai_index= '2.0';
                 }
                 else if ($nilai_angka >= 45 && $nilai_angka <= 64) {
                   $nilai_huruf = 'D';
-                  $nilai_index= '1';
+                  $nilai_index= '1.0';
                 }
                 else if ($nilai_angka >= 0 && $nilai_angka <= 44) {
                   $nilai_huruf = 'E';
