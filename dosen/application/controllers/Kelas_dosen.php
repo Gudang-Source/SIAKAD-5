@@ -344,7 +344,7 @@ class Kelas_dosen extends CI_Controller
                 }
                 else if ($nilai_angka >= 51 && $nilai_angka <= 60) {
                   $nilai_huruf = 'D';
-                  $nilai_index= '1';
+                  $nilai_index= '1.0';
                 }
                 else if ($nilai_angka >= 0 && $nilai_angka <= 5) {
                   $nilai_huruf = 'E';
