@@ -314,7 +314,7 @@ class Kelas_dosen extends CI_Controller
                 if ($nilai_angka >= 90 && $nilai_angka <= 100) {
                   $nilai_huruf = 'A';
                   $nilai_index= '4';
-                } else if ($nilai_angka >= 86 && $nilai_angka <= 90) {
+                } else if ($nilai_angka >= 86 && $nilai_angka <= 89) {
                   $nilai_huruf = 'A-';
                   $nilai_index= '3.75';
                 }
@@ -346,7 +346,7 @@ class Kelas_dosen extends CI_Controller
                   $nilai_huruf = 'D';
                   $nilai_index= '1.0';
                 }
-                else if ($nilai_angka >= 0 && $nilai_angka <= 5) {
+                else if ($nilai_angka >= 0 && $nilai_angka <= 50) {
                   $nilai_huruf = 'E';
                   $nilai_index= '0';
                 }
