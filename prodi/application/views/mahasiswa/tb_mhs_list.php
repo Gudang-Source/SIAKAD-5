@@ -19,7 +19,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-10">
       <table class="table table-bordered table-striped" id="mytable">
           <thead>
               <tr>
@@ -56,6 +56,28 @@
           ?>
           </tbody>
       </table>
+    </div>
+    <div class="col-md-2">
+      <div class="col-md-12">
+        <form class="for" action="" method="post" id='filter_form' role="form">
+          <div class="form-group">
+            <label for="">Kategori</label>
+            <select class="form-control" name="kat_filter" id="kat_filter">
+              <option value="">--- Pilih Filter ---</option>
+              <option value="nim">NIM</option>
+              <option value="kd_prodi">Kode Prodi</option>
+              <option value="smt_masuk">Angkatan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">Nama Filter</label>
+            <input type="text" name="nm_filter" class="form-control" value="" id="nm_filter">
+          </div>
+        </form>
+        <div class="form-action">
+          <button type="button" name="" id="btn_filter" class="btn btn-warning btn-block">Filter</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

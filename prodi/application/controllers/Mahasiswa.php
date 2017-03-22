@@ -24,13 +24,19 @@ class Mahasiswa extends CI_Controller
 
     }
 
-    public function index()
+    public function index($filter='',$nm_filter='')
     {
-        $mahasiswa = $this->Mahasiswa_model->get_all($this->session->userdata('level_prodi'));
+
+        if ($filter == '') {
+            $mahasiswa = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE kd_prodi=".$this->session->userdata('level_prodi')." ORDER BY smt_masuk DESC")->result();
+        }
+        else{
+            $mahasiswa = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE ".$filter." LIKE '%".$nm_filter."%' AND kd_prodi=".$this->session->userdata('level_prodi')." ORDER BY nim DESC")->result();;
+        }
         $data['mahasiswa_data'] = $mahasiswa;
         $data['site_title'] = 'SIPAD';
-    		$data['title_page'] = 'Olah Data Mahasiswa';
-    		$data['assign_js'] = 'mahasiswa/js/index.js';
+		$data['title_page'] = 'Olah Data Mahasiswa';
+		$data['assign_js'] = 'mahasiswa/js/index.js';
         load_view('mahasiswa/tb_mhs_list', $data);
     }
 
