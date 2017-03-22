@@ -133,7 +133,7 @@
 		var nim = '<?php echo base64_encode($data->nim); ?>';
 		var kode_bayar = '<?php echo base64_encode($data->kode_bayar); ?>';
 		var id_smt = $('#id_smt').val();
-		 $.get("http://localhost/siakad/simala/index.php/auth/set_mode_kunci?id_smt="+id_smt+"&kode_bayar="+kode_bayar+"&nim="+nim+"", function(data, status){ //pengiriman data jangan lupa di enkrip pake base64_encode
+		 $.get("http://192.168.44.5:82/siakad/simala/index.php/auth/set_mode_kunci?id_smt="+id_smt+"&kode_bayar="+kode_bayar+"&nim="+nim+"", function(data, status){ //pengiriman data jangan lupa di enkrip pake base64_encode
         if (data==1) {
         	alert('Jangan Lupa Cetak Laporan')
         }
