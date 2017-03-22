@@ -71,7 +71,7 @@
             <label for="int">Status Mahasiswa <?php echo form_error('status_mhs') ?></label>
             <select type="text" class="form-control" name="status_mhs" id="status_mhs" value="<?php echo $status_mhs; ?>">
               <?php foreach ($status_mahasiswa as $key => $value): ?>
-                <option value="<?php echo $value->id_status; ?>"><?php echo $value->nm_status; ?></option>
+                <option value="<?php echo $value->id_status; ?>"><?php echo $value->nm_status; ?> | <?php echo $value->ket; ?></option>
               <?php endforeach; ?>
             </select>
           </div>

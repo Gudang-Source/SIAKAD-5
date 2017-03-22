@@ -49,13 +49,19 @@
                 results: $.map(data, function(obj) {
                   return {
                     id: obj.id_krs,
-      							text: obj.id_mhs+ " | " +obj.nm_mhs+" | "+obj.ta
+      				text: obj.id_mhs+ " | " +obj.nm_mhs+" | "+obj.ta
                   };
                 })
               };
             },
             cache: true
           }
+        });
+
+        $("#btn_filter").click(function(){
+            var kat_filter = $("#kat_filter").val();
+            var nm_filter = $("#nm_filter").val();
+            $('#filter_form').attr('action', top_url+"data_krs/index/"+kat_filter+"/"+nm_filter).submit();
         });
     });
 </script>

@@ -21,10 +21,16 @@ class Nilai extends CI_Controller
         }
     }
 
-    public function index()
+    public function index($filter='',$nm_filter='')
     {
-        $nilai = $this->app_model->get_all_view_nilai();
+        if ($filter == '') {
+            $nilai = $this->app_model->get_query("SELECT * FROM v_nilai ORDER BY id_nilai DESC LIMIT 0,50")->result();
 
+
+        }
+        else{
+            $nilai = $this->app_model->get_query("SELECT * FROM v_nilai WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
+        }
         $data = array(
             'nilai_data' => $nilai
         );

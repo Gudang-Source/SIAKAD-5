@@ -26,12 +26,17 @@ class Data_krs extends CI_Controller
         }
     }
 
-    public function index()
+    public function index($filter='',$nm_filter='')
     {
-        $data_krs = $this->Data_krs_model->get_all_view();
-        $data_mhs_krs = $this->mhs_krs->get_all_view();
+        if ($filter == '') {
+            $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs ORDER BY ta DESC LIMIT 0,50 ")->result();
+        }
+        else {
+            $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
+        }
+        // $data_krs = $this->Data_krs_model->get_all_view();
+
         $data = array(
-          'data_krs_data' => $data_krs,
           'data_mhs_krs' => $data_mhs_krs
         );
         $data['site_title'] = 'SIMALA';

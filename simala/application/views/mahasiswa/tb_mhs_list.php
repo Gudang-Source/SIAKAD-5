@@ -65,6 +65,7 @@
               <option value="nim">NIM</option>
               <option value="kd_prodi">Kode Prodi</option>
               <option value="smt_masuk">Angkatan</option>
+              <option value="nm_status">Status</option>
             </select>
           </div>
           <div class="form-group">

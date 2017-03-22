@@ -27,7 +27,7 @@ class Mahasiswa extends CI_Controller
     public function index($filter='',$nm_filter='')
     {
         if ($filter == '') {
-            $mahasiswa = $this->app_model->get_query("SELECT * FROM tb_mhs ORDER BY smt_masuk DESC LIMIT 0,10")->result();
+            $mahasiswa = $this->app_model->get_query("SELECT * FROM v_mhs_aktif ORDER BY smt_masuk DESC LIMIT 0,10")->result();
             $data['mahasiswa_data'] = $mahasiswa;
             $data['site_title'] = 'SIMALA';
     		$data['title_page'] = 'Olah Data Mahasiswa';
@@ -35,7 +35,7 @@ class Mahasiswa extends CI_Controller
             load_view('mahasiswa/tb_mhs_list', $data);
         }
         else {
-            $mahasiswa = $this->app_model->get_query("SELECT * FROM tb_mhs WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
+            $mahasiswa = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
             $data['mahasiswa_data'] = $mahasiswa;
             $data['site_title'] = 'SIMALA';
     		$data['title_page'] = 'Olah Data Mahasiswa';

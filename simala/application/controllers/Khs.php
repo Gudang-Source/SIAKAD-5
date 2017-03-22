@@ -5,6 +5,8 @@ if (!defined('BASEPATH'))
 
 class Khs extends CI_Controller
 {
+    private $template;
+
     function __construct()
     {
         parent::__construct();
@@ -18,6 +20,8 @@ class Khs extends CI_Controller
           $this->load->model('App_model');
           $this->load->model('Data_krs_model');
           $this->load->model('mhs_krs_model','mhs_krs');
+          $this->load->library('excel');
+          $this->template = './template/krs_khs_template.xlsx';
         }
     }
 
@@ -113,5 +117,59 @@ class Khs extends CI_Controller
       $this->dompdf->load_html($html);
       $this->dompdf->render();
       $this->dompdf->stream("khs".$data_mhs->nim.".pdf",array('Attachment'=>0));
+    }
+
+    public function khsCetak($nim,$ta,$id_krs)
+    {
+        $this->benchmark->mark('mulai');
+        $data_mhs = $this->App_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
+        // echo json_encode($data_mhs);
+        $objPHPExcel = PHPExcel_IOFactory::load($this->template);
+
+        //SET SHEET KRS
+        $objPHPExcel->setActiveSheetIndex(1);
+        $objPHPExcel->getActiveSheet()->setCellValue('D6', $data_mhs->nm_mhs);
+        $objPHPExcel->getActiveSheet()->setCellValue('D7', $data_mhs->nim);
+        $objPHPExcel->getActiveSheet()->setCellValue('D8', $data_mhs->nm_prodi);
+        $objPHPExcel->getActiveSheet()->setCellValue('H7', $data_mhs->smt_masuk);
+
+        $baseRow = 13;
+        $temp_data = $this->App_model->get_query("SELECT * FROM v_nilai WHERE id_krs='".$id_krs."'")->result();
+
+        $temp_row=0;
+        $ttd_row=0;
+        foreach($temp_data as $r => $dataRow) {
+        $row = $baseRow + $r;
+        $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+        $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $r+1)
+                  ->setCellValue('B'.$row, $dataRow->kode_mk)
+                  ->setCellValue('C'.$row, $dataRow->nm_mk)
+                  ->setCellValue('F'.$row, $dataRow->sks)
+                  ->setCellValue('G'.$row, $dataRow->nilai_huruf)
+                  ->setCellValue('H'.$row, $dataRow->nilai_index)
+                  ->setCellValue('I'.$row, $dataRow->nilai_index * $dataRow->sks);
+        $temp_row = 6+$row;
+        }
+
+        $objPHPExcel->getActiveSheet()->setCellValue('G'.$temp_row, date('d F Y'));
+        $objPHPExcel->getActiveSheet()->removeRow($baseRow-1,1);
+
+        $nimd = $string = preg_replace('/\s+/', '', $nim);
+        $filename = $nimd."-".time().'-khs.xlsx';
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $temp_tulis = $objWriter->save('temps/'.$filename);
+        $this->benchmark->mark('selesai');
+        $time_eks = $this->benchmark->elapsed_time('mulai', 'selesai');
+        if ($temp_tulis==NULL) {
+          $this->session->set_flashdata('message', "<div class=\"bs-callout bs-callout-success\">
+              File berhasil digenerate dalam waktu <strong>".$time_eks." detik</strong>. <br />Klik <a href=\"".base_url()."index.php/file/download/".$filename."\">disini</a> untuk download file
+            </div>");
+          redirect(site_url('khs'));
+        } else {
+          $this->session->set_flashdata('message',"<div class=\"bs-callout bs-callout-danger\">
+              <h4>Error</h4>File tidak bisa digenerate. Folder 'temps' tidak ada atau tidak bisa ditulisi.
+            </div>" );
+        }
     }
 }

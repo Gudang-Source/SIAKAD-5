@@ -24,7 +24,7 @@
                 <th>No</th>
                 <th>NIM</th>
                 <th>Nama Mahasiswa</th>
-                <th>Kode Pembayaran</th>
+                <!-- <th>Kode Pembayaran</th> -->
                 <th>Nama Kurikulum</th>
                 <th>Periode</th>
                 <th>BAAK</th>
@@ -41,7 +41,7 @@
                 <td><?php echo ++$start ?></td>
                 <td><?php echo  $key->nim ?></td>
                 <td><?php echo  $key->nama ?></td>
-                <td><?php echo  $key->kode_pembayaran ?></td>
+                <!-- <td><?php echo  $key->kode_pembayaran ?></td> -->
                 <td><?php echo  $key->nm_kurikulum ?></td>
                 <td><?php echo  $key->ta ?></td>
                 <td><?php echo  $key->status_ambil ?></td>
@@ -61,54 +61,35 @@
         ?>
         </tbody>
       </table>
-      <!-- <h3>Pembelian Mata Kuliah Berdasarkan Kartu Rencana Studi</h3>
-      <table class="table table-bordered table-striped" id="mytable">
-          <thead>
-              <tr>
-                  <th width="80px">No</th>
-                  <th>NIM</th>
-                  <th>Nama Mahasiswa</th>
-                  <th>Kode Mata Kuliah</th>
-                  <th>Mata Kuliah</th>
-                  <th>Nama Kelas</th>
-                  <th>Periode</th>
-                  <th>Kode Prodi</th>
-                  <th>Nama Prodi</th>
-                  <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-          <?php
-          $start = 0;
-          foreach ($data_krs_data as $data_krs)
-          {
-              ?>
-              <tr>
-              <td><?php echo ++$start ?></td>
-              <td><?php echo $data_krs->nim ?></td>
-              <td><?php echo $data_krs->nm_mhs ?></td>
-              <td><?php echo $data_krs->id_matkul ?></td>
-              <td><?php echo $data_krs->nm_mk ?></td>
-              <td><?php echo $data_krs->nm_kelas ?></td>
-              <td><?php echo $data_krs->ta ?></td>
-              <td><?php echo $data_krs->nm_prodi ?></td>
-              <td><?php echo $data_krs->id_prodi ?></td>
-              <td style="text-align:center" width="200px">
-                <a href='<?php echo site_url('data_krs/read/'.$data_krs->id_data_krs) ?>'><i class='fa fa-eye'></i></a> |
-                <a href='<?php echo site_url('data_krs/update/'.$data_krs->id_data_krs) ?>'><i class='fa fa-pencil-square-o'></i></a> |
-                <a href='<?php echo site_url('data_krs/delete/'.$data_krs->id_data_krs) ?>' onclick='javasciprt: return confirm("Are You Sure ?")'><i class='fa fa-trash-o'></i></a>
-              </td>
-             </tr>
-              <?php
-          }
-          ?>
-          </tbody>
-      </table> -->
     </div>
     <div class="col-md-2">
-      <?php echo anchor(site_url('data_krs/create'), 'Tambah KRS', 'class="btn btn-primary btn-block"'); ?>
-      <?php echo anchor(site_url('data_krs/excel'), 'Import Excel', 'class="btn btn-primary btn-block"'); ?>
-      <?php echo anchor(site_url('data_krs/word'), 'Import Word', 'class="btn btn-primary btn-block"'); ?>
+      <div class="col-md-12">
+        <form class="for" action="" method="post" id='filter_form' role="form">
+          <div class="form-group">
+            <label for="">Kategori</label>
+            <select class="form-control" name="kat_filter" id="kat_filter">
+              <option value="">--- Pilih Filter ---</option>
+              <option value="nim">NIM</option>
+              <option value="nama">Nama Mahasiswa</option>
+              <option value="ta">Periode</option>
+              <option value="kd_prodi">Kode Prodi</option>
+              <option value="nm_prodi">Nama Prodi</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">Nama Filter</label>
+            <input type="text" name="nm_filter" class="form-control" value="" id="nm_filter">
+          </div>
+        </form>
+        <div class="form-action">
+          <button type="button" name="" id="btn_filter" class="btn btn-warning btn-block">Filter</button>
+        </div>
+      </div>
+      <div class="col-md-12"><br>
+        <?php echo anchor(site_url('data_krs/create'), 'Tambah KRS', 'class="btn btn-primary btn-block"'); ?>
+        <?php echo anchor(site_url('data_krs/excel'), 'Import Excel', 'class="btn btn-primary btn-block"'); ?>
+        <?php echo anchor(site_url('data_krs/word'), 'Import Word', 'class="btn btn-primary btn-block"'); ?>
+      </div>
     </div>
   </div>
 </div>
