@@ -132,12 +132,17 @@
       <div id="message">
           <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
       </div>
+
+      <p>
+        <b>Catatan Mahasiswa Mengulang Mata Kuliah</b><hr>
+        bagi Mahasiswa yang mengulang mata kuliah harap mencentang ulang pada saat belanja mata kuliah
+      </p>
     </div>
     <div class="col-md-8">
       <b>Beli Mata Kuliah Tersisa <?php echo 24 - $total_sks; ?> SKS Lagi</b>
       <?php if ($total_sks>=0 && $total_sks<=24 && $total_sks<=23 && $status_tutup==false && $status_buka==true): ?>
         <form action="<?php echo site_url('krs/add_baru') ?>" method="post">
-          <table class="table table-bordered table-striped">
+          <table class="table table-bordered table-striped" data-page-length='25'>
             <thead>
               <tr>
                 <th>No.</th>
@@ -159,9 +164,9 @@
                     <td><?php echo $value['nm_kelas'] ?></td>
                     <td align="center">
                       <?php if ($value['status_pesan']==true): ?>
-                        <input type='checkbox' name='item[]' value="<?php echo $value['id_kelas'] ?>" checked>
+                        <input type='checkbox' name='item[]' value="<?php echo $value['id_kelas'] ?>" checked readonly="true"> Baru | <input type='checkbox' name='ulang[]' value="<?php echo $value['id_kelas'] ?>"> Ulang
                       <?php else: ?>
-                        <input type='checkbox' name='item[]' value="<?php echo $value['id_kelas'] ?>">
+                        <input type='checkbox' name='item[]' value="<?php echo $value['id_kelas'] ?>"> Baru
                       <?php endif; ?>
 
                     </td>

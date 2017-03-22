@@ -21,9 +21,14 @@ class Nilai extends CI_Controller
         }
     }
 
-    public function index()
+    public function index($filter='',$nm_filter='')
     {
+      if ($filter == '') {
         $nilai = $this->App_model->get_query("SELECT * FROM v_nilai WHERE nim='".$this->session->userdata('nim')."'")->result();
+      }
+      else {
+        $nilai = $this->App_model->get_query("SELECT * FROM v_nilai WHERE ".$filter." LIKE '%".$nm_filter."%' AND nim='".$this->session->userdata('nim')."'")->result();
+      }
 
         $data = array(
             'nilai_data' => $nilai

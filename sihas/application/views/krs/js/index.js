@@ -1,7 +1,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#krstable").dataTable();
-        $(".table").dataTable();
+        // $("#krstable").dataTable();
+        $(".table").dataTable({
+          "lengthMenu": [[25, 50, -1], [25, 50, "All"]]
+        });
         $('#filter_kelas').select2({
           placeholder: "Masukan Kata Kunci Kelas Nama",
           //minimumInputLength: 1,
