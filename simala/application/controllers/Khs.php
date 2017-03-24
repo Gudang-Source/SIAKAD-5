@@ -136,21 +136,68 @@ class Khs extends CI_Controller
         $baseRow = 13;
         $temp_data = $this->App_model->get_query("SELECT * FROM v_nilai WHERE id_krs='".$id_krs."'")->result();
 
+        $n_k=0;
+        $t_nk = 0;
+        $t_sks =0;
+
         $temp_row=0;
-        $ttd_row=0;
+        $temp_row1=0;
+        $temp_row2=0;
+
+
         foreach($temp_data as $r => $dataRow) {
-        $row = $baseRow + $r;
-        $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
-        $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $r+1)
-                  ->setCellValue('B'.$row, $dataRow->kode_mk)
-                  ->setCellValue('C'.$row, $dataRow->nm_mk)
-                  ->setCellValue('F'.$row, $dataRow->sks)
-                  ->setCellValue('G'.$row, $dataRow->nilai_huruf)
-                  ->setCellValue('H'.$row, $dataRow->nilai_index)
-                  ->setCellValue('I'.$row, $dataRow->nilai_index * $dataRow->sks);
-        $temp_row = 6+$row;
+            $row = $baseRow + $r;
+            $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $r+1)
+                      ->setCellValue('B'.$row, $dataRow->kode_mk)
+                      ->setCellValue('C'.$row, $dataRow->nm_mk)
+                      ->setCellValue('F'.$row, $dataRow->sks)
+                      ->setCellValue('G'.$row, $dataRow->nilai_huruf)
+                      ->setCellValue('H'.$row, $dataRow->nilai_index)
+                      ->setCellValue('I'.$row, $dataRow->nilai_index * $dataRow->sks);
+            $temp_row = 6+$row;
+            $temp_row1 = 4+$row;
+            $temp_row2 = 5+$row;
+
+            if ($dataRow->nilai_huruf == 'E' ){
+              $kredit += $dataRow->sks;
+            }
+            else{
+              $kredit += $dataRow->sks;
+              $kredit_lulus += $dataRow->sks;
+            }
+            $n_k = $dataRow->nilai_index * $dataRow->sks;
+            $t_nk = $t_nk+ $n_k;
+            $t_sks = $t_sks+ $dataRow->sks;
         }
 
+        $data_nilai_lengkap = $this->App_model->get_query("SELECT * FROM v_nilai WHERE nim='".$nim."'")->result();
+        //echo json_encode($data_nilai_lengkap)."<br> <br>";
+        $kredit=0;
+        $kredit_lulus=0;
+        $n_k_p=0;
+        $t_nk_p = 0;
+        $t_sks_p =0;
+        foreach ($data_nilai_lengkap as $keyRow) {
+          if ($keyRow->nilai_huruf == 'E' ){
+            $kredit += $keyRow->sks;
+          }
+          else{
+            $kredit += $keyRow->sks;
+            $kredit_lulus += $keyRow->sks;
+          }
+          $n_k_p = $keyRow->nilai_index * $keyRow->sks;
+          $t_nk_p = $t_nk_p+ $n_k_p;
+          $t_sks_p = $t_sks_p+ $keyRow->sks;
+        }
+
+        $ipk_s = $t_nk/$t_sks;
+        $ipk_kumulatif = $t_nk_p/$t_sks_p;
+        $objPHPExcel->getActiveSheet()->setCellValue('J'.$temp_row1, number_format($ipk_s,2));
+        $objPHPExcel->getActiveSheet()->setCellValue('J'.$temp_row2, number_format($ipk_kumulatif,2));
+        $objPHPExcel->getActiveSheet()->setCellValue('I'.$temp_row2, $t_nk_p);
+        $objPHPExcel->getActiveSheet()->setCellValue('F'.$temp_row2, $t_sks_p);
+        $objPHPExcel->getActiveSheet()->setCellValue('J'.$temp_row2, number_format($ipk_kumulatif,2));
         $objPHPExcel->getActiveSheet()->setCellValue('G'.$temp_row, date('d F Y'));
         $objPHPExcel->getActiveSheet()->removeRow($baseRow-1,1);
 
