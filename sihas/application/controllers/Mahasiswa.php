@@ -53,7 +53,7 @@ class Mahasiswa extends CI_Controller
           		'email' => $row->email,
         	);
           $data['site_title'] = 'SIPAD';
-      		$data['title_page'] = 'Olah Data Mahasiswa';
+      		$data['title_page'] = 'Data Profil Anda';
       		$data['assign_js'] = 'mahasiswa/js/index.js';
           load_view('mahasiswa/tb_mhs_read', $data);
         }
@@ -84,7 +84,7 @@ class Mahasiswa extends CI_Controller
           		'email' => $row->email,
         	);
           $data['site_title'] = 'SIPAD';
-      		$data['title_page'] = 'Olah Data Mahasiswa';
+      		$data['title_page'] = 'Selengkapnya Data Mahasiswa';
       		$data['assign_js'] = 'mahasiswa/js/index.js';
           load_view('mahasiswa/tb_mhs_read', $data);
         }

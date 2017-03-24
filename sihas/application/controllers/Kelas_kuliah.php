@@ -33,7 +33,7 @@ class Kelas_kuliah extends CI_Controller
         );
         $data['kurikulum_data'] = $kurikulum_data;
         $data['site_title'] = 'SIPAD';
-        $data['title_page'] = 'Olah Data Kelas Kuliah';
+        $data['title_page'] = 'Data Kelas Kuliah Berdasarkan Kurikulum';
         $data['assign_js'] = 'kelas_kuliah/js/index.js';
         load_view('kelas_kuliah/tb_kelas_kul_list', $data);
     }
@@ -50,7 +50,7 @@ class Kelas_kuliah extends CI_Controller
         		'id_prodi' => $row->id_prodi,
         	 );
            $data['site_title'] = 'SIPAD';
-           $data['title_page'] = 'Olah Data Kelas Kuliah';
+           $data['title_page'] = 'Lihat Data Kelas Kuliah Periode Terdaftar';
            $data['assign_js'] = 'kelas_kuliah/js/index.js';
            load_view('kelas_kuliah/tb_kelas_kul_read', $data);
         } else {

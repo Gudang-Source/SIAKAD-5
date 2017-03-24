@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="col-md-12">
+      <div class="col-md-8">
         <div class="panel panel-primary">
           <div class="panel-heading">
             <div class="row">
@@ -27,6 +27,27 @@
                 <div class="center text-large innerAll"><h2><i class="fa fa-chain-broken text-danger "></i> Perhatian</h2></div>
                 <h3 class="strong innerTB  "></h3>
                 <h3><?php echo "Jadwal Pengambilan KRS <b>".$pengumuman->waktu_buka."</b> Dan Penutupan KRS <b>".$pengumuman->waktu_tutup."</b>"; ?></h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-3">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                    <div class=""><b>Hasil Studi Mahasiswa</b></div>
+                </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="col-md-12">
+              <div class="well text-center">
+
               </div>
             </div>
           </div>

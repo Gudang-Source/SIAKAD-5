@@ -26,7 +26,7 @@ class Dosen extends CI_Controller
             'dosen_data' => $dosen
         );
         $data['site_title'] = 'SIMALA';
-    		$data['title_page'] = 'Olah Data Dosen';
+    		$data['title_page'] = 'Lihat Data Dosen';
     		$data['assign_js'] = 'dosen/js/index.js';
         load_view('dosen/tb_dosen_list', $data);
     }
@@ -40,7 +40,7 @@ class Dosen extends CI_Controller
         		'nm_dosen' => $row->nm_dosen,
         		'program_studi' => $row->program_studi);
             $data['site_title'] = 'SIMALA';
-        		$data['title_page'] = 'Olah Data Dosen';
+        		$data['title_page'] = 'Lihat Data Lengkap Data Dosen';
         		$data['assign_js'] = 'dosen/js/index.js';
             load_view('dosen/tb_dosen_read', $data);
         } else {

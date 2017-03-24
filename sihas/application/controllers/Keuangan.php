@@ -27,7 +27,7 @@ class Keuangan extends CI_Controller
         'data_mhs_keu' => $data_mhs_krs
       );
       $data['site_title'] = 'SIHAS';
-      $data['title_page'] = 'Pembayaran';
+      $data['title_page'] = 'Pembayaran Semester';
       $data['assign_js'] = 'keuangan/js/index.js';
       load_view('keuangan/list_keuangan', $data);
     }
@@ -38,7 +38,7 @@ class Keuangan extends CI_Controller
         'data_mhs_keu' => $data_mhs_krs
       );
       $data['site_title'] = 'SIHAS';
-      $data['title_page'] = 'Pembayaran';
+      $data['title_page'] = 'Pembayaran Lainnya';
       $data['assign_js'] = 'keuangan/js/index.js';
       load_view('keuangan/list_keuangan_lain', $data);
     }

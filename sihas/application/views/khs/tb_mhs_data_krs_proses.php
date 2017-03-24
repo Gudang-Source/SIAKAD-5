@@ -80,7 +80,7 @@
           <div class="col-md-2">
             <div class="col-md-12">
               <b>Cetak KHS Periode Ini</b><hr>
-              <a href="<?php echo site_url('khs/transkrip_nilai') ?>" class="btn btn-primary btn-block" target="_blank">Cetak</a>
+              <a href="<?php echo site_url('khs/khsCetak/'.$nim.'/'.$ta.'/'.$id_krs.'/proses') ?>" class="btn btn-primary btn-block">Cetak</a>
             </div>
           </div>
           <?php

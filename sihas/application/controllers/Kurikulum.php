@@ -31,7 +31,7 @@ class Kurikulum extends CI_Controller
         );
         $data['mata_kuliah_kurikulum_data'] = $mata_kuliah_kurikulum;
         $data['site_title'] = 'SIPAD';
-        $data['title_page'] = 'Olah Data Kurikulum';
+        $data['title_page'] = 'Lihat Data Kurikulum/Periode';
         $data['assign_js'] = 'kurikulum/js/index.js';
         load_view('kurikulum/tb_kurikulum_list', $data);
     }
@@ -48,7 +48,7 @@ class Kurikulum extends CI_Controller
         		'status' => $row->status,
         	  );
             $data['site_title'] = 'SIPAD';
-            $data['title_page'] = 'Olah Data Kurikulum';
+            $data['title_page'] = 'Lihat Lengkap Data Kurikulum';
             $data['assign_js'] = 'kurikulum/js/index.js';
             load_view('kurikulum/tb_kurikulum_read', $data);
         } else {

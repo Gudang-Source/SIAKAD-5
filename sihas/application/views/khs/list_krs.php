@@ -49,7 +49,8 @@
                 <?php endif; ?>
                 <td><?php echo  $key->status_ambil ?></td>
                 <td style="text-align:center" width="200px">
-                  <a href="<?php echo site_url('khs/proses_khs/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>"><i class='fa fa-gears'> </i></a>
+                  <a href="<?php echo site_url('khs/proses_khs/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>"><i class='fa fa-gears'> </i> Proses</a> |
+                  <a href="<?php echo site_url('khs/khsCetak/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs."/list") ?>"><i class='fa fa-gears'></i> Cetak</a>
                 </td>
               </tr>
             <?php

@@ -34,7 +34,7 @@ class Nilai extends CI_Controller
             'nilai_data' => $nilai
         );
         $data['site_title'] = 'SIMALA';
-        $data['title_page'] = 'Olah Data Nilai';
+        $data['title_page'] = 'Data Nilai Anda';
         $data['assign_js'] = 'nilai/js/index.js';
         load_view('nilai/tb_nilai_list', $data);
     }

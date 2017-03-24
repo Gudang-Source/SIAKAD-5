@@ -30,7 +30,7 @@ class Krs extends CI_Controller
         'data_mhs_krs' => $data_mhs_krs
       );
       $data['site_title'] = 'SIMALA';
-      $data['title_page'] = 'Olah Kartu Rencana Studi Mahasiswa';
+      $data['title_page'] = 'Kartu Rencana Studi Anda';
       $data['assign_js'] = 'krs/js/index.js';
       load_view('krs/list_krs', $data);
     }
