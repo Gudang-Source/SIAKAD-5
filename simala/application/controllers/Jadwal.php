@@ -25,7 +25,7 @@ class Jadwal extends CI_Controller
     public function index()
     {
         $jadwal = $this->App_model->get_query("SELECT * FROM v_jadwal")->result();
-        $kurikulum_data = $this->kurikulum->get_all();
+        $kurikulum_data = $this->App_model->get_query("SELECT * FROM tb_kurikulum ORDER BY status ASC,ta DESC")->result();
 
         $data = array(
             'jadwal_data' => $jadwal

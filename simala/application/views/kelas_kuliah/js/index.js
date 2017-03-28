@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#mytable").dataTable();
+        $(".table").dataTable();
         $("#kurTable").dataTable();
         $('#id_kurikulum').select2({
           placeholder: "Masukan Kata Kunci Kurikulum Nama | Periode| Kode Prodi",

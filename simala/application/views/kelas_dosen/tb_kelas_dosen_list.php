@@ -60,13 +60,9 @@
                   <th>NIDN</th>
                   <th>Nama Dosen</th>
                   <th>Kode Mata Kuliah</th>
-                  <!-- <th>Nama Mata Kuliah</th>
-                  <th>Nama Kelas</th>
-                  <th>Rencana Tatap Muka</th> -->
-                  <!-- <th>Tatap Muka</th> -->
                   <th>Periode</th>
-                  <!-- <th>Kode Prodi</th> -->
                   <th>Nama Prodi</th>
+                  <th>Mata Kuliah</th>
                   <th>Action</th>
                 </tr>
             </thead>
@@ -81,13 +77,9 @@
                   <td><?php echo $kelas_dosen->nidn ?></td>
                   <td><?php echo $kelas_dosen->nm_dosen ?></td>
                   <td><?php echo $kelas_dosen->kode_mk ?></td>
-                  <!-- <td><?php echo $kelas_dosen->nm_mk ?></td> -->
-                  <!-- <td><?php echo $kelas_dosen->nm_kelas ?></td>
-                  <td><?php echo $kelas_dosen->r_t_muka ?></td>
-                  <td><?php echo $kelas_dosen->t_muka ?></td> -->
                   <td><?php echo $kelas_dosen->ta ?></td>
-                  <!-- <td><?php echo $kelas_dosen->id_prodi ?></td> -->
                   <td><?php echo $kelas_dosen->nm_prodi ?></td>
+                  <td><?php echo $kelas_dosen->matkul_ampu ?></td>
                   <td style="text-align:center" width="80px">
                       <a href='<?php echo site_url('kelas_dosen/read/'.$kelas_dosen->id_kelas_dosen) ?>'><i class='fa fa-eye'></i></a>
                       <!-- |

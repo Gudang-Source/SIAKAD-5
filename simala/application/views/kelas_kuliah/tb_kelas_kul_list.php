@@ -15,8 +15,39 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
-      <div class="col-md-10">
+    <div class="col-md-4">
+      <div class="col-md-12">
+        <h3>Menu</h3><hr>
+        <?php echo anchor(site_url('kelas_kuliah/create'), 'Masukan Kelas', 'class="btn btn-primary btn-block"'); ?>
+        <?php echo anchor(site_url('kelas_kuliah/excel'), 'Import Excel', 'class="btn btn-primary btn-block"'); ?>
+        <?php echo anchor(site_url('kelas_kuliah/word'), 'Import Word', 'class="btn btn-primary btn-block"'); ?>
+        <?php echo anchor(site_url('kelas_kuliah/kelas_all'), 'Semua Kelas', 'class="btn btn-primary btn-block"'); ?>
+        <hr>
+      </div>
+      <div class="col-md-12">
+        <h3>Jumlah Kelas Per Periode</h3><hr>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Periode</th>
+              <th>Program Studi</th>
+              <th>Jumlah Kelas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($kelas_kuliah_data as $key): ?>
+              <tr>
+                <td><?php echo $key->ta ?></td>
+                <td><?php echo $key->nm_prodi ?></td>
+                <td><?php echo $key->jml_kls ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="col-md-12">
         <h3>Kelas Kuliah Per Kurikulum</h3><hr>
         <table class="table table-bordered table-striped" id="kurTable">
             <thead>
@@ -50,47 +81,6 @@
             ?>
             </tbody>
         </table>
-      </div>
-      <h3>Menu</h3><hr>
-      <div class="col-md-2">
-        <?php echo anchor(site_url('kelas_kuliah/create'), 'Masukan Kelas', 'class="btn btn-primary btn-block"'); ?>
-        <?php echo anchor(site_url('kelas_kuliah/excel'), 'Import Excel', 'class="btn btn-primary btn-block"'); ?>
-        <?php echo anchor(site_url('kelas_kuliah/word'), 'Import Word', 'class="btn btn-primary btn-block"'); ?>
-        <?php echo anchor(site_url('kelas_kuliah/kelas_all'), 'Semua Kelas', 'class="btn btn-primary btn-block"'); ?>
-        <!-- <table class="table table-bordered table-striped" id="mytable">
-            <thead>
-                <tr>
-                  <th>Kelas</th>
-                  <th>Prodi</th>
-                  <th>Kode MK</th>
-                  <th>Nama Mata Kuliah</th>
-                  <th>TA</th>
-                  <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php
-            $start = 0;
-            foreach ($kelas_kuliah_data as $kelas_kuliah)
-            {
-                ?>
-                <tr>
-                  <td><?php echo $kelas_kuliah->nm_kelas ?></td>
-                  <td><?php echo $kelas_kuliah->id_prodi ?></td>
-                  <td><?php echo $kelas_kuliah->kode_mk ?></td>
-                  <td><?php echo $kelas_kuliah->nm_mk ?></td>
-                  <td><?php echo $kelas_kuliah->ta ?></td>
-                  <td style="text-align:center">
-                    <a href='<?php echo site_url('kelas_kuliah/read/'.$kelas_kuliah->id_kelas) ?>'><i class='fa fa-eye'></i></a> |
-                    <a href='<?php echo site_url('kelas_kuliah/update/'.$kelas_kuliah->id_kelas) ?>'><i class='fa fa-pencil-square-o'></i></a> |
-                    <a href='<?php echo site_url('kelas_kuliah/delete/'.$kelas_kuliah->id_kelas) ?>' onclick='javasciprt: return confirm("Are You Sure ?")'><i class='fa fa-trash-o'></i></a>
-                  </td>
-                </tr>
-              <?php
-            }
-            ?>
-            </tbody>
-        </table> -->
       </div>
     </div>
   </div>

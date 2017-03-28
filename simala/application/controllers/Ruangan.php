@@ -11,7 +11,7 @@ class Ruangan extends CI_Controller
         if (!$this->session->userdata('login')) {
     			redirect('auth');
     		}
-    		else if($this->session->userdata('level') != 'prodi'){
+    		else if($this->session->userdata('level') != 'baak'){
     				redirect('auth/logout');
     		}
     		else {

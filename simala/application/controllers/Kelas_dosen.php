@@ -26,8 +26,8 @@ class Kelas_dosen extends CI_Controller
 
     public function index()
     {
-        $kelas_dosen = $this->Kelas_dosen_model->get_all_view();
-        $kurikulum_data = $this->kurikulum->get_all();
+        $kelas_dosen = $this->App_model->get_query("SELECT *,COUNT(*) AS matkul_ampu FROM v_kelas_dosen m1 GROUP BY m1.nm_dosen,ta ORDER BY ta LIMIT 0,50")->result();
+        $kurikulum_data = $this->App_model->get_query("SELECT * FROM tb_kurikulum ORDER BY status ASC,ta DESC")->result();
         $data = array(
             'kelas_dosen_data' => $kelas_dosen
         );

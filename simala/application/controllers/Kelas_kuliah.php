@@ -26,8 +26,8 @@ class Kelas_kuliah extends CI_Controller
 
     public function index()
     {
-        $kelas_kuliah = $this->Kelas_kuliah_model->get_all_view();
-        $kurikulum_data = $this->kurikulum->get_all();
+        $kelas_kuliah = $this->app_model->get_query("SELECT *,count(*) as jml_kls FROM v_count_kelas m1 GROUP BY m1.id_kurikulum")->result();
+        $kurikulum_data = $this->app_model->get_query("SELECT * FROM tb_kurikulum ORDER BY status ASC,ta DESC")->result();
         $data = array(
             'kelas_kuliah_data' => $kelas_kuliah
         );

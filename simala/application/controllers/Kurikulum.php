@@ -24,7 +24,7 @@ class Kurikulum extends CI_Controller
 
     public function index()
     {
-        $kurikulum = $this->Kurikulum_model->get_all();
+        $kurikulum =  $this->app_model->get_query("SELECT * FROM tb_kurikulum ORDER BY status ASC,ta DESC")->result();
         $mata_kuliah_kurikulum = $this->app_model->get_all_view_mk_kur();
         $data = array(
             'kurikulum_data' => $kurikulum
