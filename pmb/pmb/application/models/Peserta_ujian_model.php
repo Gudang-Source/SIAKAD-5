@@ -33,7 +33,7 @@ class Peserta_ujian_model extends CI_Model
     function total_rows($q = NULL) {
         $this->db->like('id_ujian', $q);
 	$this->db->or_like('kode_ujian', $q);
-	$this->db->or_like('kode_pendaftar', $q);
+	$this->db->or_like('kode_cmhs', $q);
 	$this->db->or_like('kode_ruangan', $q);
 	$this->db->or_like('n_wawancara', $q);
 	$this->db->or_like('n_psikotes', $q);
@@ -49,7 +49,7 @@ class Peserta_ujian_model extends CI_Model
         $this->db->order_by($this->id, $this->order);
         $this->db->like('id_ujian', $q);
 	$this->db->or_like('kode_ujian', $q);
-	$this->db->or_like('kode_pendaftar', $q);
+	$this->db->or_like('kode_cmhs', $q);
 	$this->db->or_like('kode_ruangan', $q);
 	$this->db->or_like('n_wawancara', $q);
 	$this->db->or_like('n_psikotes', $q);

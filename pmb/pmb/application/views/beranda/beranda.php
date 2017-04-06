@@ -27,8 +27,8 @@
           <svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
         </div>
         <div class="col-sm-9 col-lg-7 widget-right">
-          <div class="large">Kredit</div>
-          <div class="text-muted">Pembayaran</div>
+          <div class="large">Data Diri</div>
+          <div class="text-muted">Biodata Anda</div>
         </div>
       </a>
     </div>

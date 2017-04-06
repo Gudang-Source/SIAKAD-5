@@ -15,7 +15,7 @@
       <tr>
           <th>No</th>
 		<th>Kode Ujian</th>
-		<th>Kode Pendaftar</th>
+		<th>Kode Cmhs</th>
 		<th>Kode Ruangan</th>
 		<th>N Wawancara</th>
 		<th>N Psikotes</th>
@@ -30,7 +30,7 @@
             <tr>
 			<td width="80px"><?php echo ++$start ?></td>
 			<td><?php echo $peserta_ujian->kode_ujian ?></td>
-			<td><?php echo $peserta_ujian->kode_pendaftar ?></td>
+			<td><?php echo $peserta_ujian->kode_cmhs ?></td>
 			<td><?php echo $peserta_ujian->kode_ruangan ?></td>
 			<td><?php echo $peserta_ujian->n_wawancara ?></td>
 			<td><?php echo $peserta_ujian->n_psikotes ?></td>

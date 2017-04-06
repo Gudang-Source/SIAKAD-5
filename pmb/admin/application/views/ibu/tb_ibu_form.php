@@ -11,10 +11,31 @@
             <label class="form-label" for="varchar">Kode Ibu <?php echo form_error('kode_ibu') ?></label>
             <input type="text" class="form-control" name="kode_ibu" id="kode_ibu" placeholder="Kode Ibu" value="<?php echo $kode_ibu; ?>" />
         </div>
+<?php
+                if($uri == 'create'){
+                  ?>
+	<div class="form-group">
+                          <label class="form-label" for="kode_cmhs">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
+                          <select class="form-control" rows="3" name="kode_cmhs" id="kode_cmhs" value="<?php echo $kode_cmhs ?>"><?php echo $kode_cmhs; ?>
+                            <option value=""> Mohon Pilih Salah Satu</option>
+                            <?php
+                            foreach($tb_cmhs as $key){
+                              ?>
+                              <option value="<?php echo $key->kode_cmhs ?>"><?php echo $key->kode_cmhs ?></option>
+                              <?php
+                            }
+                            ?>
+                          </select>
+                      </div>  <?php
+                }
+                else{
+                  ?>
 	    <div class="form-group">
-            <label class="form-label" for="varchar">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
-            <input type="text" class="form-control" name="kode_cmhs" id="kode_cmhs" placeholder="Kode Cmhs" value="<?php echo $kode_cmhs; ?>" />
-        </div>
+                          <label class="form-label" for="varchar">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
+                          <input type="text" class="form-control" name="kode_cmhs" id="kode_cmhs" placeholder="Kode Cmhs" value="<?php echo $kode_cmhs; ?>" />
+                      </div>  <?php
+                }
+                ?>
 	    <div class="form-group">
             <label class="form-label" for="varchar">Nm Ibu <?php echo form_error('nm_ibu') ?></label>
             <input type="text" class="form-control" name="nm_ibu" id="nm_ibu" placeholder="Nm Ibu" value="<?php echo $nm_ibu; ?>" />

@@ -82,6 +82,9 @@ class Ibu extends CI_Controller
 	    'kode_pekerjaan' => set_value('kode_pekerjaan'),
 	    'kode_penghasilan' => set_value('kode_penghasilan'),
 	);
+   $tb_cmhs=$this->App_model->get_query("SELECT * FROM tb_cmhs ")->result();
+                
+   $data['tb_cmhs']=$tb_cmhs;
    $tb_pekerjaan=$this->App_model->get_query("SELECT * FROM tb_pekerjaan ")->result();
                 
    $data['tb_pekerjaan']=$tb_pekerjaan;
@@ -185,53 +188,6 @@ class Ibu extends CI_Controller
 
 	$this->form_validation->set_rules('id_ibu', 'id_ibu', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-    }
-
-    public function excel()
-    {
-        $this->load->helper('exportexcel');
-        $namaFile = "tb_ibu.xls";
-        $judul = "tb_ibu";
-        $tablehead = 0;
-        $tablebody = 1;
-        $nourut = 1;
-        //penulisan header
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
-        header("Content-Type: application/force-download");
-        header("Content-Type: application/octet-stream");
-        header("Content-Type: application/download");
-        header("Content-Disposition: attachment;filename=" . $namaFile . "");
-        header("Content-Transfer-Encoding: binary ");
-
-        xlsBOF();
-
-        $kolomhead = 0;
-        xlsWriteLabel($tablehead, $kolomhead++, "No");
-	xlsWriteLabel($tablehead, $kolomhead++, "Kode Ibu");
-	xlsWriteLabel($tablehead, $kolomhead++, "Kode Cmhs");
-	xlsWriteLabel($tablehead, $kolomhead++, "Nm Ibu");
-	xlsWriteLabel($tablehead, $kolomhead++, "Kode Pekerjaan");
-	xlsWriteLabel($tablehead, $kolomhead++, "Kode Penghasilan");
-
-	foreach ($this->Ibu_model->get_all() as $data) {
-            $kolombody = 0;
-
-            //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
-            xlsWriteNumber($tablebody, $kolombody++, $nourut);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_ibu);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_cmhs);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->nm_ibu);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_pekerjaan);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_penghasilan);
-
-	    $tablebody++;
-            $nourut++;
-        }
-
-        xlsEOF();
-        exit();
     }
 
 }

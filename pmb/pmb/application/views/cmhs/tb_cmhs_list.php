@@ -15,7 +15,7 @@
       <tr>
           <th>No</th>
 		<th>Kode Cmhs</th>
-		<th>Kode Pendaftar</th>
+		<th>Kode Formulir</th>
 		<th>No Ktp</th>
 		<th>Kode Agama</th>
 		<th>Tpt Lhr</th>
@@ -35,7 +35,7 @@
             <tr>
 			<td width="80px"><?php echo ++$start ?></td>
 			<td><?php echo $cmhs->kode_cmhs ?></td>
-			<td><?php echo $cmhs->kode_pendaftar ?></td>
+			<td><?php echo $cmhs->kode_formulir ?></td>
 			<td><?php echo $cmhs->no_ktp ?></td>
 			<td><?php echo $cmhs->kode_agama ?></td>
 			<td><?php echo $cmhs->tpt_lhr ?></td>

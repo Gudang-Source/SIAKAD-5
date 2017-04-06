@@ -15,13 +15,13 @@
                 if($uri == 'create'){
                   ?>
 	<div class="form-group">
-                          <label class="form-label" for="kode_pendaftar">Kode Pendaftar <?php echo form_error('kode_pendaftar') ?></label>
-                          <select class="form-control" rows="3" name="kode_pendaftar" id="kode_pendaftar" value="<?php echo $kode_pendaftar ?>"><?php echo $kode_pendaftar; ?>
+                          <label class="form-label" for="kode_cmhs">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
+                          <select class="form-control" rows="3" name="kode_cmhs" id="kode_cmhs" value="<?php echo $kode_cmhs ?>"><?php echo $kode_cmhs; ?>
                             <option value=""> Mohon Pilih Salah Satu</option>
                             <?php
                             foreach($tb_cmhs as $key){
                               ?>
-                              <option value="<?php echo $key->kode_pendaftar ?>"><?php echo $key->kode_pendaftar ?></option>
+                              <option value="<?php echo $key->kode_cmhs ?>"><?php echo $key->kode_cmhs ?></option>
                               <?php
                             }
                             ?>
@@ -31,8 +31,8 @@
                 else{
                   ?>
 	    <div class="form-group">
-                          <label class="form-label" for="varchar">Kode Pendaftar <?php echo form_error('kode_pendaftar') ?></label>
-                          <input type="text" class="form-control" name="kode_pendaftar" id="kode_pendaftar" placeholder="Kode Pendaftar" value="<?php echo $kode_pendaftar; ?>" />
+                          <label class="form-label" for="varchar">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
+                          <input type="text" class="form-control" name="kode_cmhs" id="kode_cmhs" placeholder="Kode Cmhs" value="<?php echo $kode_cmhs; ?>" />
                       </div>  <?php
                 }
                 ?>

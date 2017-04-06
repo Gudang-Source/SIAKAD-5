@@ -11,10 +11,31 @@
             <label class="form-label" for="varchar">Kode Daftar Ulang <?php echo form_error('kode_daftar_ulang') ?></label>
             <input type="text" class="form-control" name="kode_daftar_ulang" id="kode_daftar_ulang" placeholder="Kode Daftar Ulang" value="<?php echo $kode_daftar_ulang; ?>" />
         </div>
+<?php
+                if($uri == 'create'){
+                  ?>
+	<div class="form-group">
+                          <label class="form-label" for="kode_ujian">Kode Ujian <?php echo form_error('kode_ujian') ?></label>
+                          <select class="form-control" rows="3" name="kode_ujian" id="kode_ujian" value="<?php echo $kode_ujian ?>"><?php echo $kode_ujian; ?>
+                            <option value=""> Mohon Pilih Salah Satu</option>
+                            <?php
+                            foreach($tb_peserta_ujian as $key){
+                              ?>
+                              <option value="<?php echo $key->kode_ujian ?>"><?php echo $key->kode_ujian ?></option>
+                              <?php
+                            }
+                            ?>
+                          </select>
+                      </div>  <?php
+                }
+                else{
+                  ?>
 	    <div class="form-group">
-            <label class="form-label" for="varchar">Kode Ujian <?php echo form_error('kode_ujian') ?></label>
-            <input type="text" class="form-control" name="kode_ujian" id="kode_ujian" placeholder="Kode Ujian" value="<?php echo $kode_ujian; ?>" />
-        </div>
+                          <label class="form-label" for="varchar">Kode Ujian <?php echo form_error('kode_ujian') ?></label>
+                          <input type="text" class="form-control" name="kode_ujian" id="kode_ujian" placeholder="Kode Ujian" value="<?php echo $kode_ujian; ?>" />
+                      </div>  <?php
+                }
+                ?>
 	    <div class="form-group">
             <label class="form-label" for="int">C Nim <?php echo form_error('c_nim') ?></label>
             <input type="text" class="form-control" name="c_nim" id="c_nim" placeholder="C Nim" value="<?php echo $c_nim; ?>" />

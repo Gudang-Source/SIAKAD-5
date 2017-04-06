@@ -11,10 +11,31 @@
             <label class="form-label" for="varchar">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
             <input type="text" class="form-control" name="kode_cmhs" id="kode_cmhs" placeholder="Kode Cmhs" value="<?php echo $kode_cmhs; ?>" />
         </div>
+<?php
+                if($uri == 'create'){
+                  ?>
+	<div class="form-group">
+                          <label class="form-label" for="kode_formulir">Kode Formulir <?php echo form_error('kode_formulir') ?></label>
+                          <select class="form-control" rows="3" name="kode_formulir" id="kode_formulir" value="<?php echo $kode_formulir ?>"><?php echo $kode_formulir; ?>
+                            <option value=""> Mohon Pilih Salah Satu</option>
+                            <?php
+                            foreach($tb_formulir as $key){
+                              ?>
+                              <option value="<?php echo $key->kode_formulir ?>"><?php echo $key->kode_formulir ?></option>
+                              <?php
+                            }
+                            ?>
+                          </select>
+                      </div>  <?php
+                }
+                else{
+                  ?>
 	    <div class="form-group">
-            <label class="form-label" for="varchar">Kode Pendaftar <?php echo form_error('kode_pendaftar') ?></label>
-            <input type="text" class="form-control" name="kode_pendaftar" id="kode_pendaftar" placeholder="Kode Pendaftar" value="<?php echo $kode_pendaftar; ?>" />
-        </div>
+                          <label class="form-label" for="varchar">Kode Formulir <?php echo form_error('kode_formulir') ?></label>
+                          <input type="text" class="form-control" name="kode_formulir" id="kode_formulir" placeholder="Kode Formulir" value="<?php echo $kode_formulir; ?>" />
+                      </div>  <?php
+                }
+                ?>
 	    <div class="form-group">
             <label class="form-label" for="varchar">No Ktp <?php echo form_error('no_ktp') ?></label>
             <input type="text" class="form-control" name="no_ktp" id="no_ktp" placeholder="No Ktp" value="<?php echo $no_ktp; ?>" />

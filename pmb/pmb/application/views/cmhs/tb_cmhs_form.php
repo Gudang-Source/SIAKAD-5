@@ -7,18 +7,18 @@
   <div class="col-md-8">
 
   <form action="<?php echo $action; ?>" method="post" class="form-horizontal">
-	    <div class="form-group">
-            <label class="form-label" for="varchar">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
-            <input type="text" class="form-control" name="kode_cmhs" id="kode_cmhs" placeholder="Kode Cmhs" value="<?php echo $kode_cmhs; ?>" />
-        </div>
-	    <div class="form-group">
-            <label class="form-label" for="varchar">Kode Pendaftar <?php echo form_error('kode_pendaftar') ?></label>
-            <input type="text" class="form-control" name="kode_pendaftar" id="kode_pendaftar" placeholder="Kode Pendaftar" value="<?php echo $kode_pendaftar; ?>" />
-        </div>
-	    <div class="form-group">
-            <label class="form-label" for="varchar">No Ktp <?php echo form_error('no_ktp') ?></label>
-            <input type="text" class="form-control" name="no_ktp" id="no_ktp" placeholder="No Ktp" value="<?php echo $no_ktp; ?>" />
-        </div>
+    <div class="form-group">
+      <label class="form-label" for="varchar">Registrasi Peserta <?php echo form_error('kode_cmhs') ?></label>
+      <input type="text" class="form-control" name="kode_cmhs" id="kode_cmhs" placeholder="Kode Cmhs" value="<?php echo $kode_cmhs; ?>" readonly/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="varchar">Kode Formulir <?php echo form_error('kode_formulir') ?></label>
+      <input type="text" class="form-control" name="kode_formulir" id="kode_formulir" placeholder="Kode Formulir" value="<?php echo $kode_formulir; ?> " readonly/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="varchar">No Ktp <?php echo form_error('no_ktp') ?></label>
+      <input type="text" class="form-control" name="no_ktp" id="no_ktp" placeholder="No Ktp" value="<?php echo $no_ktp; ?>"/>
+    </div>
 <?php
                 if($uri == 'create'){
                   ?>
@@ -29,7 +29,7 @@
                             <?php
                             foreach($tb_agama as $key){
                               ?>
-                              <option value="<?php echo $key->kode_agama ?>"><?php echo $key->kode_agama ?></option>
+                              <option value="<?php echo $key->kode_agama ?>"><?php echo $key->nm_agama ?></option>
                               <?php
                             }
                             ?>
@@ -50,14 +50,15 @@
         </div>
 	    <div class="form-group">
             <label class="form-label" for="date">Tgl Lhr <?php echo form_error('tgl_lhr') ?></label>
-            <input type="text" class="form-control" name="tgl_lhr" id="tgl_lhr" placeholder="Tgl Lhr" value="<?php echo $tgl_lhr; ?>" />
+            <input type="text" class="form-control datepicker" name="tgl_lhr" id="tgl_lhr" placeholder="Tgl Lhr" value="<?php echo $tgl_lhr; ?>" />
         </div>
 	<div class="form-group">
               <label class="form-label" for="jenkel">Jenkel <?php echo form_error('jenkel') ?></label>
               <select class="form-control" rows="3" name="jenkel" id="jenkel"><?php echo $jenkel; ?>
                 <option value=""> Mohon Pilih Salah Satu</option> <!-- tolong edit -->
-                <option value="Y">Ya</option>
-                <option value="N">No</option>
+                <option value="L">Laki-Laki</option>
+                <option value="P">Perempuan</option>
+                <option value="N">Unknown</option>
                 </select>
           </div>
 	<div class="form-group">
@@ -101,16 +102,8 @@
             <label class="form-label" for="varchar">File Foto <?php echo form_error('file_foto') ?></label>
             <input type="text" class="form-control" name="file_foto" id="file_foto" placeholder="File Foto" value="<?php echo $file_foto; ?>" />
         </div>
-	<div class="form-group">
-              <label class="form-label" for="status_ujian">Status Ujian <?php echo form_error('status_ujian') ?></label>
-              <select class="form-control" rows="3" name="status_ujian" id="status_ujian"><?php echo $status_ujian; ?>
-                <option value=""> Mohon Pilih Salah Satu</option> <!-- tolong edit -->
-                <option value="Y">Ya</option>
-                <option value="N">No</option>
-                </select>
-          </div>
-	    <div class="form-actions"><input type="hidden" name="id_mhs" value="<?php echo $id_mhs; ?>" /> 
-	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
+	    <div class="form-actions"><input type="hidden" name="id_mhs" value="<?php echo $id_mhs; ?>" />
+	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button>
 	    <a href="<?php echo site_url('cmhs') ?>" class="btn btn-default">Cancel</a>
 	</div>
 </form>

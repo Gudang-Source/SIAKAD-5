@@ -54,7 +54,7 @@ class Peserta_ujian extends CI_Controller
             $data = array(
 		'id_ujian' => $row->id_ujian,
 		'kode_ujian' => $row->kode_ujian,
-		'kode_pendaftar' => $row->kode_pendaftar,
+		'kode_cmhs' => $row->kode_cmhs,
 		'kode_ruangan' => $row->kode_ruangan,
 		'n_wawancara' => $row->n_wawancara,
 		'n_psikotes' => $row->n_psikotes,
@@ -80,7 +80,7 @@ class Peserta_ujian extends CI_Controller
             'action' => site_url('peserta_ujian/create_action'),
 	    'id_ujian' => set_value('id_ujian'),
 	    'kode_ujian' => set_value('kode_ujian'),
-	    'kode_pendaftar' => set_value('kode_pendaftar'),
+	    'kode_cmhs' => set_value('kode_cmhs'),
 	    'kode_ruangan' => set_value('kode_ruangan'),
 	    'n_wawancara' => set_value('n_wawancara'),
 	    'n_psikotes' => set_value('n_psikotes'),
@@ -109,7 +109,7 @@ class Peserta_ujian extends CI_Controller
         } else {
             $data = array(
 		'kode_ujian' => $this->input->post('kode_ujian',TRUE),
-		'kode_pendaftar' => $this->input->post('kode_pendaftar',TRUE),
+		'kode_cmhs' => $this->input->post('kode_cmhs',TRUE),
 		'kode_ruangan' => $this->input->post('kode_ruangan',TRUE),
 		'n_wawancara' => $this->input->post('n_wawancara',TRUE),
 		'n_psikotes' => $this->input->post('n_psikotes',TRUE),
@@ -134,7 +134,7 @@ class Peserta_ujian extends CI_Controller
                 'action' => site_url('peserta_ujian/update_action'),
 		'id_ujian' => set_value('id_ujian', $row->id_ujian),
 		'kode_ujian' => set_value('kode_ujian', $row->kode_ujian),
-		'kode_pendaftar' => set_value('kode_pendaftar', $row->kode_pendaftar),
+		'kode_cmhs' => set_value('kode_cmhs', $row->kode_cmhs),
 		'kode_ruangan' => set_value('kode_ruangan', $row->kode_ruangan),
 		'n_wawancara' => set_value('n_wawancara', $row->n_wawancara),
 		'n_psikotes' => set_value('n_psikotes', $row->n_psikotes),
@@ -161,7 +161,7 @@ class Peserta_ujian extends CI_Controller
         } else {
             $data = array(
 		'kode_ujian' => $this->input->post('kode_ujian',TRUE),
-		'kode_pendaftar' => $this->input->post('kode_pendaftar',TRUE),
+		'kode_cmhs' => $this->input->post('kode_cmhs',TRUE),
 		'kode_ruangan' => $this->input->post('kode_ruangan',TRUE),
 		'n_wawancara' => $this->input->post('n_wawancara',TRUE),
 		'n_psikotes' => $this->input->post('n_psikotes',TRUE),
@@ -193,7 +193,7 @@ class Peserta_ujian extends CI_Controller
     public function _rules()
     {
 	$this->form_validation->set_rules('kode_ujian', 'kode ujian', 'trim|required');
-	$this->form_validation->set_rules('kode_pendaftar', 'kode pendaftar', 'trim|required');
+	$this->form_validation->set_rules('kode_cmhs', 'kode cmhs', 'trim|required');
 	$this->form_validation->set_rules('kode_ruangan', 'kode ruangan', 'trim|required');
 	$this->form_validation->set_rules('n_wawancara', 'n wawancara', 'trim|required');
 	$this->form_validation->set_rules('n_psikotes', 'n psikotes', 'trim|required');
@@ -228,7 +228,7 @@ class Peserta_ujian extends CI_Controller
         $kolomhead = 0;
         xlsWriteLabel($tablehead, $kolomhead++, "No");
 	xlsWriteLabel($tablehead, $kolomhead++, "Kode Ujian");
-	xlsWriteLabel($tablehead, $kolomhead++, "Kode Pendaftar");
+	xlsWriteLabel($tablehead, $kolomhead++, "Kode Cmhs");
 	xlsWriteLabel($tablehead, $kolomhead++, "Kode Ruangan");
 	xlsWriteLabel($tablehead, $kolomhead++, "N Wawancara");
 	xlsWriteLabel($tablehead, $kolomhead++, "N Psikotes");
@@ -242,7 +242,7 @@ class Peserta_ujian extends CI_Controller
             //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
             xlsWriteNumber($tablebody, $kolombody++, $nourut);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_ujian);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_pendaftar);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_cmhs);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_ruangan);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->n_wawancara);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->n_psikotes);

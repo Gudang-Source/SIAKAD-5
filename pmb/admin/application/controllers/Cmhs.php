@@ -41,10 +41,11 @@ class Cmhs extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-        $data['site_title'] = 'Cmhs';
-        $data['title'] = 'Cmhs';
-        $data['assign_js'] = '';
-        load_view('cmhs/tb_cmhs_list', $data);
+        echo json_encode($data);
+        // $data['site_title'] = 'Cmhs';
+        // $data['title'] = 'Cmhs';
+        // $data['assign_js'] = '';
+        // load_view('cmhs/tb_cmhs_list', $data);
     }
 
     public function read($id)
@@ -54,7 +55,7 @@ class Cmhs extends CI_Controller
             $data = array(
 		'id_mhs' => $row->id_mhs,
 		'kode_cmhs' => $row->kode_cmhs,
-		'kode_pendaftar' => $row->kode_pendaftar,
+		'kode_formulir' => $row->kode_formulir,
 		'no_ktp' => $row->no_ktp,
 		'kode_agama' => $row->kode_agama,
 		'tpt_lhr' => $row->tpt_lhr,
@@ -85,7 +86,7 @@ class Cmhs extends CI_Controller
             'action' => site_url('cmhs/create_action'),
 	    'id_mhs' => set_value('id_mhs'),
 	    'kode_cmhs' => set_value('kode_cmhs'),
-	    'kode_pendaftar' => set_value('kode_pendaftar'),
+	    'kode_formulir' => set_value('kode_formulir'),
 	    'no_ktp' => set_value('no_ktp'),
 	    'kode_agama' => set_value('kode_agama'),
 	    'tpt_lhr' => set_value('tpt_lhr'),
@@ -98,11 +99,14 @@ class Cmhs extends CI_Controller
 	    'file_foto' => set_value('file_foto'),
 	    'status_ujian' => set_value('status_ujian'),
 	);
+   $tb_formulir=$this->App_model->get_query("SELECT * FROM tb_formulir ")->result();
+
+   $data['tb_formulir']=$tb_formulir;
    $tb_agama=$this->App_model->get_query("SELECT * FROM tb_agama ")->result();
-                
+
    $data['tb_agama']=$tb_agama;
    $tb_prodi=$this->App_model->get_query("SELECT * FROM tb_prodi ")->result();
-                
+
    $data['tb_prodi']=$tb_prodi;      $data['site_title'] = 'Cmhs';
         $data['title'] = 'Cmhs';
         $data['assign_js'] = '';
@@ -119,7 +123,7 @@ class Cmhs extends CI_Controller
         } else {
             $data = array(
 		'kode_cmhs' => $this->input->post('kode_cmhs',TRUE),
-		'kode_pendaftar' => $this->input->post('kode_pendaftar',TRUE),
+		'kode_formulir' => $this->input->post('kode_formulir',TRUE),
 		'no_ktp' => $this->input->post('no_ktp',TRUE),
 		'kode_agama' => $this->input->post('kode_agama',TRUE),
 		'tpt_lhr' => $this->input->post('tpt_lhr',TRUE),
@@ -149,7 +153,7 @@ class Cmhs extends CI_Controller
                 'action' => site_url('cmhs/update_action'),
 		'id_mhs' => set_value('id_mhs', $row->id_mhs),
 		'kode_cmhs' => set_value('kode_cmhs', $row->kode_cmhs),
-		'kode_pendaftar' => set_value('kode_pendaftar', $row->kode_pendaftar),
+		'kode_formulir' => set_value('kode_formulir', $row->kode_formulir),
 		'no_ktp' => set_value('no_ktp', $row->no_ktp),
 		'kode_agama' => set_value('kode_agama', $row->kode_agama),
 		'tpt_lhr' => set_value('tpt_lhr', $row->tpt_lhr),
@@ -181,7 +185,7 @@ class Cmhs extends CI_Controller
         } else {
             $data = array(
 		'kode_cmhs' => $this->input->post('kode_cmhs',TRUE),
-		'kode_pendaftar' => $this->input->post('kode_pendaftar',TRUE),
+		'kode_formulir' => $this->input->post('kode_formulir',TRUE),
 		'no_ktp' => $this->input->post('no_ktp',TRUE),
 		'kode_agama' => $this->input->post('kode_agama',TRUE),
 		'tpt_lhr' => $this->input->post('tpt_lhr',TRUE),
@@ -218,7 +222,7 @@ class Cmhs extends CI_Controller
     public function _rules()
     {
 	$this->form_validation->set_rules('kode_cmhs', 'kode cmhs', 'trim|required');
-	$this->form_validation->set_rules('kode_pendaftar', 'kode pendaftar', 'trim|required');
+	$this->form_validation->set_rules('kode_formulir', 'kode formulir', 'trim|required');
 	$this->form_validation->set_rules('no_ktp', 'no ktp', 'trim|required');
 	$this->form_validation->set_rules('kode_agama', 'kode agama', 'trim|required');
 	$this->form_validation->set_rules('tpt_lhr', 'tpt lhr', 'trim|required');
@@ -258,7 +262,7 @@ class Cmhs extends CI_Controller
         $kolomhead = 0;
         xlsWriteLabel($tablehead, $kolomhead++, "No");
 	xlsWriteLabel($tablehead, $kolomhead++, "Kode Cmhs");
-	xlsWriteLabel($tablehead, $kolomhead++, "Kode Pendaftar");
+	xlsWriteLabel($tablehead, $kolomhead++, "Kode Formulir");
 	xlsWriteLabel($tablehead, $kolomhead++, "No Ktp");
 	xlsWriteLabel($tablehead, $kolomhead++, "Kode Agama");
 	xlsWriteLabel($tablehead, $kolomhead++, "Tpt Lhr");
@@ -277,7 +281,7 @@ class Cmhs extends CI_Controller
             //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
             xlsWriteNumber($tablebody, $kolombody++, $nourut);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_cmhs);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_pendaftar);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_formulir);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->no_ktp);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->kode_agama);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->tpt_lhr);

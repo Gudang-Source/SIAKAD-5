@@ -11,10 +11,31 @@
             <label class="form-label" for="varchar">Kode Ayah <?php echo form_error('kode_ayah') ?></label>
             <input type="text" class="form-control" name="kode_ayah" id="kode_ayah" placeholder="Kode Ayah" value="<?php echo $kode_ayah; ?>" />
         </div>
+<?php
+                if($uri == 'create'){
+                  ?>
+	<div class="form-group">
+                          <label class="form-label" for="kode_cmhs">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
+                          <select class="form-control" rows="3" name="kode_cmhs" id="kode_cmhs" value="<?php echo $kode_cmhs ?>"><?php echo $kode_cmhs; ?>
+                            <option value=""> Mohon Pilih Salah Satu</option>
+                            <?php
+                            foreach($tb_cmhs as $key){
+                              ?>
+                              <option value="<?php echo $key->kode_cmhs ?>"><?php echo $key->kode_cmhs ?></option>
+                              <?php
+                            }
+                            ?>
+                          </select>
+                      </div>  <?php
+                }
+                else{
+                  ?>
 	    <div class="form-group">
-            <label class="form-label" for="varchar">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
-            <input type="text" class="form-control" name="kode_cmhs" id="kode_cmhs" placeholder="Kode Cmhs" value="<?php echo $kode_cmhs; ?>" />
-        </div>
+                          <label class="form-label" for="varchar">Kode Cmhs <?php echo form_error('kode_cmhs') ?></label>
+                          <input type="text" class="form-control" name="kode_cmhs" id="kode_cmhs" placeholder="Kode Cmhs" value="<?php echo $kode_cmhs; ?>" />
+                      </div>  <?php
+                }
+                ?>
 	<div class="form-group">
             <label class="form-label" for="nm_ayah">Nm Ayah <?php echo form_error('nm_ayah') ?></label>
             <textarea class="form-control" rows="3" name="nm_ayah" id="nm_ayah" placeholder="Nm Ayah"><?php echo $nm_ayah; ?></textarea>

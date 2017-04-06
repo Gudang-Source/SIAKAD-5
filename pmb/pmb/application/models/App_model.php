@@ -11,7 +11,7 @@ class App_model extends CI_Model
   }
 
   function cek_user($data) {
-			$query = $this->db->get_where('admin', $data);
+			$query = $this->db->get_where('tb_formulir', $data);
 			return $query;
 	}
 

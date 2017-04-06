@@ -94,6 +94,9 @@ class Daftar_ulang extends CI_Controller
 	    'kode_status_mhs' => set_value('kode_status_mhs'),
 	    'file_ijasah' => set_value('file_ijasah'),
 	);
+   $tb_peserta_ujian=$this->App_model->get_query("SELECT * FROM tb_peserta_ujian ")->result();
+                
+   $data['tb_peserta_ujian']=$tb_peserta_ujian;
    $tb_ayah=$this->App_model->get_query("SELECT * FROM tb_ayah ")->result();
                 
    $data['tb_ayah']=$tb_ayah;

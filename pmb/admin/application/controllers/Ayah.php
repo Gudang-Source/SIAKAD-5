@@ -82,6 +82,9 @@ class Ayah extends CI_Controller
 	    'kode_pekerjaan' => set_value('kode_pekerjaan'),
 	    'kode_penghasilan' => set_value('kode_penghasilan'),
 	);
+   $tb_cmhs=$this->App_model->get_query("SELECT * FROM tb_cmhs ")->result();
+                
+   $data['tb_cmhs']=$tb_cmhs;
    $tb_pekerjaan=$this->App_model->get_query("SELECT * FROM tb_pekerjaan ")->result();
                 
    $data['tb_pekerjaan']=$tb_pekerjaan;

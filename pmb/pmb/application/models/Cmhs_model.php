@@ -33,7 +33,7 @@ class Cmhs_model extends CI_Model
     function total_rows($q = NULL) {
         $this->db->like('id_mhs', $q);
 	$this->db->or_like('kode_cmhs', $q);
-	$this->db->or_like('kode_pendaftar', $q);
+	$this->db->or_like('kode_formulir', $q);
 	$this->db->or_like('no_ktp', $q);
 	$this->db->or_like('kode_agama', $q);
 	$this->db->or_like('tpt_lhr', $q);
@@ -54,7 +54,7 @@ class Cmhs_model extends CI_Model
         $this->db->order_by($this->id, $this->order);
         $this->db->like('id_mhs', $q);
 	$this->db->or_like('kode_cmhs', $q);
-	$this->db->or_like('kode_pendaftar', $q);
+	$this->db->or_like('kode_formulir', $q);
 	$this->db->or_like('no_ktp', $q);
 	$this->db->or_like('kode_agama', $q);
 	$this->db->or_like('tpt_lhr', $q);

@@ -5,6 +5,13 @@ class Beranda extends CI_Controller {
 	function __construct()
 	{
 			parent::__construct();
+			if (!$this->session->userdata('login')) {
+				redirect('login');
+			}
+			else {
+				$this->load->model('App_model');
+				$this->load->library('form_validation');
+			}
 	}
 
 	public function index()

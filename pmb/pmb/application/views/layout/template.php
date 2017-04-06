@@ -23,16 +23,16 @@
 					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="#"><span>STMIK ADHI</span> GUNA</a>
-				<!-- <ul class="user-menu">
+				<ul class="user-menu">
 					<li class="dropdown pull-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+							<!-- <li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li> -->
+							<li><a href="<?php echo site_url('login/logout') ?>"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
 						</ul>
 					</li>
-				</ul> -->
+				</ul>
 			</div>
 
 		</div><!-- /.container-fluid -->
@@ -48,51 +48,9 @@
 			<li class="active"><a href="<?php echo base_url() ?>"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
 			<li class="parent ">
 				<a href="#">
-					<span data-toggle="collapse" href="#sub-item-4"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Pengguna
-				</a>
-				<ul class="children collapse" id="sub-item-4">
-					<li>
-						<a class="" href="<?php echo site_url('admin') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Admin
-						</a>
-					</li>
-					<li>
-						<a class="" href="<?php echo site_url('registrasi') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pegawai
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li class="parent ">
-				<a href="#">
 					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Master Data
 				</a>
 				<ul class="children collapse" id="sub-item-1">
-					<li>
-						<a class="" href="<?php echo site_url('agama') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Agama
-						</a>
-					</li>
-					<li>
-						<a class="" href="<?php echo site_url('angakatan') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Angakatan
-						</a>
-					</li>
-					<li>
-						<a class="" href="<?php echo site_url('hubungan') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Hubungan
-						</a>
-					</li>
-					<li>
-						<a class="" href="<?php echo site_url('pekerjaan') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pekerjaan
-						</a>
-					</li>
-					<li>
-						<a class="" href="<?php echo site_url('penghasilan') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Penghasilan
-						</a>
-					</li>
 					<li>
 						<a class="" href="<?php echo site_url('prodi') ?>">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Program Studi
@@ -126,13 +84,8 @@
 				</a>
 				<ul class="children collapse" id="sub-item-2">
 					<li>
-						<a class="" href="<?php echo site_url('formulir') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Beli Formulir
-						</a>
-					</li>
-					<li>
 						<a class="" href="<?php echo site_url('cmhs') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Calon Mahasiswa
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Biodata
 						</a>
 					</li>
 				</ul>
@@ -144,7 +97,12 @@
 				<ul class="children collapse" id="sub-item-3">
 					<li>
 						<a class="" href="<?php echo site_url('peserta_ujian') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Peserta Ujian
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Daftar Ujian
+						</a>
+					</li>
+					<li>
+						<a class="" href="<?php echo site_url('peserta_ujian') ?>">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Lihat Hasil Ujian
 						</a>
 					</li>
 				</ul>
@@ -157,21 +115,6 @@
 					<li>
 						<a class="" href="<?php echo site_url('daftar_ulang') ?>">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Mahasiswa
-						</a>
-					</li>
-					<li>
-						<a class="" href="<?php echo site_url('ayah') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Ayah Mahasiswa
-						</a>
-					</li>
-					<li>
-						<a class="" href="<?php echo site_url('ibu') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Ibu Mahasiswa
-						</a>
-					</li>
-					<li>
-						<a class="" href="<?php echo site_url('mhs_wali') ?>">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Wali Mahasiswa
 						</a>
 					</li>
 				</ul>
