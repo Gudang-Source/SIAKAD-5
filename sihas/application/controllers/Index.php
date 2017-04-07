@@ -66,6 +66,9 @@ class Index extends CI_Controller
       }
 
     }
+    $data_akm = $this->app_model->get_query("SELECT * FROM v_akm_mhs GROUP BY id_prodi,angkatan ORDER BY angkatan DESC")->result();
+    $data['data_akm'] = $data_akm;
+
     $data['data_jadwal'] = $data_jadwal;
     $data['pengumuman']= $buka_krs->row();
     $data['pengumuman_penting']= $pengumuman;

@@ -44,7 +44,7 @@ class Mahasiswa extends CI_Controller
           		'agama' => $row->agama,
           		'kelurahan' => $row->alamat,
           		'wilayah' => $row->wilayah,
-              'kd_prodi' => $row->kd_prodi,
+                'kd_prodi' => $row->kd_prodi,
           		'nm_prodi' => $row->nm_prodi,
           		'tgl_masuk' => $row->tgl_masuk,
           		'smt_masuk' => $row->smt_masuk,
@@ -64,7 +64,7 @@ class Mahasiswa extends CI_Controller
     }
 
     public function read($id){
-        $row = $this->Mahasiswa_model->get_by_id($id);
+        $row = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$id."'")->row();
         if ($row) {
           $data = array(
           		'nim' => $row->nim,
@@ -73,18 +73,18 @@ class Mahasiswa extends CI_Controller
           		'tgl_lahir' => $row->tgl_lahir,
           		'jenkel' => $row->jenkel,
           		'agama' => $row->agama,
-          		'kelurahan' => $row->kelurahan,
+          		'kelurahan' => $row->alamat,
           		'wilayah' => $row->wilayah,
-          		'nm_ibu' => $row->nm_ibu,
-          		'kd_prodi' => $row->kd_prodi,
+                'kd_prodi' => $row->kd_prodi,
+          		'nm_prodi' => $row->nm_prodi,
           		'tgl_masuk' => $row->tgl_masuk,
           		'smt_masuk' => $row->smt_masuk,
-          		'status_mhs' => $row->status_mhs,
-          		'status_awal' => $row->status_awal,
+          		'status_mhs' => $row->nm_status,
+          		'status_awal' => $row->keterangan,
           		'email' => $row->email,
         	);
           $data['site_title'] = 'SIPAD';
-      		$data['title_page'] = 'Selengkapnya Data Mahasiswa';
+      		$data['title_page'] = 'Hingga Detik Ini <em>'.$row->nm_mhs.'</em> Memegang Predikat Terbaik';
       		$data['assign_js'] = 'mahasiswa/js/index.js';
           load_view('mahasiswa/tb_mhs_read', $data);
         }

@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="col-md-8">
+      <div class="col-md-4">
         <div class="panel panel-primary">
           <div class="panel-heading">
             <div class="row">
@@ -32,7 +32,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-8">
         <div class="panel panel-primary">
           <div class="panel-heading">
             <div class="row">
@@ -46,9 +46,38 @@
           </div>
           <div class="panel-body">
             <div class="col-md-12">
-              <div class="well text-center">
-
-              </div>
+              <table class="table table-stripped" id="tb1">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>NIM</th>
+                    <th>Jur.</th>
+                    <th>Ang.</th>
+                    <th>SKS</th>
+                    <th>IPK</th>
+                    <th>N x K</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php $no=1 ?>
+                  <?php foreach ($data_akm as $key): ?>
+                    <tr>
+                      <td><?php echo $no++ ?></td>
+                      <td><a href="<?php echo site_url('mahasiswa/read/'.$key->nim) ?>"><?php echo $key->nim ?></a></td>
+                      <?php if ($key->id_prodi==55201): ?>
+                        <td><span class="label label-danger">TI</span></td>
+                      <?php else: ?>
+                        <td><span class="label label-warning">SI</span></td>
+                      <?php endif; ?>
+                      <td><?php echo substr($key->angkatan, 0,4) ?></td>
+                      <td><?php echo $key->total_sks ?></td>
+                      <td><?php echo $key->ipk_s ?></td>
+                      <td><?php echo $key->total_n_k ?></td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+              <p><small><em>* Data Valid Hanya Angkatan 2016 | Untuk Membandingkan Perhatikan Jumlah KHS (Meskipun IPK Tinggi Jika Jumlah SKS Kecil Maka Urutan Ada Di Posisi Bawah)</em></small></p>
             </div>
           </div>
         </div>
