@@ -1,5 +1,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
+      $("#tb1").dataTable({'iDisplayLength': 5});
       $.get(top_url+"Index/graphMhs", function(data, status){
         var obj = JSON.parse(data);
         var tahun_arr=[];
@@ -42,11 +43,6 @@
     		var myLine = new Chart(temp).Line(lineChartData, {
     			responsive: true
     		});
-
-        var temp1 = document.getElementById("line-chart2").getContext("2d");
-    		var myLine1 = new Chart(temp1).Line(lineChartData, {
-    			responsive: true
-    		});
-      });
+        });
     });
 </script>

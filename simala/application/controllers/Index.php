@@ -31,7 +31,8 @@ class Index extends CI_Controller
     $count_kurikulum = $this->app_model->total_rows_where("tb_kurikulum","status_upload","N");
     $count_mata_kuliah = $this->app_model->total_rows_where("tb_mata_kuliah","status_upload","N");
 
-
+    $data_akm = $this->app_model->get_query("SELECT * FROM v_akm_mhs GROUP BY id_prodi,angkatan ORDER BY angkatan DESC")->result();
+    $data['data_akm'] = $data_akm;
     $data['count_mhs'] =$count_mhs ;
     $data['count_kurikulum'] =$count_kurikulum ;
     $data['count_mata_kuliah'] =$count_mata_kuliah ;
@@ -41,9 +42,12 @@ class Index extends CI_Controller
     $data['count_kelas_kuliah'] = $count_kelas_kuliah;
     $data['count_kelas_dosen'] = $count_kelas_dosen;
     $data['count_data_krs'] = $count_data_krs;
+
+
     $data['site_title'] = 'SIMALA';
     $data['title_page'] = 'SELAMAT DATANG DI SIMALA || SISTEM INFORMASI MAHASISWA ALMAMATER ADHI GUNA';
     $data['assign_js'] = 'beranda/js/index.js';
+
     load_view('beranda/beranda', $data);
   }
   public function graphMhs()
@@ -105,5 +109,5 @@ class Index extends CI_Controller
     echo json_encode($data_result);
   }
 
-  
+
 }

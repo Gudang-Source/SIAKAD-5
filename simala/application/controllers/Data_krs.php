@@ -26,25 +26,54 @@ class Data_krs extends CI_Controller
         }
     }
 
-    public function index($filter='',$nm_filter='')
+    public function index()
     {
-        if ($filter == '') {
-            $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs ORDER BY ta DESC LIMIT 0,50 ")->result();
-        }
-        else {
-            $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
-        }
-        // $data_krs = $this->Data_krs_model->get_all_view();
+        $data_mhs_krs_periode = $this->App_model->get_query("SELECT * FROM tb_kurikulum m1 ORDER BY m1.ta DESC ")->result();
+        // if ($filter == '') {
+        //     $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs ORDER BY ta DESC LIMIT 0,50 ")->result();
+        // }
+        // else {
+        //     $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
+        // }
+        // // $data_krs = $this->Data_krs_model->get_all_view();
+        //
+        // $data = array(
+        //   'data_mhs_krs' => $data_mhs_krs
+        // );
+        $data['data_mhs_krs_periode'] = $data_mhs_krs_periode;
+        $data['site_title'] = 'SIMALA';
+        $data['title_page'] = 'Periode KRS Berdasarkan Periode';
+        $data['assign_js'] = 'data_krs/js/index.js';
+        load_view('data_krs/data_krs_index', $data);
+    }
+    public function periodeData($periode='',$kd_prodi='')
+    {
+        $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE ta=".$periode." AND kd_prodi=".$kd_prodi." ORDER BY ta,status_ambil DESC")->result();
+        $count_mhs_krs = $this->App_model->get_query("SELECT COUNT(*) as jml_ambil FROM v_mhs_krs WHERE ta=".$periode)->row();
 
+        $data_periode = $this->App_model->get_query("SELECT * FROM tb_kurikulum WHERE ta=".$periode." AND kd_prodi=".$kd_prodi)->row();
+
+        $data_rasio_mhs = $this->App_model->get_query("SELECT * FROM v_rasio_mhs_aktif m1 WHERE ta=".$periode." AND kd_prodi=".$kd_prodi)->result();
+        // if ($filter == '') {
+        //     $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE ta=".$periode." ORDER BY ta DESC LIMIT 0,50 ")->result();
+        // }
+        // else {
+        //     $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
+        // }
+        // $data_krs = $this->Data_krs_model->get_all_view();
         $data = array(
-          'data_mhs_krs' => $data_mhs_krs
+            'data_mhs_krs' => $data_mhs_krs,
+            'data_periode' => $data_periode,
+            'count_mhs_krs' => $count_mhs_krs->jml_ambil,
+            'rasio_mhs' => $data_rasio_mhs
         );
         $data['site_title'] = 'SIMALA';
-        $data['title_page'] = 'Olah Kartu Rencana Studi Mahasiswa';
+        $data['kode_prodi'] = $kd_prodi;
+        $data['periode'] = $periode;
+        $data['title_page'] = 'Periode KRS Berdasarkan Periode';
         $data['assign_js'] = 'data_krs/js/index.js';
         load_view('data_krs/tb_mhs_data_krs_list', $data);
     }
-
     public function getKelas(){
       $kelas='';
       $cari = $this->input->post('q');
@@ -148,9 +177,9 @@ class Data_krs extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('data_krs/update_action'),
-            		'id_data_krs' => set_value('id_data_krs', $row->id_data_krs),
-            		'id_krs' => set_value('id_krs', $row->id_krs),
-            		'id_kelas' => set_value('id_kelas', $row->id_kelas),
+        		'id_data_krs' => set_value('id_data_krs', $row->id_data_krs),
+        		'id_krs' => set_value('id_krs', $row->id_krs),
+        		'id_kelas' => set_value('id_kelas', $row->id_kelas),
             );
             $data['site_title'] = 'SIMALA';
             $data['title_page'] = 'Olah Kartu Rencana Studi Mahasiswa';
@@ -398,5 +427,11 @@ class Data_krs extends CI_Controller
       $this->dompdf->load_html($html);
       $this->dompdf->render();
       $this->dompdf->stream(date('D-M-Y').$nim.".pdf",array('Attachment'=>0));
+    }
+
+    public function graphRasio($periode='',$kd_prodi='')
+    {
+        $data_rasio_mhs = $this->App_model->get_query("SELECT * FROM v_rasio_mhs_aktif m1 WHERE ta=".$periode." AND kd_prodi=".$kd_prodi)->result();
+        echo json_encode($data_rasio_mhs);
     }
 }
