@@ -21,6 +21,7 @@ class Model_transaksi extends CI_Model {
 
 	public function simpanbayar($data){
 		$this->db->insert("pembayaran", $data);
+		return ($this->db->affected_rows() != 1) ? false : true;
 	}
 
 	public function gettransaksi($nim){

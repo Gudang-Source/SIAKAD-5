@@ -79,7 +79,19 @@
 							<input type="number" name="jby" class="form-control" placeholder="ex : 1500000" required="required" disabled="disabled" id="jby">
 						</div>
 						<small id="sisa" style="color:grey">Tekan enter setelah memasukkan Jumlah Bayar</small>
-						<br>
+						<h4>Kurikulum/Periode</h4>
+						<div class="input-group">
+							<span class="input-group-addon">Masukan Tahun Ajaran</span>
+							<select name="id_smt" id="id_smt" class="form-control" required="required" disabled="disabled">
+								<option value="">------Pilih Periode-------</option>
+								<?php
+								foreach ($kurikulum as $key){
+									echo "<option value='".$key->id_kurikulum."'>".$key->nm_kurikulum."</option>";
+								}
+								?>
+							</select>
+							<!-- <input type="text" name="id_smt" id="id_smt" class="form-control" required="required" placeHolder="20152" value=""> -->
+						</div>
 						<h4>No. Referensi Bank</h4>
 						<div class="input-group">
 							<span class="input-group-addon"><i class='fa fa-file-text'></i></span>
@@ -106,9 +118,9 @@
 						</table>
 					</div>
 					<div class="box-footer">
-						<button type="submit" id="kirim" class="btn btn-danger pull-right" disabled="disabled"><i class="fa fa-cog"></i> Proses</button>
+						<button type="submit" id="kirim" class="btn btn-danger pull-right" disabled="disabled"><i class="fa fa-cog"></i> Simpan</button>
 						<a href="<?php echo base_url("transaksi/layanan.html"); ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> Kembali</a>
-						<button type="button" class="btn btn-success pull-right" id="btnKonfirm" disabled="disabled">Konfirmasi</button>
+						<!-- <button type="button" class="btn btn-success pull-right" id="btnKonfirm" disabled="disabled">Konfirmasi</button> -->
 					</div>
 				</form>
 				<input type="text" id="kode_bayar" class="hide">
@@ -166,30 +178,30 @@
 		}
 	});
 
-	$("#formupload").on('submit',(function(e) {
-		e.preventDefault();
-		var urls = $("#formupload").attr("action");
-		$.ajax({
-			url: urls,
-			type: "POST",
-			data: new FormData(this),
-			//mimeType:"multipart/form-data",
-			contentType: false,
-			cache: false,
-			processData:false,
-			success: function(data)
-			{
-				var obj = JSON.parse(data);
-				if (obj.hasil == true) {
-					$("#btnKonfirm").prop("disabled", false);
-					$('#kode_bayar').val(obj.data);
-				}
-				else {
-					$("#btnKonfirm").prop("disabled", true);
-				}
-			}
-		});
-	}));
+	// $("#formupload").on('submit',(function(e) {
+	// 	e.preventDefault();
+	// 	var urls = $("#formupload").attr("action");
+	// 	$.ajax({
+	// 		url: urls,
+	// 		type: "POST",
+	// 		data: new FormData(this),
+	// 		//mimeType:"multipart/form-data",
+	// 		contentType: false,
+	// 		cache: false,
+	// 		processData:false,
+	// 		success: function(data)
+	// 		{
+	// 			var obj = JSON.parse(data);
+	// 			if (obj.hasil == true) {
+	// 				$("#btnKonfirm").prop("disabled", false);
+	// 				$('#kode_bayar').val(obj.data);
+	// 			}
+	// 			else {
+	// 				$("#btnKonfirm").prop("disabled", true);
+	// 			}
+	// 		}
+	// 	});
+	// }));
 
 	$("#btnKonfirm").click(function(){
 		var nim = '<?php echo base64_encode($data->nim); ?>';
@@ -254,7 +266,8 @@
 		var jb = $("#jb option:selected").text();
 		if (sisa == 0 && jb.match(/(Semester)/gi) =="Semester") {
 			var status = "Pembayaran Semester Lunas";
-			$("#konfirValidasi").modal('show');
+			//$("#konfirValidasi").modal('show');
+			$("#id_smt").prop("disabled", false);
 		}
 		else if(sisa == 0){
 			var status = "Pembayaran Lainnya Lunas";

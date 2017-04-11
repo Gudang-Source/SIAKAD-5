@@ -57,6 +57,19 @@
 								<span class="input-group-addon">Rp</span>
 								<input type="number" id="jmlangsuran" name="jmlangsuran" class="form-control" required="required" placeholder="Masukkan jumlah angsuran pembayaran... ex: 1500000" value="">
 							</div>
+							<br>
+							<h4>Kuikulum/Periode</h4>
+							<div class="input-group">
+								<span class="input-group-addon">Masukan Tahun Ajaran</span>
+								<select name="id_smt" id="id_smt" class="form-control" required="required" disabled="true">
+									<option value="">------Pilih Periode-------</option>
+									<?php
+									foreach ($kurikulum as $key){
+										echo "<option value='".$key->id_kurikulum."'>".$key->nm_kurikulum."</option>";
+									}
+									?>
+								</select>
+							</div>
 							<small style='color:grey' id="pesan"></small>
 							<br />
 							<br />
@@ -73,8 +86,8 @@
 							</table>
 					</div>
 					<div class="box-footer">
-						<button type="button" class="btn btn-success pull-right" data-dismiss="modal" id='btnValidate'disabled="disabled"><i class="fa fa-cog"></i> Validate</button>
-						<button type="submit" id="kirim" class="btn btn-danger pull-right" disabled="disabled" id="btnSubmit"><i class="fa fa-cog"></i> Proses</button>
+						<!-- <button type="button" class="btn btn-success pull-right" data-dismiss="modal" id='btnValidate'disabled="disabled"><i class="fa fa-cog"></i> Validate</button> -->
+						<button type="submit" id="kirim" class="btn btn-danger pull-right" disabled="disabled" id="btnSubmit"><i class="fa fa-cog"></i> Simpan</button>
 						<a href="<?php echo base_url("mahasiswa/d/".base64_encode($data->nim)); ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> Kembali</a>
 					</div>
 				</form>
@@ -82,7 +95,7 @@
 		</div>
 	</div>
 </section>
-<div class="modal fade" id="konfirValidasi" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="konfirValidasi" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -108,7 +121,6 @@
 						}
 						?>
 					</select>
-					<!-- <input type="text" name="id_smt" id="id_smt" class="form-control" required="required" placeHolder="20152" value=""> -->
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -118,7 +130,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 <script type="text/javascript">
 	$("#cek").on("change", function(){
 		if($("#cek").is(":checked")){
@@ -129,48 +141,49 @@
 		}
 	});
 
-	$('#btnValidate').click(function() {
-		var nim = '<?php echo base64_encode($data->nim); ?>';
-		var kode_bayar = '<?php echo base64_encode($data->kode_bayar); ?>';
-		var id_smt = $('#id_smt').val();
-		 $.get("http://192.168.44.5:82/siakad/simala/index.php/auth/set_mode_kunci?id_smt="+id_smt+"&kode_bayar="+kode_bayar+"&nim="+nim+"", function(data, status){ //pengiriman data jangan lupa di enkrip pake base64_encode
-        if (data==1) {
-        	alert('Jangan Lupa Cetak Laporan')
-        }
-				else {
-					alert('Data Sudah Ada Tetap Tetap Catet Yu No <?php echo $data->kode_bayar; ?>')
-				}
-    });
-	});
+	// $('#btnValidate').click(function() {
+	// 	var nim = '<?php echo base64_encode($data->nim); ?>';
+	// 	var kode_bayar = '<?php echo base64_encode($data->kode_bayar); ?>';
+	// 	var id_smt = $('#id_smt').val();
+	// 	 $.get("http://192.168.44.5:82/siakad/simala/index.php/auth/set_mode_kunci?id_smt="+id_smt+"&kode_bayar="+kode_bayar+"&nim="+nim+"", function(data, status){ //pengiriman data jangan lupa di enkrip pake base64_encode
+  //       if (data==1) {
+  //       	alert('Jangan Lupa Cetak Laporan')
+  //       }
+	// 			else {
+	// 				alert('Data Sudah Ada Tetap Tetap Catet Yu No <?php echo $data->kode_bayar; ?>')
+	// 			}
+  //   });
+	// });
 
 
-	$("#formupload").on('submit',(function(e) {
-		e.preventDefault();
-		var urls = $("#formupload").attr("action");
-		$.ajax({
-			url: urls,
-			type: "POST",
-			data: new FormData(this),
-			//mimeType:"multipart/form-data",
-			contentType: false,
-			cache: false,
-			processData:false,
-			success: function(data)
-			{
-				if (data==1) {
-					$("#btnValidate").prop("disabled", false);
-				}
-				else {
-					$("#btnValidate").prop("disabled", true);
-				}
-			}
-		});
-	}));
+	// $("#formupload").on('submit',(function(e) {
+	// 	e.preventDefault();
+	// 	var urls = $("#formupload").attr("action");
+	// 	$.ajax({
+	// 		url: urls,
+	// 		type: "POST",
+	// 		data: new FormData(this),
+	// 		//mimeType:"multipart/form-data",
+	// 		contentType: false,
+	// 		cache: false,
+	// 		processData:false,
+	// 		success: function(data)
+	// 		{
+	// 			if (data==1) {
+	// 				$("#btnValidate").prop("disabled", false);
+	// 			}
+	// 			else {
+	// 				$("#btnValidate").prop("disabled", true);
+	// 			}
+	// 		}
+	// 	});
+	// }));
 
 	$("#jmlangsuran").on("change", function(){
 		if(parseInt($(this).val()) == parseInt($("#sisa").val()) && $("#jb").val()=="Semester"){
 			$("#pesan").css("color","green").html("Angsuran lunas.");
-			$("#konfirValidasi").modal('show');
+			//$("#konfirValidasi").modal('show');
+			$("#id_smt").prop("disabled", false);
 		}
 		else if(parseInt($(this).val()) > parseInt($("#sisa").val()) && $("#jb").val()=="Semester"){
 			$("#pesan").css("color","red").html("Besar jumlah angsuran melebihi sisa angsuran. Harap periksa kembali.");

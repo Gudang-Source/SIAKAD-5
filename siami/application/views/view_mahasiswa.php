@@ -4,7 +4,7 @@
 	<small>SIAMI</small>
   </h1>
   <ol class="breadcrumb">
-	<li class="active"><i class="fa fa-group"></i> Data Mahasiswa</li>
+	<li class="active"><i class="fa fa-group"></i> Data Mahasiswa <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?></li>
   </ol>
 </section>
 <section class="content">

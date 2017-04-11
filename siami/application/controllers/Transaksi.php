@@ -6,6 +6,13 @@ class Transaksi extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
+
+		$datalog = $this->session->get_userdata();
+		if(!$datalog['status_login']){
+			$this->session->set_flashdata("error","Anda tidak diizinkan mengakses halaman ini. Harap login terlebih dahulu");
+			redirect(site_url()."login");
+		}
+
 		$this->load->model("model_mahasiswa");
 		$this->load->model("model_transaksi");
 	}
@@ -88,6 +95,23 @@ class Transaksi extends CI_Controller {
 
 	public function simpantransaksi(){
 		$kodebayar = md5(date("dmYHis").$this->input->post("nim"));
+		$kur = $this->input->post("id_smt");
+		$db_siakad = $this->load->database('siakad',TRUE);
+		//$data = $db_siakad->query("")->result();
+
+		$no = 1;
+		$token = "";
+
+		while($no<=3){
+			$token	.= substr(str_shuffle("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
+			if($no<3){
+				$token	.= "-";
+			}
+			$no++;
+		}
+
+		$dt_mhs = $this->model_transaksi->get_query("SELECT * FROM view_mahasiswa WHERE nim='".$this->input->post("nim")."'")->row();
+
 		$tgl = explode("-",$this->input->post("tglbayar"));
 		$tgl = $tgl[2]."-".$tgl[1]."-".$tgl[0];
 		$data =  array(
@@ -100,13 +124,74 @@ class Transaksi extends CI_Controller {
 			"keterangan" => $this->input->post("ket"),
 			"no_referensi" => $this->input->post("norefbank")
 		);
-		$this->model_transaksi->simpanbayar($data);
-		// redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
-	 	$act= array(
-			'hasil' => true,
-			'data' =>$kodebayar
+
+		$data_siakad = array(
+			"kode_pembayaran" => $kodebayar,
+			"id_mhs" => $this->input->post("nim"),
+			"id_kurikulum" => $kur,
+			"status_ambil" => "T",
+			"status_cek" => "Y",
+			"token" => $token
 		);
-		echo json_encode($act);
+		$cek1 = $this->model_transaksi->simpanbayar($data);
+		if (!$cek1) {
+			echo "Gagal Di simpan";
+		}
+		else {
+			if ($kur!='') {
+				$cek2 = $db_siakad->insert("tb_mhs_krs",$data_siakad);
+				if (!$cek2) {
+				  echo "Gagal Di Sinkron";
+				}
+				else {
+					$this->session->set_flashdata('message', 'Pembayaran Semester Berhasil Disimpan Dan Disnkron');
+
+					$a = $this->sendEmail($dt_mhs->email,$kur,$this->input->post("nim"),$kodebayar,$token);
+					if ($a) {
+						redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+					}
+					else {
+						echo "Error Pada Saat Mengirim Email : Suruh Mahasiswa Untuk Melakukan Validasi Manual";
+					}
+				}
+			}
+			else {
+				$this->session->set_flashdata('message', 'Pembayaran Lainnya Berhasil Disimpan');
+				redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+			}
+		}
+	}
+
+	public function sendEmail($email='',$periode='',$nim='',$kode_bayar='',$token)
+	{
+
+		$this->load->library('email');
+		$subject = 'Verifikasi Akun Pembayaran';
+		$enc_periode = $periode;
+		$enc_nim = $nim;
+		$isi = "<p>Terimakasih Atas Pembayaran anda</p>";
+		$isi .= "<p>
+					NIM : ".$nim." <br>
+					ID Periode : ".$periode." <br>
+					Kode Bayar : ".$kode_bayar."
+
+		</p>";
+		$isi .= "<p>Silahkan klik mengaktifkan akun anda dengan masuk pada link berikut ini : <a href='http://siakad.stmikadhiguna.ac.id/siakad/simala/auth/konfirmasiEmail/".$kode_bayar."/".$enc_nim."/".$enc_periode."/".$token."'>Verifikasi Akun Anda</a></p>";
+		$isi .= "<p>Terima kasih atas perhatiannya<br>- Best Regard,<br>Herlinawati Ridwan, S.Kom</p>";
+
+		//lib email 1
+		$result = $this->email
+        ->from("siakad.sagp@gmail.com")
+        ->to($email)
+        ->subject($subject)
+        ->message($isi)
+        ->send();
+		if ($result) {
+			return TRUE;
+		}
+		else {
+			return FALSE;
+		}
 	}
 
 	public function getbiaya(){
@@ -143,20 +228,42 @@ class Transaksi extends CI_Controller {
 	}
 
 	public function simpanangsuran(){
+		$db_siakad = $this->load->database('siakad',TRUE);
+		$id_smt = $this->input->post('id_smt');
 		$bayarbaru = $this->input->post("jmlbyr")+$this->input->post("jmlangsuran");
 		$data = array(
 			"jumlah_bayar" => $bayarbaru
 		);
+
 		$where = "kode_bayar = '".$this->input->post("kdbyr")."'";
 		$a = $this->model_transaksi->simpanangsuran($data, $where);
-
 		$kode_bayar = $this->input->post('kdbyr');
 		$hasil = $this->model_transaksi->getvalidtransaksi($kode_bayar);
 		if ($hasil->num_rows() == 1) {
-				echo true;
+			if ($id_smt=='') {
+				$this->session->set_flashdata('message', 'Pembayaran Lainnya Berhasil Disimpan');
+				redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+			}
+			else {
+				$data_siakad = array(
+					"kode_pembayaran" => $kode_bayar,
+					"id_mhs" => $this->input->post("nim"),
+					"id_kurikulum" => $id_smt,
+					"status_ambil" => "T",
+					"status_cek" => "Y",
+				);
+				$cek2 = $db_siakad->insert("tb_mhs_krs",$data_siakad);
+				if (!$cek2) {
+					echo "Data Berhasil Disimpan Tetapi Gagal Disinkron";
+				}
+				else {
+					$this->session->set_flashdata('message', 'Pembayaran Semester Berhasil Disimpan Dan Disnkron');
+					redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+				}
+			}
 		}
 		else{
-			echo false;
+			echo "Data Berhasil Disimpan Tetapi tidak Di Sinkron";
 		}
 	}
 

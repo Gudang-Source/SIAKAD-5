@@ -21,14 +21,34 @@
         <a href="../../index2.html"><i class="fa fa-street-view"></i> SI<b>AMI</b></a>
       </div>
       <div class="login-box-body">
+        <?php
+          if($this->session->flashdata("error")){
+        ?>
+          <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <h4>Ada Kesalahan</h4>
+            <p><?php echo $this->session->flashdata("error"); ?></p>
+          </div>
+        <?php
+          }
+          else if($this->session->flashdata("pesan")){
+        ?>
+          <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <h4>Hai!</h4>
+            <p><?php echo $this->session->flashdata("pesan"); ?></p>
+          </div>
+        <?php
+          }
+        ?>
         <p class="login-box-msg">Login untuk masuk ke dalam sistem.</p>
-        <form action="../../index2.html" method="post">
+        <form action="<?php echo site_url("login/proseslogin"); ?>" method="post">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Username">
+            <input type="text" name="username" class="form-control" placeholder="Username">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password">
+            <input type="password" name="password" class="form-control" placeholder="Password">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
@@ -51,7 +71,7 @@
         $('input').iCheck({
           checkboxClass: 'icheckbox_square-blue',
           radioClass: 'iradio_square-blue',
-          increaseArea: '20%' 
+          increaseArea: '20%'
         });
       });
     </script>
