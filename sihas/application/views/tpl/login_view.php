@@ -37,7 +37,7 @@
                     </div>
                     <div class="panel-body">
                         <?php
-                            $attributes = array('role'=>'form');
+                            $attributes = array('role'=>'form','id'=>'loginform');
                             echo form_open('auth/login',$attributes);
                             if(validation_errors()) {
                                 echo "<div class=\"bs-callout bs-callout-danger\">
@@ -66,8 +66,23 @@
                                     <label>Periode Pembayaran</label>
                                     <input type="" id="inputPassword" name="ta" class="form-control" placeholder="Contoh : 20151 untuk semester ganjil">
                                 </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <span id="capcha"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <img src="<?php echo base_url() . '/assets/css/default/icon/reset.png' ?>" title="Lihat Gambar Lain" class="klic" onclick="reload_get()">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span id="isi_capca_error" style="color: red;"> </span>
+                                    </div>
+                                    <label for="">
+                                        <em>Masukan Captcha Dengan Benar</em>
+                                    </label>
+                                    <input type="text" id="isi_capca2" name="isi_capca2" class="form-control">
+                                </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button class="btn btn-info btn-block" type="submit">Login</button> <!-- <small>Klik di <a href="<?php echo base_url();?>setup"> sini</a> untuk setup WSClient</small> -->
+                                <button class="btn btn-info btn-block" id="btnSubmit" type="button">Login</button> <!-- <small>Klik di <a href="<?php echo base_url();?>setup"> sini</a> untuk setup WSClient</small> -->
                             </fieldset>
                         </form>
                     </div>
@@ -116,8 +131,23 @@
     <script src="<?php echo base_url();?>assets/js/sb-admin-2.js"></script>
     <script src="<?php echo base_url();?>assets/js/bootstrap-switch.min.js?v=3.3.2"></script>
     <script>
+        function reload_get(){
+            $("#capcha").load("<?php echo site_url('auth/get_capcha');?>");
+        }
         $(document).ready(function(){
-          $("[name='db_ws']").bootstrapSwitch();
+          $("#capcha").load("<?php echo site_url('auth/get_capcha');?>");
+          $("#btnSubmit").click(function(){
+              if ($("#isi_capca").val() != $("#isi_capca2").val()){
+                  $("#isi_capca_error").html("<p>Captcha Tidak Sama Dengan Gambar</p>");
+                  $("#capcha").load("<?php echo site_url("auth/get_capcha");?>");
+                  $("#error_data").val('1');
+              }
+              else {
+                  $("#isi_capca_error").html("");
+                  $("#loginform").submit();
+              }
+          });
+
         });
     </script>
 

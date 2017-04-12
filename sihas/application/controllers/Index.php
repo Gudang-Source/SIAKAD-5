@@ -15,6 +15,11 @@ class Index extends CI_Controller
   		}
   		else {
         $this->load->model('App_model','app_model');
+        //remove captcha file
+        $map = directory_map('./captcha/');
+        foreach ($map as $key) {
+          unlink("./captcha/".$key);
+        }
       }
   }
   public function index()

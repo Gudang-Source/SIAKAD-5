@@ -126,7 +126,7 @@
     <script src="<?php echo base_url(); ?>assets/js/dropdowns-enhancement.js?v=3.1.1"></script>
     <script src="<?php echo base_url();?>assets/js/back-to-top.js"></script>
     <script src="<?php echo base_url();?>assets/js/jquery.form.js"></script>
-    <script src="<?php echo base_url();?>assets/js/app.js"></script>
+    <!-- <script src="<?php echo base_url();?>assets/js/app.js"></script> -->
     <script src="<?php echo base_url();?>assets/js/bootstrap-typeahead.min.js"></script>
     <?php
         //echo $assign_js;
