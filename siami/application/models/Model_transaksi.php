@@ -72,6 +72,6 @@ class Model_transaksi extends CI_Model {
 
 	public function get_query($q)
 	{
-		return $this->db->query($q)->result();
+		return $this->db->query($q);
 	}
 }

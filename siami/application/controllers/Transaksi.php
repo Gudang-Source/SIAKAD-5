@@ -41,7 +41,7 @@ class Transaksi extends CI_Controller {
 	}
 
 	public function laporan(){
-		$x['jenis_bayar'] = $this->model_transaksi->get_query("SELECT * FROM jenis_bayar");
+		$x['jenis_bayar'] = $this->model_transaksi->get_query("SELECT * FROM jenis_bayar")->result();
 		$data['data'] = $this->load->view('view_laporan',$x,true);
 		$data['active'] = 'laporan';
 		$this->load->view('view_home',$data);
@@ -54,10 +54,10 @@ class Transaksi extends CI_Controller {
 		$tahun = $this->input->post('thn');
 		$jb = $this->input->post('jb');
 		if ($jurusan == '1') {
-			$data_laporan = $this->model_transaksi->get_query("SELECT * FROM view_pembayaran WHERE angkatan='".$angkatan."' AND nama_jns_bayar='".$jb."'");
+			$data_laporan = $this->model_transaksi->get_query("SELECT * FROM view_pembayaran WHERE angkatan='".$angkatan."' AND nama_jns_bayar='".$jb."'")->result();
 		}
 		else {
-			$data_laporan = $this->model_transaksi->get_query("SELECT * FROM view_pembayaran WHERE nim LIKE '%".$jurusan."%' AND (angkatan='".$angkatan."' AND (nama_jns_bayar='".$jb."'))");
+			$data_laporan = $this->model_transaksi->get_query("SELECT * FROM view_pembayaran WHERE nim LIKE '%".$jurusan."%' AND (angkatan='".$angkatan."' AND (nama_jns_bayar='".$jb."'))")->result();
 		}
 
 		$data['data_laporan'] = $data_laporan;
@@ -94,10 +94,10 @@ class Transaksi extends CI_Controller {
 	}
 
 	public function simpantransaksi(){
+
 		$kodebayar = md5(date("dmYHis").$this->input->post("nim"));
 		$kur = $this->input->post("id_smt");
-		$db_siakad = $this->load->database('siakad',TRUE);
-		//$data = $db_siakad->query("")->result();
+
 
 		$no = 1;
 		$token = "";
@@ -111,7 +111,6 @@ class Transaksi extends CI_Controller {
 		}
 
 		$dt_mhs = $this->model_transaksi->get_query("SELECT * FROM view_mahasiswa WHERE nim='".$this->input->post("nim")."'")->row();
-
 		$tgl = explode("-",$this->input->post("tglbayar"));
 		$tgl = $tgl[2]."-".$tgl[1]."-".$tgl[0];
 		$data =  array(
@@ -124,7 +123,7 @@ class Transaksi extends CI_Controller {
 			"keterangan" => $this->input->post("ket"),
 			"no_referensi" => $this->input->post("norefbank")
 		);
-
+		$db_siakad = $this->load->database('siakad',TRUE);
 		$data_siakad = array(
 			"kode_pembayaran" => $kodebayar,
 			"id_mhs" => $this->input->post("nim"),
@@ -146,12 +145,15 @@ class Transaksi extends CI_Controller {
 				else {
 					$this->session->set_flashdata('message', 'Pembayaran Semester Berhasil Disimpan Dan Disnkron');
 
-					$a = $this->sendEmail($dt_mhs->email,$kur,$this->input->post("nim"),$kodebayar,$token);
+					// $a = $this->sendEmail($dt_mhs->email,$kur,$this->input->post("nim"),$kodebayar,$token);
+					$a = $this->sendEmail("meongbego@gmail.com",$kur,$this->input->post("nim"),$kodebayar,$token);
 					if ($a) {
-						redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+						$this->session->set_flashdata('message', 'Sinkronisasi Siakad Dan Email Berhasil Dan Pembayaran Disimpan');
+						//redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
 					}
 					else {
-						echo "Error Pada Saat Mengirim Email : Suruh Mahasiswa Untuk Melakukan Validasi Manual";
+						$this->session->set_flashdata('message', 'Error Pada Saat Mengirim Email : Suruh Mahasiswa Untuk Melakukan Validasi Manual');
+						//redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
 					}
 				}
 			}
@@ -164,7 +166,6 @@ class Transaksi extends CI_Controller {
 
 	public function sendEmail($email='',$periode='',$nim='',$kode_bayar='',$token)
 	{
-
 		$this->load->library('email');
 		$subject = 'Verifikasi Akun Pembayaran';
 		$enc_periode = $periode;
@@ -176,7 +177,7 @@ class Transaksi extends CI_Controller {
 					Kode Bayar : ".$kode_bayar."
 
 		</p>";
-		$isi .= "<p>Silahkan klik mengaktifkan akun anda dengan masuk pada link berikut ini : <a href='http://siakad.stmikadhiguna.ac.id/siakad/simala/auth/konfirmasiEmail/".$kode_bayar."/".$enc_nim."/".$enc_periode."/".$token."'>Verifikasi Akun Anda</a></p>";
+		$isi .= "<p>Silahkan klik mengaktifkan akun anda dengan masuk pada link berikut ini : <a href='http://localhost/siakad/simala/auth/konfirmasiEmail/".$kode_bayar."/".$enc_nim."/".$enc_periode."/".$token."'>Verifikasi Akun Anda</a></p>";
 		$isi .= "<p>Terima kasih atas perhatiannya<br>- Best Regard,<br>Herlinawati Ridwan, S.Kom</p>";
 
 		//lib email 1
@@ -186,6 +187,7 @@ class Transaksi extends CI_Controller {
         ->subject($subject)
         ->message($isi)
         ->send();
+				echo var_dump($result);
 		if ($result) {
 			return TRUE;
 		}
