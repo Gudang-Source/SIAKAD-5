@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#mytable").dataTable();
+        $(".table").dataTable();
         $('#id_krs').select2({
           placeholder: "Masukan Kata Kunci NIM | Nama | Kode MK | Nama MK | Kelas | Periode | Prodi",
           //minimumInputLength: 1,
@@ -31,7 +31,8 @@
         $("#btn_filter").click(function(){
             var kat_filter = $("#kat_filter").val();
             var nm_filter = $("#nm_filter").val();
-            $('#filter_form').attr('action', top_url+"nilai/index/"+kat_filter+"/"+nm_filter).submit();
+            var id_ta = $("#id_ta").val();
+            $('#filter_form').attr('action', top_url+"nilai/beranda/"+kat_filter+"/"+nm_filter+"/"+id_ta).submit();
         });
     });
 </script>

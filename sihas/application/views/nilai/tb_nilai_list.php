@@ -90,16 +90,13 @@
             <label for="">Kategori</label>
             <select class="form-control" name="kat_filter" id="kat_filter">
               <option value="">--- Pilih Filter ---</option>
-              <option value="nim">NIM</option>
-              <option value="nama">Nama Mahasiswa</option>
-              <option value="ta">Periode</option>
-              <option value="kd_prodi">Kode Prodi</option>
-              <option value="nm_prodi">Nama Prodi</option>
+              <option value="kelas">Kelas</option>
             </select>
           </div>
           <div class="form-group">
             <label for="">Nama Filter</label>
             <input type="text" name="nm_filter" class="form-control" value="" id="nm_filter">
+            <input type="text" name="nm_filter" class="form-control hidden" value="<?php echo $ta ?>" id="id_ta">
           </div>
         </form>
         <div class="form-action">

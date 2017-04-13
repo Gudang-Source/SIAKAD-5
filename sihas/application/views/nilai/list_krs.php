@@ -18,16 +18,12 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <table class="table table-bordered table-striped" id="krstable">
+      <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>No</th>
-                <th>NIM</th>
-                <th>Nama Mahasiswa</th>
-                <th>Kode Pembayaran</th>
                 <th>Nama Kurikulum</th>
                 <th>Periode</th>
-                <th>Ambil</th>
                 <th><center>Action</center></th>
             </tr>
         </thead>
@@ -38,19 +34,14 @@
             ?>
               <tr>
                 <td><?php echo ++$start ?></td>
-                <td><?php echo  $key->nim ?></td>
-                <td><?php echo  $key->nama ?></td>
-                <td><?php echo  $key->kode_pembayaran ?></td>
                 <td><?php echo  $key->nm_kurikulum ?></td>
                 <?php if (($key->ta == $this->session->userdata('ta'))): ?>
                 <td><span class="label label-success"><?php echo  $key->ta ?></span></td>
                 <?php else: ?>
                 <td><span class="label label-danger"><?php echo  $key->ta ?></span></td>
                 <?php endif; ?>
-                <td><?php echo  $key->status_ambil ?></td>
                 <td style="text-align:center" width="200px">
-                  <a href="<?php echo site_url('krs/proses_krs/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs.'/'.$key->id_kurikulum) ?>"><i class='fa fa-gears'> Proses</i></a> |
-                  <a href="<?php echo site_url('krs/cetak_krs/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>"><i class='fa fa-gears'> Cetak</i></a>
+                  <a href="<?php echo site_url('nilai/proses_nilai/'.$key->ta) ?>"><i class='fa fa-gears'> Proses</i></a>
 
                 </td>
               </tr>

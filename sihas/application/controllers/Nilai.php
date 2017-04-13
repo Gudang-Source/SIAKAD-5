@@ -20,14 +20,38 @@ class Nilai extends CI_Controller
           $this->load->library('form_validation');
         }
     }
+    public function index()
+    {
+        $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE nim='".$this->session->userdata('nim')."'")->result();
+          $data = array(
+            'data_mhs_krs' => $data_mhs_krs
+          );
 
-    public function index($filter='',$nm_filter='')
+      $data['site_title'] = 'SIMALA';
+      $data['title_page'] = 'Data Nilai Anda';
+      $data['assign_js'] = 'nilai/js/index.js';
+      load_view('nilai/list_krs', $data);
+    }
+    public function proses_nilai($ta='')
+    {
+        $nilai = $this->App_model->get_query("SELECT * FROM v_nilai WHERE nim='".$this->session->userdata('nim')."' AND ta='".$ta."'")->result();
+        $data = array(
+            'nilai_data' => $nilai
+        );
+        $data['site_title'] = 'SIMALA';
+        $data['title_page'] = 'Nilai Berdasarkan Periode';
+        $data['assign_js'] = 'nilai/js/index.js';
+        $data['ta'] = $ta;
+        load_view('nilai/tb_nilai_list', $data);
+    }
+
+    public function beranda($filter='',$nm_filter='',$ta)
     {
       if ($filter == '') {
         $nilai = $this->App_model->get_query("SELECT * FROM v_nilai WHERE nim='".$this->session->userdata('nim')."'")->result();
       }
       else {
-        $nilai = $this->App_model->get_query("SELECT * FROM v_nilai WHERE ".$filter." LIKE '%".$nm_filter."%' AND nim='".$this->session->userdata('nim')."'")->result();
+        $nilai = $this->App_model->get_query("SELECT * FROM v_nilai WHERE ".$filter." LIKE '%".$nm_filter."%' AND ( nim='".$this->session->userdata('nim')."' AND ta=".$ta.")")->result();
       }
 
         $data = array(
