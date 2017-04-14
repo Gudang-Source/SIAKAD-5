@@ -164,6 +164,7 @@ class Krs extends CI_Controller
         load_view('krs/warning',$data);
       }
     }
+
     public function getKelasData($a='',$id_kurikulum,$filter='')
     {
         // echo "SELECT * FROM v_kelas_kuliah WHERE ta='".$a."' and id_kurikulum='".$id_kurikulum."'";
@@ -284,44 +285,65 @@ class Krs extends CI_Controller
       $objPHPExcel->getActiveSheet()->setCellValue('D8', '......');
 
       $baseRow = 13;
-      $temp_data = $this->App_model->get_query("SELECT * FROM v_data_krs WHERE id_krs='".$id_krs."'")->result();
-      $temp_row=0;
-      $ttd_row=0;
-      foreach($temp_data as $r => $dataRow) {
-        $row = $baseRow + $r;
-        $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
-        $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $r+1)
-                  ->setCellValue('B'.$row, $dataRow->id_matkul)
-                  ->setCellValue('C'.$row, $dataRow->nm_mk)
-                  ->setCellValue('F'.$row, 'A / U')
-                  ->setCellValue('G'.$row, $dataRow->sks)
-                  ->setCellValue('I'.$row, $dataRow->nm_dosen);
-        $temp_row = 1+$row;
-        $ttd_row = 5+$temp_row;
-      }
 
-      $objPHPExcel->getActiveSheet()->setCellValue('H'.$temp_row, date('d F Y'));
-      $objPHPExcel->getActiveSheet()->setCellValue('G'. $ttd_row, $data_mhs->nm_mhs);
-      $objPHPExcel->getActiveSheet()->removeRow($baseRow-1,1);
+      $temp_datax = $this->App_model->get_query("SELECT * FROM v_data_krs WHERE id_krs='".$id_krs."'");
+      $temp_data = $temp_datax->result();
+      $temp_data_cek = $temp_datax->num_rows();
 
-      $nimd = $string = preg_replace('/\s+/', '', $nim);
-      $filename = $nimd."-".time().'-krs.xlsx';
+      if ($temp_data_cek != '') {
+        $temp_row=0;
+        $ttd_row=0;
+        foreach($temp_data as $r => $dataRow) {
+          $row = $baseRow + $r;
+          $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+          $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $r+1)
+                    ->setCellValue('B'.$row, $dataRow->id_matkul)
+                    ->setCellValue('C'.$row, $dataRow->nm_mk)
+                    ->setCellValue('F'.$row, 'A / U')
+                    ->setCellValue('G'.$row, $dataRow->sks)
+                    ->setCellValue('I'.$row, $dataRow->nm_dosen);
+          $temp_row = 1+$row;
+          $ttd_row = 5+$temp_row;
+        }
 
-      $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-      //$objWriter->save('php://output');
-      $temp_tulis = $objWriter->save('temps/'.$filename);
-      $this->benchmark->mark('selesai');
-      $time_eks = $this->benchmark->elapsed_time('mulai', 'selesai');
-      if ($temp_tulis==NULL) {
-          $this->session->set_flashdata('message', "<div class=\"bs-callout bs-callout-success\">
-              File berhasil digenerate dalam waktu <strong>".$time_eks." detik</strong>. <br />Klik <a href=\"".base_url()."index.php/file/download/".$filename."\">disini</a> untuk download file
-            </div>");
-          redirect(site_url('krs'));
-      } else {
+        $objPHPExcel->getActiveSheet()->setCellValue('H'.$temp_row, date('d F Y'));
+        $objPHPExcel->getActiveSheet()->setCellValue('G'. $ttd_row, $data_mhs->nm_mhs);
+        $objPHPExcel->getActiveSheet()->removeRow($baseRow-1,1);
+
+        $nimd = $string = preg_replace('/\s+/', '', $nim);
+        $filename = $nimd."-".time().'-krs.xlsx';
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        //$objWriter->save('php://output');
+        $temp_tulis = $objWriter->save('temps/'.$filename);
+        $this->benchmark->mark('selesai');
+        $time_eks = $this->benchmark->elapsed_time('mulai', 'selesai');
+        if ($temp_tulis==NULL) {
+            $ubah_status_cetak  = array('status_cetak' => 'Y');
+            $status = $this->mhs_krs->update($id_krs, $ubah_status_cetak);
+            if (!$status) {
+                  $this->session->set_flashdata('message', "<div class=\"bs-callout bs-callout-success\">
+                      File berhasil digenerate dalam waktu <strong>".$time_eks." detik</strong>. <br />Klik <a href=\"".base_url()."index.php/file/download/".$filename."\">disini</a> untuk download file
+                    </div>");
+            }
+            else {
+                $this->session->set_flashdata('message', "<div class=\"bs-callout bs-callout-warning\">
+                    File berhasil digenerate dalam waktu Status Gagal Di Ubah <strong>".$time_eks." detik</strong>. <br />Klik <a href=\"".base_url()."index.php/file/download/".$filename."\">disini</a> untuk download file
+                  </div>");
+            }
+            redirect(site_url('krs'));
+        }
+        else {
           $this->session->set_flashdata('message',"<div class=\"bs-callout bs-callout-danger\">
               <h4>Error</h4>File tidak bisa digenerate. Folder 'temps' tidak ada atau tidak bisa ditulisi.
             </div>" );
-      }
+        }
+     }
+     else {
+         $this->session->set_flashdata('message',"<div class=\"bs-callout bs-callout-danger\">
+             <h4>Error</h4> File tidak bisa digenerate. Anda Belum Melakukan Belanja Mata Kuliah.
+           </div>" );
+        redirect(site_url('krs'));
+     }
     }
-
 }

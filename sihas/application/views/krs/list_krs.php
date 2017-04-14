@@ -22,9 +22,9 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>NIM</th>
-                <th>Nama Mahasiswa</th>
-                <th>Kode Pembayaran</th>
+                <!-- <th>NIM</th> -->
+                <!-- <th>Nama Mahasiswa</th> -->
+                <!-- <th>Kode Pembayaran</th> -->
                 <th>Nama Kurikulum</th>
                 <th>Periode</th>
                 <th>Ambil</th>
@@ -38,9 +38,9 @@
             ?>
               <tr>
                 <td><?php echo ++$start ?></td>
-                <td><?php echo  $key->nim ?></td>
-                <td><?php echo  $key->nama ?></td>
-                <td><?php echo  $key->kode_pembayaran ?></td>
+                <!-- <td><?php echo  $key->nim ?></td> -->
+                <!-- <td><?php echo  $key->nama ?></td> -->
+                <!-- <td><?php echo  $key->kode_pembayaran ?></td> -->
                 <td><?php echo  $key->nm_kurikulum ?></td>
                 <?php if (($key->ta == $this->session->userdata('ta'))): ?>
                 <td><span class="label label-success"><?php echo  $key->ta ?></span></td>

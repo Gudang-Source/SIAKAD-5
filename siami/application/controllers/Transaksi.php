@@ -177,7 +177,7 @@ class Transaksi extends CI_Controller {
 					Kode Bayar : ".$kode_bayar."
 
 		</p>";
-		$isi .= "<p>Silahkan klik mengaktifkan akun anda dengan masuk pada link berikut ini : <a href='http://localhost/siakad/simala/auth/konfirmasiEmail/".$kode_bayar."/".$enc_nim."/".$enc_periode."/".$token."'>Verifikasi Akun Anda</a></p>";
+		$isi .= "<p>Silahkan klik mengaktifkan akun anda dengan masuk pada link berikut ini : <a href='http://siakad.stmikadhiguna.ac.id/siakad/simala/auth/konfirmasiEmail/".$kode_bayar."/".$enc_nim."/".$enc_periode."/".$token."'>Verifikasi Akun Anda</a></p>";
 		$isi .= "<p>Terima kasih atas perhatiannya<br>- Best Regard,<br>Herlinawati Ridwan, S.Kom</p>";
 
 		//lib email 1

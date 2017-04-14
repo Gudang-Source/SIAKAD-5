@@ -135,7 +135,16 @@
 
       <p>
         <b>Catatan Mahasiswa Mengulang Mata Kuliah</b><hr>
-        bagi Mahasiswa yang mengulang mata kuliah harap mencentang ulang pada saat belanja mata kuliah
+        <strong>Mohon maaf atas ketidak nyamanan ini</strong><br>
+        Hingga Saat ini sistem masih dikembangkan untuk kenyamanan anda <br>
+        Untuk Mahasiswa yang mengulang harap ikut aturan berikut ini. <br>
+        <ol>
+          <li>Ingatlah Dimana Kelas Anda Sewaktu Mengambil mata kuliah bersangkutan</li>
+          <li>Harap Mencentang Chekbox Ulang (jangan melepas centang baru)</li>
+        </ol>
+        Terima Kasih Atas Perhatiannya <br>
+        Best Regard,<br><br><br>
+        Admin
       </p>
     </div>
     <div class="col-md-8">
