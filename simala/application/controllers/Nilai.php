@@ -29,7 +29,7 @@ class Nilai extends CI_Controller
 
         }
         else{
-            $nilai = $this->app_model->get_query("SELECT * FROM v_nilai WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
+            $nilai = $this->app_model->get_query("SELECT * FROM v_nilai WHERE ".$filter." LIKE '%".$nm_filter."%' AND ( ) ")->result();
         }
         $data = array(
             'nilai_data' => $nilai

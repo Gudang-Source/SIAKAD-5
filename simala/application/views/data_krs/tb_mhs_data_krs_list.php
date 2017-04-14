@@ -18,7 +18,8 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="col-md-4">
+      <div class="col-md-3">
+        <strong>Keterangan</strong><hr>
         <table>
           <tr>
             <td><label for="">Nama Kurikulum</label></td>
@@ -58,26 +59,58 @@
           </tr>
         </table>
       </div>
-      <div class="col-md-4">
-        <?php echo anchor(site_url('data_krs/create'), 'Tambah KRS', 'class="btn btn-success btn-block"'); ?>
-        <?php echo anchor(site_url('data_krs/excel'), 'Import Excel', 'class="btn btn-primary btn-block"'); ?>
+      <div class="col-md-5">
+        <strong>Grafik Pengambilan KRS</strong><hr>
+        <div class="canvas-wrapper">
+          <canvas class="main-chart2" id="chart2" height="200" width="600"></canvas>
+        </div>
       </div>
       <div class="col-md-4">
-        <?php echo anchor(site_url('data_krs/word'), 'Import Word', 'class="btn btn-warning btn-block"'); ?>
-        <?php echo anchor(site_url('data_krs'), 'Kembali', 'class="btn btn-danger btn-block"'); ?>
+        <strong>Tabel Pengambilan KRS</strong><hr>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Mahasiswa Aktif Periode <?php echo $periode ?></th>
+              <th>Angkatan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $mn=1;
+            $a=0;
+            ?>
+            <?php foreach ($rasio_mhs as $key): ?>
+              <?php
+                $a += $key->mahasiswa_aktif
+              ?>
+              <tr>
+                <td><?php echo $mn++ ?></td>
+                <td><?php echo $key->mahasiswa_aktif ?></td>
+                <td><?php echo substr($key->smt_masuk,0,4) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="2">Total Mahasiswa Aktif</th>
+              <th><?php echo $a ?></th>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
   </div>
   <hr>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-9">
       <table class="table table-bordered table-striped" id="krstable">
         <thead>
             <tr>
                 <th>No</th>
                 <th>NIM</th>
                 <th>Nama Mahasiswa</th>
-                <!-- <th>Kode Pembayaran</th> -->
+                <th>Cetak</th>
                 <th>BAAK</th>
                 <th>Kartu Ujian</th>
                 <th><center>Action</center></th>
@@ -92,17 +125,17 @@
                 <td><?php echo ++$start ?></td>
                 <td><?php echo  $key->nim ?></td>
                 <td><?php echo  $key->nama ?></td>
-                <!-- <td><?php echo  $key->kode_pembayaran ?></td> -->
+                <td><?php echo  $key->status_cetak ?></td>
                 <td><?php echo  $key->status_ambil ?></td>
                 <td>
-                  <a href="<?php echo site_url('data_krs/cetak_uts/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>" onclick='javasciprt: return confirm("Are You Sure ?")' target="_blank"><i class='fa fa-archive'> UTS</i></a> |
-                  <a href="<?php echo site_url('data_krs/cetak_uas/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>" onclick='javasciprt: return confirm("Are You Sure ?")' target="_blank"><i class='fa fa-archive'> UAS</i></a>
+                  <a href="<?php echo site_url('data_krs/cetak_uts/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>" onclick='javasciprt: return confirm("Are You Sure ?")' target="_blank"><i class='fa fa-archive'> UT</i></a> |
+                  <a href="<?php echo site_url('data_krs/cetak_uas/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>" onclick='javasciprt: return confirm("Are You Sure ?")' target="_blank"><i class='fa fa-archive'> US</i></a>
                 </td>
                 <td style="text-align:center" width="200px">
                   <a href="<?php echo site_url('data_krs/konfirmasi/'.$key->nim.'/'.$key->kode_pembayaran) ?>"><i class='fa fa-pencil-square-o'></i></a> |
-                  <a href="<?php echo site_url('data_krs/proses_krs/'.$key->nim.'/'.$key->ta) ?>"><i class='fa fa-gears'> </i></a>
+                  <a href="<?php echo site_url('data_krs/proses_krs/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs.'/'.$key->id_kurikulum.'/'.$key->kd_prodi) ?>"><i class='fa fa-gears'> </i></a>
                   |
-                  <a href="<?php echo site_url('data_krs/cetak_krs/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>"><i class='fa fa-archive'> Cetak Krs </i></a>
+                  <a href="<?php echo site_url('data_krs/cetak_krs/'.$key->nim.'/'.$key->ta.'/'.$key->id_krs) ?>"><i class='fa fa-archive'>Cetak</i></a>
                 </td>
               </tr>
             <?php
@@ -111,28 +144,12 @@
         </tbody>
       </table>
     </div>
-    <div class="col-md-4">
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Mahasiswa Aktif</th>
-            <th>Angkatan</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php $mn=1 ?>
-          <?php foreach ($rasio_mhs as $key): ?>
-            <tr>
-              <td><?php echo $mn++ ?></td>
-              <td><?php echo $key->mahasiswa_aktif ?></td>
-              <td><?php echo substr($key->smt_masuk,0,4) ?></td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-      <div class="canvas-wrapper">
-        <canvas class="main-chart2" id="chart2" height="200" width="600"></canvas>
+    <div class="col-md-3">
+      <div class="col-md-12">
+        <!-- <?php echo anchor(site_url('data_krs/create'), 'Tambah KRS', 'class="btn btn-success btn-block"'); ?> -->
+        <?php echo anchor(site_url('data_krs/excel'), 'Import Excel', 'class="btn btn-primary btn-block"'); ?>
+        <?php echo anchor(site_url('data_krs/word'), 'Import Word', 'class="btn btn-warning btn-block"'); ?>
+        <?php echo anchor(site_url('data_krs'), 'Kembali', 'class="btn btn-danger btn-block"'); ?>
       </div>
       <div class="col-md-12">
         <!-- <form class="for" action="" method="post" id='filter_form' role="form">

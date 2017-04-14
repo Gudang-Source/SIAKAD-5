@@ -149,4 +149,71 @@ class Auth extends CI_Controller {
       echo "Macam-macam Ente";
     }
   }
+
+	public function konfirmasiEmail($kode_bayar,$nim,$periode,$token)
+	{
+
+		$data_validasi = $this->app_model->get_query("SELECT * FROM tb_mhs_krs WHERE kode_pembayaran='".$kode_bayar."'AND (token='".$token."' AND id_mhs='".$nim."')
+			")->row();
+
+		if ($data_validasi != NULL || $data_validasi != '') {
+			$data = array(
+					'status_ambil' => 'Y'
+			);
+			$token = str_shuffle("12345abcdefghijklmnop");
+
+			//$this->Mhs_krs_model->update($id_krs, $data);
+			$dataUser = array(
+				'id_user' => NULL,
+				'id_krs' => $data_validasi->id_krs,
+				'username' => $nim,
+				'password' => $nim,
+				'level' =>'mhs',
+				'val_periode' => 'Y'
+			);
+			$insertUser=  1;//$this->app_model->insertRecord('login_mhs',$dataUser);
+			if ($insertUser==true) {
+				$isi = "<p>Terimakasih Atas Verifikasi Yang anda Lakukan</p>";
+				$isi .= "<p>
+							NIM : ".$nim." <br>
+							USERNAME : ".$username." <br>
+							PASSWORD : ".$token."
+
+				</p>";
+				$isi .= "<p>Silahkan Login Di  : <a href='http://siakad.stmikadhiguna.ac.id/siakad/simala/auth/'>Disini</a></p>";
+				$isi .= "<p>Terima kasih atas perhatiannya<br>- Best Regard,<br>Admin</p>";
+				$this->sendEmail('meongbego@gmail.com',$isi);
+			}
+			else {
+				$isi = "<p>Mohon Maaf Verifikasi Yang anda Lakukan Gagal Tersimpan</p>";
+				$isi .= "<p>Silahkan Berhubungan Dengan ADMIN Atau Lakukan Validasi Manual di BAAK</p>";
+				$isi .= "<p>Terima kasih atas perhatiannya<br>- Best Regard,<br>Admin</p>";
+				$this->sendEmail($email='',$token,$username='',$isi);
+			}
+
+		}
+		else {
+			echo "Data Anda Tidak Ditemukan";
+		}
+	}
+
+	private function sendEmail($email='',$isi)
+	{
+		$this->load->library('email');
+		$subject = 'Akun Pembayaran Periode Berjalan';
+		//lib email 1
+		$result = $this->email
+        ->from("siakad.sagp@gmail.com")
+        ->to($email)
+        ->subject($subject)
+        ->message($isi)
+        ->send();
+		// if ($result) {
+		// 	return TRUE;
+		// }
+		// else {
+		// 	return FALSE;
+		// }
+
+	}
 }

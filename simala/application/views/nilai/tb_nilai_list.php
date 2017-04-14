@@ -15,6 +15,27 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-md-12">
+      <strong>
+        <em>Cari Nilai Mahasiswa</em>
+      </strong><hr>
+    </div>
+      <form class="form-horizontal" action="" method="post" role="form">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="" class="col-md-2 form-label">Kelas</label>
+            <div class="col-md-10">
+              <input type="text" class="form-control" name="" value="">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-10">
       <table class="table table-bordered table-striped" id="mytable">
           <thead>
@@ -64,7 +85,7 @@
         <form class="for" action="" method="post" id='filter_form' role="form">
           <div class="form-group">
             <label for="">Kategori</label>
-            <select class="form-control" name="kat_filter" id="kat_filter">
+            <select class="form-control" name="kat_filter" id="kat_filter" required>
               <option value="">--- Pilih Filter ---</option>
               <option value="nim">NIM</option>
               <option value="nama">Nama Mahasiswa</option>

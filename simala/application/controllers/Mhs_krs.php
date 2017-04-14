@@ -171,14 +171,14 @@ class Mhs_krs extends CI_Controller
 
     public function _rules()
     {
-	$this->form_validation->set_rules('id_mhs', 'id mhs', 'trim|required');
-	$this->form_validation->set_rules('kode_pembayaran', 'kode pembayaran', 'trim|required');
-	$this->form_validation->set_rules('id_kurikulum', 'id kurikulum', 'trim|required');
-	$this->form_validation->set_rules('status_ambil', 'status ambil', 'trim|required');
-	$this->form_validation->set_rules('status_cek', 'status cek', 'trim|required');
+    	$this->form_validation->set_rules('id_mhs', 'id mhs', 'trim|required');
+    	$this->form_validation->set_rules('kode_pembayaran', 'kode pembayaran', 'trim|required');
+    	$this->form_validation->set_rules('id_kurikulum', 'id kurikulum', 'trim|required');
+    	$this->form_validation->set_rules('status_ambil', 'status ambil', 'trim|required');
+    	$this->form_validation->set_rules('status_cek', 'status cek', 'trim|required');
 
-	$this->form_validation->set_rules('id_krs', 'id_krs', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    	$this->form_validation->set_rules('id_krs', 'id_krs', 'trim');
+    	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
     public function excel()

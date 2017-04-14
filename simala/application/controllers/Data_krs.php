@@ -70,7 +70,7 @@ class Data_krs extends CI_Controller
         $data['site_title'] = 'SIMALA';
         $data['kode_prodi'] = $kd_prodi;
         $data['periode'] = $periode;
-        $data['title_page'] = 'Periode KRS Berdasarkan Periode';
+        $data['title_page'] = 'KRS Berdasarkan Periode';
         $data['assign_js'] = 'data_krs/js/index.js';
         load_view('data_krs/tb_mhs_data_krs_list', $data);
     }
@@ -209,17 +209,17 @@ class Data_krs extends CI_Controller
         }
     }
 
-    public function delete($id)
+    public function delete($id,$periode='',$kd_prodi='')
     {
         $row = $this->Data_krs_model->get_by_id($id);
 
         if ($row) {
             $this->Data_krs_model->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('data_krs'));
+            redirect(site_url('data_krs/periodeData/'.$periode.'/'.$kd_prodi));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('data_krs'));
+            redirect(site_url('data_krs/periodeData/'.$periode.'/'.$kd_prodi));
         }
     }
 
@@ -300,14 +300,209 @@ class Data_krs extends CI_Controller
         load_view('data_krs/tb_mhs_data_krs_doc',$data);
     }
 
-    public function proses_krs($nim,$ta)
+    // public function proses_krs($nim,$ta)
+    // {
+    //   $beli_mk = $this->Data_krs_model->get_query("SELECT * FROM v_data_krs WHERE nim='".$nim."' AND ta='".$ta."'")->result();
+    //   $data['data_krs_data']= $beli_mk;
+    //   $data['site_title'] = 'SIMALA';
+    //   $data['title_page'] = 'Pembelian Mata Kuliah Mahasiswa Bersangkutan';
+    //   $data['assign_js'] = 'data_krs/js/index.js';
+    //   load_view('data_krs/tb_mhs_data_krs_proses',$data);
+    // }
+    public function getKelasData($a='',$id_kurikulum,$filter='')
     {
-      $beli_mk = $this->Data_krs_model->get_query("SELECT * FROM v_data_krs WHERE nim='".$nim."' AND ta='".$ta."'")->result();
+        // echo "SELECT * FROM v_kelas_kuliah WHERE ta='".$a."' and id_kurikulum='".$id_kurikulum."'";
+        if ($filter=='') {
+            $mata_kuliah = $this->App_model->get_query("SELECT * FROM v_kelas_kuliah WHERE ta='".$a."' and id_kurikulum='".$id_kurikulum."'")->result();
+        }
+        else {
+            $mata_kuliah = $this->App_model->get_query("SELECT * FROM v_kelas_kuliah WHERE ta='".$a."' and (id_kurikulum='".$id_kurikulum."' AND nm_kelas LIKE '%".$filter."%')")->result();
+        }
+
+        return $mata_kuliah;
+    }
+
+    public function ceklis($nim='',$id_kelas='')
+    {
+        $mata_kuliah = $this->App_model->get_query("SELECT * FROM v_data_krs WHERE id_kelas='".$id_kelas."' and nim='".$nim."'")->num_rows();
+        return $mata_kuliah;
+    }
+
+    public function ceklisData($nim='',$kode_mk='')
+      {
+          // $mata_kuliah = $this->App_model->get_query("SELECT * FROM v_data_krs WHERE id_kelas='".$id_kelas."' and nim='".$nim."'")->num_rows();
+          $mata_kuliah = $this->App_model->get_query("SELECT * FROM v_data_krs WHERE id_matkul='".$kode_mk."' and nim='".$nim."'")->row();
+          return $mata_kuliah;
+      }
+
+    public function proses_krs($nim,$ta,$id_krs,$id_kurikulum,$kd_prodi){
+      $cek_ta = $this->App_model->get_query("SELECT ta,status FROM tb_kurikulum WHERE ta='".$ta."'")->row();
+      $beli_mk = $this->App_model->get_query("SELECT * FROM v_data_krs WHERE nim='".$nim."' AND ta='".$ta."'")->result();
       $data['data_krs_data']= $beli_mk;
-      $data['site_title'] = 'SIMALA';
-      $data['title_page'] = 'Pembelian Mata Kuliah Mahasiswa Bersangkutan';
-      $data['assign_js'] = 'data_krs/js/index.js';
-      load_view('data_krs/tb_mhs_data_krs_proses',$data);
+      $data['nim']=$nim;
+      $data['ta']=$ta;
+      $data['kd_prodi']=$kd_prodi;
+      $data['id_krs']= $id_krs;
+      $data['id_kurikulum'] = $id_kurikulum;
+      $data['data_mhs_aktif'] = $this->App_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
+      if ($this->input->post('filter_kelas')=='') {
+          $matkul = $this->getKelasData($ta,$id_kurikulum);
+          $temps = array();
+          foreach ($matkul as $key) {
+            //   echo json_encode($this->ceklisData($nim,$key->kode_mk))."<br><br>";
+              $data_temps=$this->ceklis($nim,$key->id_kelas);
+              if (!$data_temps) {
+                  $temps[] = array(
+                           'id_kelas' => $key->id_kelas,
+                           'id_kurikulum' => $key->id_kurikulum,
+                           'kode_mk' => $key->kode_mk,
+                           'nm_mk' => $key->nm_mk,
+                           'sks' => $key->sks,
+                           'ta' => $key->ta,
+                           'nm_kelas' => $key->nm_kelas,
+                           'id_prodi' => $key->id_prodi,
+                           'nm_prodi' => $key->nm_prodi,
+                           'status_pesan' => false
+                         );
+              }
+              else {
+                  $temps[] = array(
+                           'id_kelas' => $key->id_kelas,
+                           'id_kurikulum' => $key->id_kurikulum,
+                           'kode_mk' => $key->kode_mk,
+                           'nm_mk' => $key->nm_mk,
+                           'sks' => $key->sks,
+                           'ta' => $key->ta,
+                           'nm_kelas' => $key->nm_kelas,
+                           'id_prodi' => $key->id_prodi,
+                           'nm_prodi' => $key->nm_prodi,
+                           'status_pesan' => true
+                         );
+              }
+          }
+      //echo json_encode($temps);
+      $data['krs_data'] = $temps;
+    }
+    else {
+        $matkul = $this->getKelasData($ta,$id_kurikulum,$this->input->post('filter_kelas'));
+        $temps = array();
+        foreach ($matkul as $key) {
+            // echo json_encode($this->ceklis($nim,$key->id_kelas))."<br><br>";
+            $data_temps=$this->ceklis($nim,$key->id_kelas);
+            if (!$data_temps) {
+                $temps[] = array(
+                         'id_kelas' => $key->id_kelas,
+                         'id_kurikulum' => $key->id_kurikulum,
+                         'kode_mk' => $key->kode_mk,
+                         'nm_mk' => $key->nm_mk,
+                         'sks' => $key->sks,
+                         'ta' => $key->ta,
+                         'nm_kelas' => $key->nm_kelas,
+                         'id_prodi' => $key->id_prodi,
+                         'nm_prodi' => $key->nm_prodi,
+                         'status_pesan' => false
+                       );
+            }
+            else {
+                $temps[] = array(
+                         'id_kelas' => $key->id_kelas,
+                         'id_kurikulum' => $key->id_kurikulum,
+                         'kode_mk' => $key->kode_mk,
+                         'nm_mk' => $key->nm_mk,
+                         'sks' => $key->sks,
+                         'ta' => $key->ta,
+                         'nm_kelas' => $key->nm_kelas,
+                         'id_prodi' => $key->id_prodi,
+                         'nm_prodi' => $key->nm_prodi,
+                         'status_pesan' => true
+                       );
+                }
+            }
+            //echo json_encode($temps);
+            $data['krs_data'] = $temps;
+        }
+        $data['site_title'] = 'SIMALA';
+        $data['title_page'] = 'Olah Data KRS Mahasiswa';
+        $data['assign_js'] = 'data_krs/js/krs.js';
+        $data['ta'] = $ta;
+        $data['kode_prodi'] = $kd_prodi;
+        load_view('data_krs/tb_mhs_data_krs_proses1',$data);
+      }
+
+      public function add_baru()
+      {
+
+          $jumlah = count($_POST["item"]);
+          echo $jumlah = count($_POST["ulang"]);
+          $id_krs = $this->input->post('id_krs');
+          $id_kurikulum = $this->input->post('id_kurikulum');
+          $nim = $this->input->post('nim');
+          $ta = $this->input->post('ta');
+          $kode_prodi = $this->input->post('kode_prodi');
+
+          $data = array();
+          $sks_arr = array();
+          $gagal = 0;
+
+          for($i=0; $i < $jumlah; $i++)
+          {
+              $id_kelas=$_POST["item"][$i];
+              $cek = $this->App_model->get_query("SELECT * FROM v_data_krs WHERE id_kelas='".$id_kelas."' AND id_krs='".$id_krs."'")->num_rows();
+              $temps_sks = $this->App_model->get_query("SELECT * FROM v_kelas_kuliah WHERE id_kelas='".$id_kelas."'")->row();
+              if ($cek==true) {
+                  $gagal= $gagal+$i;
+              }
+              else{
+                  $sks_arr[] = array('sks' => $temps_sks->sks, );
+                  $data[] = array(
+                      'id_krs' => $id_krs,
+                      'id_kelas' =>$id_kelas,
+                      'status_upload' => "N",
+                      'status_nilai' => "N"
+                  );
+              }
+
+          }
+          $sks=0;
+          foreach ($sks_arr as $cek_sks => $ceking) {
+              $sks = $sks+$ceking['sks'];
+          }
+          if ($sks > 24) {
+              $this->session->set_flashdata('message', '<span class="label label-danger">SKS MAKSIMAL ADALAH 24 SKS SILAHKAN PILIH LAGI</span>');
+              redirect(site_url('data_krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs."/".$id_kurikulum."/".$kode_prodi));
+          }
+          else {
+              $berhasil=0;
+              foreach ($data as $key => $value) {
+                  $insert = 1;//$this->App_model->insertRecord('tb_mhs_data_krs',$value);
+                  if ($insert==true) {
+                      $berhasil++;
+
+                  }
+              }
+              $this->session->set_flashdata('message', '<span class="label label-success">'.$berhasil.' Belanja Mata Kuliah Berhasil dan '.$gagal.' Belanja Mata Kuliah Gagal</span>');
+              //redirect(site_url('data_krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs."/".$id_kurikulum."/".$kode_prodi));
+          }
+    }
+    public function getKelasMataKuliah($ta='',$kode_prodi=''){
+        $cari = $this->input->post('q');
+        $temp_cari = $cari==''?'':$cari;
+        $page = $this->input->post('page');
+        if ($page=='') {
+          $mata_kuliah = $this->App_model->get_query("SELECT nm_kelas,ta FROM v_kelas_kuliah WHERE ta='".$ta."' AND id_prodi='".$kode_prodi."' GROUP BY nm_kelas")->result();
+        }
+        else {
+          $mata_kuliah = $this->App_model->get_query("SELECT nm_kelas,ta FROM v_kelas_kuliah WHERE ta='".$ta."' AND (id_prodi='".$kode_prodi."' AND nm_kelas LIKE '%".$cari."%') GROUP BY nm_kelas")->result();
+        }
+        $temps = array();
+        //$mata_kuliah = $this->mata_kuliah->get_all();
+        foreach ($mata_kuliah as $key) {
+          $temps[] = array(
+            'nm_kelas' => $key->nm_kelas,
+            'ta' => $key->ta
+          );
+        }
+        echo json_encode($temps);
     }
 
     public function cetak_krs($nim,$ta,$id_krs){
@@ -356,10 +551,19 @@ class Data_krs extends CI_Controller
       $this->benchmark->mark('selesai');
       $time_eks = $this->benchmark->elapsed_time('mulai', 'selesai');
       if ($temp_tulis==NULL) {
-          $this->session->set_flashdata('message', "<div class=\"bs-callout bs-callout-success\">
-              File berhasil digenerate dalam waktu <strong>".$time_eks." detik</strong>. <br />Klik <a href=\"".base_url()."index.php/file/download/".$filename."\">disini</a> untuk download file
-            </div>");
-          redirect(site_url('data_krs'));
+          $ubah_status_cetak  = array('status_cetak' => 'Y');
+          $status = $this->mhs_krs->update($id_krs, $ubah_status_cetak);
+          if (!$status) {
+                $this->session->set_flashdata('message', "<div class=\"bs-callout bs-callout-success\">
+                    File berhasil digenerate dalam waktu <strong>".$time_eks." detik</strong>. <br />Klik <a href=\"".base_url()."index.php/file/download/".$filename."\">disini</a> untuk download file
+                  </div>");
+          }
+          else {
+              $this->session->set_flashdata('message', "<div class=\"bs-callout bs-callout-warning\">
+                  File berhasil digenerate dalam waktu Status Gagal Di Ubah <strong>".$time_eks." detik</strong>. <br />Klik <a href=\"".base_url()."index.php/file/download/".$filename."\">disini</a> untuk download file
+                </div>");
+          }
+          //redirect(site_url('data_krs'));
       } else {
           $this->session->set_flashdata('message',"<div class=\"bs-callout bs-callout-danger\">
               <h4>Error</h4>File tidak bisa digenerate. Folder 'temps' tidak ada atau tidak bisa ditulisi.
