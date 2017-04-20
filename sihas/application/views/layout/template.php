@@ -69,6 +69,7 @@
                     <li><a href="<?php echo base_url('mata_kuliah_kurikulum.html') ?>"><i class="fa fa-file-archive-o"></i> Mata Kuliah Kurikulum</a></li>
                     <li><a href="<?php echo base_url('') ?>"><i class="fa fa-calendar"></i> Jadwal</a></li>
                     <li><a href="<?php echo base_url('') ?>"><i class="fa fa-calendar"></i> Evaluasi Dosen</a></li>
+                    <li><a href="<?php echo base_url('') ?>"><i class="fa fa-calendar"></i> Unduhan</a></li>
                   </ul>
                 </li>
                 <li class="dropdown">

@@ -37,6 +37,7 @@ class Krs extends CI_Controller
 
     public function proses_krs($nim,$ta,$id_krs,$id_kurikulum){
       $cek_ta = $this->App_model->get_query("SELECT ta,status FROM tb_kurikulum WHERE ta='".$ta."'")->row();
+      $cek_status_buka = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE id_krs=".$id_krs)->row();
       if ($cek_ta->status == 1) {
         $t=time();
         $status_tutup=false;
@@ -60,6 +61,12 @@ class Krs extends CI_Controller
             $status_tutup=false;
             $status_buka=false;
             $data['title_page'] = 'Pembelian Mata Kuliah Untuk KRS Periode '.$this->session->userdata('ta').' Telah Ditutup'."";
+        }
+        elseif ($count_down>=$count_masa_isi->waktu_tutup && $cek_status_buka->status_buka=='Y') {
+            $status_tutup=false;
+            $status_buka=true;
+            $data['title_page'] = 'Pembelian Mata Kuliah Anda Periode '.$this->session->userdata('ta').' Pembukaan KRS Dilakukan Oleh Dosen Wali';
+
         }
         else {
             $status_tutup=false;
@@ -156,6 +163,106 @@ class Krs extends CI_Controller
             $data['krs_data'] = $temps;
         }
         load_view('krs/tb_mhs_data_krs_proses1',$data);
+      }
+      else if ($cek_ta->status != 1 && $cek_status_buka->status_buka=='Y') {
+
+          $status_tutup=false;
+          $status_buka=true;
+          $status_buka_1 = false;
+        //   $count_masa_isi = $this->App_model->get_query("SELECT * FROM v_count_down WHERE ta='". $this->session->userdata('ta') ."' AND kd_prodi='". $this->session->userdata('kode_prodi')."'")->row();
+          $data['title_page'] = 'Pembelian Mata Kuliah Anda Periode '.$this->session->userdata('ta').' | Pembukaan KRS Dilakukan Oleh Dosen Wali';
+
+          $beli_mk = $this->App_model->get_query("SELECT * FROM v_data_krs WHERE nim='".$nim."' AND ta='".$ta."'")->result();
+          $data['data_krs_data']= $beli_mk;
+        //   $data['tgl_tutup'] = $count_masa_isi->waktu_tutup;
+        //   $data['tgl_buka'] = $count_masa_isi->waktu_buka;
+          $data['status_tutup'] = $status_tutup;
+          $data['status_buka_1'] = $status_buka_1;
+          $data['status_buka'] = $status_buka;
+          $data['nim']=$nim;
+          $data['ta']=$ta;
+          $data['id_krs']= $id_krs;
+          $data['id_kurikulum'] = $id_kurikulum;
+
+          $data['site_title'] = 'SIMALA';
+          $data['assign_js'] = 'krs/js/index.js';
+          if ($this->input->post('filter_kelas')=='') {
+              $matkul = $this->getKelasData($ta,$id_kurikulum);
+              $temps = array();
+              foreach ($matkul as $key) {
+                  // echo json_encode($this->ceklis($nim,$key->id_kelas))."<br><br>";
+                  $data_temps=$this->ceklis($nim,$key->id_kelas);
+                  if (!$data_temps) {
+                      $temps[] = array(
+                               'id_kelas' => $key->id_kelas,
+                               'id_kurikulum' => $key->id_kurikulum,
+                               'kode_mk' => $key->kode_mk,
+                               'nm_mk' => $key->nm_mk,
+                               'sks' => $key->sks,
+                               'ta' => $key->ta,
+                               'nm_kelas' => $key->nm_kelas,
+                               'id_prodi' => $key->id_prodi,
+                               'nm_prodi' => $key->nm_prodi,
+                               'status_pesan' => false
+                             );
+                  }
+                  else {
+                      $temps[] = array(
+                               'id_kelas' => $key->id_kelas,
+                               'id_kurikulum' => $key->id_kurikulum,
+                               'kode_mk' => $key->kode_mk,
+                               'nm_mk' => $key->nm_mk,
+                               'sks' => $key->sks,
+                               'ta' => $key->ta,
+                               'nm_kelas' => $key->nm_kelas,
+                               'id_prodi' => $key->id_prodi,
+                               'nm_prodi' => $key->nm_prodi,
+                               'status_pesan' => true
+                             );
+                  }
+              }
+              //echo json_encode($temps);
+              $data['krs_data'] = $temps;
+          }
+          else {
+              $matkul = $this->getKelasData($ta,$id_kurikulum,$this->input->post('filter_kelas'));
+              $temps = array();
+              foreach ($matkul as $key) {
+                  // echo json_encode($this->ceklis($nim,$key->id_kelas))."<br><br>";
+                  $data_temps=$this->ceklis($nim,$key->id_kelas);
+                  if (!$data_temps) {
+                      $temps[] = array(
+                               'id_kelas' => $key->id_kelas,
+                               'id_kurikulum' => $key->id_kurikulum,
+                               'kode_mk' => $key->kode_mk,
+                               'nm_mk' => $key->nm_mk,
+                               'sks' => $key->sks,
+                               'ta' => $key->ta,
+                               'nm_kelas' => $key->nm_kelas,
+                               'id_prodi' => $key->id_prodi,
+                               'nm_prodi' => $key->nm_prodi,
+                               'status_pesan' => false
+                             );
+                  }
+                  else {
+                      $temps[] = array(
+                               'id_kelas' => $key->id_kelas,
+                               'id_kurikulum' => $key->id_kurikulum,
+                               'kode_mk' => $key->kode_mk,
+                               'nm_mk' => $key->nm_mk,
+                               'sks' => $key->sks,
+                               'ta' => $key->ta,
+                               'nm_kelas' => $key->nm_kelas,
+                               'id_prodi' => $key->id_prodi,
+                               'nm_prodi' => $key->nm_prodi,
+                               'status_pesan' => true
+                             );
+                  }
+              }
+              //echo json_encode($temps);
+              $data['krs_data'] = $temps;
+          }
+          load_view('krs/tb_mhs_data_krs_proses1',$data);
       }
       else {
         $data['ta'] = $cek_ta->ta;
@@ -259,10 +366,20 @@ class Krs extends CI_Controller
                 $insert = $this->App_model->insertRecord('tb_mhs_data_krs',$value);
                 if ($insert==true) {
                     $berhasil++;
-
                 }
             }
-            $this->session->set_flashdata('message', '<span class="label label-success">'.$berhasil.' Belanja Mata Kuliah Berhasil dan '.$gagal.' Belanja Mata Kuliah Gagal</span>');
+            $data_mhs_krs_1 = array(
+                'status_buka' => 'Y'
+            );
+            $r='';
+            $status = $this->App_model->update('tb_mhs_krs','id_krs',$id_krs, $data_mhs_krs_1);
+            if (!$status) {
+                $r='Y';
+            }
+            else {
+                $r='N';
+            }
+            $this->session->set_flashdata('message', '<span class="label label-success">'.$berhasil.' Belanja Mata Kuliah Berhasil dan '.$gagal.' Belanja Mata Kuliah Gagal</span> '.$r);
             redirect(site_url('krs/proses_krs/'.$this->session->userdata('nim').'/'.$this->session->userdata('ta').'/'.$id_krs."/".$id_kurikulum));
         }
 

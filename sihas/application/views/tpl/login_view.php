@@ -64,7 +64,22 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Periode Pembayaran</label>
-                                    <input type="" id="inputPassword" name="ta" class="form-control" placeholder="Contoh : 20151 untuk semester ganjil">
+                                    <!-- <input type="" id="" name="ta" class="form-control" placeholder="Contoh : 20151 untuk semester ganjil"> -->
+                                    <select class="form-control" name="ta" required>
+                                        <option value="">--- Pilih Periode ---</option>
+                                        <?php foreach ($kurikulum as $key): ?>
+                                            <?php
+                                                 $periode = substr($key->ta, 0,4);
+                                                 $smt = substr($key->ta, 4);
+                                             ?>
+                                            <?php if ($smt=='1'): ?>
+                                                <option value="<?php echo $key->ta ?>"><?php echo $periode ?><span class="label label-success"> Ganjil</span></option>
+                                            <?php else: ?>
+                                                <option value="<?php echo $key->ta ?>"><?php echo $periode ?> <span class="label label-primary"> Genap</span></option>
+                                            <?php endif; ?>
+
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-10">

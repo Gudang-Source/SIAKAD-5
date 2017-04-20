@@ -18,7 +18,9 @@ class Auth extends CI_Controller {
 		}
 		else {
 			$pengumuman = $this->app_model->get_query("SELECT * FROM tb_pengumuman WHERE status='Y'")->result();
+			$kurikulum = $this->app_model->get_query("SELECT * FROM tb_kurikulum GROUP BY ta ORDER BY ta DESC")->result();
 			$data['pengumuman']=$pengumuman;
+			$data['kurikulum']=$kurikulum;
 			$data['site_title'] = 'Please Login';
 			$this->load->view('tpl/login_view',$data);
 		}
