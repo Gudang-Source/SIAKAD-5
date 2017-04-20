@@ -269,12 +269,14 @@ class Kelas_dosen extends CI_Controller
     public function view_data_krs($id_kelas)
     {
       $data_krs = $this->App_model->get_view_by_id("v_data_krs","id_kelas",$id_kelas);
+      $data_kls = $this->App_model->get_query("SELECT * FROM v_kelas_dosen WHERE id_kelas_kuliah=".$id_kelas)->row();
       $data = array(
           'data_krs' => $data_krs
       );
-      $data['data_kelas']= $id_kelas;
+      $data['id_kelas']= $id_kelas;
+      $data['data_kelas']= $data_kls;
       $data['site_title'] = 'SIMALA';
-      $data['title_page'] = 'Kelas Mengajar Anda';
+      $data['title_page'] = 'Nilai Mahasiswa Kelas '.$data_kls->nm_kelas.' | Mata Kuliah '.$data_kls->nm_mk;
       $data['assign_js'] = 'kelas_dosen/js/index.js';
       load_view('kelas_dosen/tb_kelas_dosen_list_krs', $data);
     }
@@ -289,125 +291,231 @@ class Kelas_dosen extends CI_Controller
       $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
-    public function add_nilai()
+    // public function add_nilai()
+    // {
+    //   $id_kelas = $this->input->post('id_kelas');
+    //   $id_data_krs = $this->input->post('id_data_krs');
+    //   $nilai_angka = $this->input->post('nilai_angka');
+    //   $this->rules_nilai();
+    //   if ($this->form_validation->run() == FALSE) {
+    //       $this->view_data_krs($id_kelas);
+    //   }
+    //   else {
+    //
+    //     $nilai_huruf = '';
+    //     $nilai_index = '';
+    //
+    //     if ($nilai_angka == null) {
+    //       $this->session->set_flashdata('message', 'Nilai Harus Disi || Isikan Nilai mulai nilai 0 hingga 100');
+    //       redirect(site_url('kelas_dosen/view_data_krs/'.$id_kelas));
+    //     }
+    //     else {
+    //         $nim = $this->App_model->get_query("SELECT nim FROM v_data_krs WHERE id_data_krs=".$id_data_krs)->row();
+    //         $id_ta = $this->App_model->get_query("SELECT smt_masuk FROM v_mhs_aktif WHERE nim='".$nim->nim."'")->row();
+    //         if ($id_ta->smt_masuk >= 20161) {
+    //             if ($nilai_angka >= 90 && $nilai_angka <= 100) {
+    //               $nilai_huruf = 'A';
+    //               $nilai_index= '4';
+    //             } else if ($nilai_angka >= 86 && $nilai_angka <= 89) {
+    //               $nilai_huruf = 'A-';
+    //               $nilai_index= '3.75';
+    //             }
+    //             else if ($nilai_angka >= 81 && $nilai_angka <= 85) {
+    //               $nilai_huruf = 'B+';
+    //               $nilai_index= '3.5';
+    //             }
+    //             else if ($nilai_angka >= 76 && $nilai_angka <= 80) {
+    //               $nilai_huruf = 'B';
+    //               $nilai_index= '3.0';
+    //             }
+    //             else if ($nilai_angka >= 71 && $nilai_angka <= 75) {
+    //               $nilai_huruf = 'B-';
+    //               $nilai_index= '2.75';
+    //             }
+    //             else if ($nilai_angka >= 66 && $nilai_angka <= 70) {
+    //               $nilai_huruf = 'C+';
+    //               $nilai_index= '2.5';
+    //             }
+    //             else if ($nilai_angka >= 61 && $nilai_angka <= 65) {
+    //               $nilai_huruf = 'C';
+    //               $nilai_index= '2.0';
+    //             }
+    //             else if ($nilai_angka >= 56 && $nilai_angka <= 60) {
+    //               $nilai_huruf = 'C-';
+    //               $nilai_index= '1.75';
+    //             }
+    //             else if ($nilai_angka >= 51 && $nilai_angka <= 60) {
+    //               $nilai_huruf = 'D';
+    //               $nilai_index= '1.0';
+    //             }
+    //             else if ($nilai_angka >= 0 && $nilai_angka <= 50) {
+    //               $nilai_huruf = 'E';
+    //               $nilai_index= '0';
+    //             }
+    //             else {
+    //               $nilai_huruf = 'T';
+    //               $nilai_index= '0';
+    //             }
+    //         }
+    //         else {
+    //             if ($nilai_angka >= 85 && $nilai_angka <= 100) {
+    //               $nilai_huruf = 'A';
+    //               $nilai_index= '4';
+    //             } else if ($nilai_angka >= 75 && $nilai_angka <= 84) {
+    //               $nilai_huruf = 'B';
+    //               $nilai_index= '3.0';
+    //             }
+    //             else if ($nilai_angka >= 65 && $nilai_angka <= 74) {
+    //               $nilai_huruf = 'C';
+    //               $nilai_index= '2.0';
+    //             }
+    //             else if ($nilai_angka >= 45 && $nilai_angka <= 64) {
+    //               $nilai_huruf = 'D';
+    //               $nilai_index= '1.0';
+    //             }
+    //             else if ($nilai_angka >= 0 && $nilai_angka <= 44) {
+    //               $nilai_huruf = 'E';
+    //               $nilai_index= '0';
+    //             }
+    //             else {
+    //               $nilai_huruf = 'T';
+    //               $nilai_index= '0';
+    //             }
+    //         }
+    //
+    //       $data_nilai = array(
+    //         'id_krs' => $id_data_krs,
+    //         'nilai_angka' => $nilai_angka,
+    //         'nilai_index' => $nilai_index,
+    //         'nilai_huruf' => $nilai_huruf,
+    //         'status_upload' =>'N'
+    //       );
+    //       // $insert = $this->App_model->insertRecord("tb_nilai",$data_nilai);
+    //       // if ($insert==true) {
+    //       //   $krs = array(
+    //       //     'status_nilai' => "Y"
+    //       //   );
+    //       //   $update = $this->App_model->update('tb_mhs_data_krs',"id_data_krs",$id_data_krs,$krs);
+    //       //   if ($update==true) {
+    //       //     $this->session->set_flashdata('message', 'Nilai Berhasil Dimasukan');
+    //       //     redirect(site_url('kelas_dosen/view_data_krs/'.$id_kelas));
+    //       //   } else {
+    //       //     echo "Tidak Dapat Update Krs";
+    //       //   }
+    //       //
+    //       // } else {
+    //       //   echo "Nilai Nda Masuk";
+    //       // }
+    //     }
+    //   }
+    // }
+
+    public function new_add()
     {
-      $id_kelas = $this->input->post('id_kelas');
-      $id_data_krs = $this->input->post('id_data_krs');
-      $nilai_angka = $this->input->post('nilai_angka');
-      $this->rules_nilai();
-      if ($this->form_validation->run() == FALSE) {
-          $this->view_data_krs($id_kelas);
-      }
-      else {
+        $jml_nilai = count($_POST["nilai_angka"]);
+        $jml_id_krs = count($_POST["id_data_krs"]);
+        $id_kelas = $this->input->post('id_kelas');
+        $data_nilai = array();
+        $berhasil=0;
+        $gagal =0;
+        $berhasil_update=0;
+        $gagal_update =0;
 
-        $nilai_huruf = '';
-        $nilai_index = '';
-
-        if ($nilai_angka == null) {
-          $this->session->set_flashdata('message', 'Nilai Harus Disi || Isikan Nilai mulai nilai 0 hingga 100');
-          redirect(site_url('kelas_dosen/view_data_krs/'.$id_kelas));
-        }
-        else {
-            $nim = $this->App_model->get_query("SELECT nim FROM v_data_krs WHERE id_data_krs=".$id_data_krs)->row();
-            $id_ta = $this->App_model->get_query("SELECT smt_masuk FROM v_mhs_aktif WHERE nim='".$nim->nim."'")->row();
-            if ($id_ta->smt_masuk >= 20161) {
-                if ($nilai_angka >= 90 && $nilai_angka <= 100) {
-                  $nilai_huruf = 'A';
-                  $nilai_index= '4';
-                } else if ($nilai_angka >= 86 && $nilai_angka <= 89) {
-                  $nilai_huruf = 'A-';
-                  $nilai_index= '3.75';
-                }
-                else if ($nilai_angka >= 81 && $nilai_angka <= 85) {
-                  $nilai_huruf = 'B+';
-                  $nilai_index= '3.5';
-                }
-                else if ($nilai_angka >= 76 && $nilai_angka <= 80) {
-                  $nilai_huruf = 'B';
-                  $nilai_index= '3.0';
-                }
-                else if ($nilai_angka >= 71 && $nilai_angka <= 75) {
-                  $nilai_huruf = 'B-';
-                  $nilai_index= '2.75';
-                }
-                else if ($nilai_angka >= 66 && $nilai_angka <= 70) {
-                  $nilai_huruf = 'C+';
-                  $nilai_index= '2.5';
-                }
-                else if ($nilai_angka >= 61 && $nilai_angka <= 65) {
-                  $nilai_huruf = 'C';
-                  $nilai_index= '2.0';
-                }
-                else if ($nilai_angka >= 56 && $nilai_angka <= 60) {
-                  $nilai_huruf = 'C-';
-                  $nilai_index= '1.75';
-                }
-                else if ($nilai_angka >= 51 && $nilai_angka <= 60) {
-                  $nilai_huruf = 'D';
-                  $nilai_index= '1.0';
-                }
-                else if ($nilai_angka >= 0 && $nilai_angka <= 50) {
-                  $nilai_huruf = 'E';
-                  $nilai_index= '0';
+        for ($i=0; $i < $jml_id_krs; $i++) {
+            if ($_POST["nilai_angka"][$i] !='') {
+                $nim = $this->App_model->get_query("SELECT nim FROM v_data_krs WHERE id_data_krs=".$_POST["id_data_krs"][$i])->row();
+                $id_ta = $this->App_model->get_query("SELECT smt_masuk,nm_mhs,nim FROM v_mhs_aktif WHERE nim='".$nim->nim."'")->row();
+                // echo json_encode($id_ta);
+                // echo "<br><br>";
+                $nilai_huruf='';
+                if ($id_ta->smt_masuk >= 20161) {
+                    if ($_POST["nilai_index"][$i] == '4') {
+                      $nilai_huruf = 'A';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '3.75') {
+                      $nilai_huruf = 'A-';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '3.5') {
+                      $nilai_huruf = 'B+';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '3.0') {
+                      $nilai_huruf = 'B';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '2.75') {
+                      $nilai_huruf = 'B-';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '2.5') {
+                      $nilai_huruf = 'C+';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '2.0') {
+                      $nilai_huruf = 'C';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '1.75') {
+                      $nilai_huruf = 'C-';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '1.0') {
+                      $nilai_huruf = 'D';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '0') {
+                      $nilai_huruf = 'E';
+                      $nilai_index= '0';
+                    }
+                    else {
+                      $nilai_huruf = 'T';
+                    }
                 }
                 else {
-                  $nilai_huruf = 'T';
-                  $nilai_index= '0';
+                    if ($_POST["nilai_index"][$i] == '4') {
+                      $nilai_huruf = 'A';
+                  } else if ($_POST["nilai_index"][$i] == '3.0') {
+                      $nilai_huruf = 'B';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '2.0') {
+                      $nilai_huruf = 'C';
+                      $nilai_index= '2.0';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '1.0') {
+                      $nilai_huruf = 'D';
+                    }
+                    else if ($_POST["nilai_index"][$i] == '0') {
+                      $nilai_huruf = 'E';
+                    }
+                    else {
+                      $nilai_huruf = 'T';
+                    }
                 }
-            }
-            else {
-                if ($nilai_angka >= 85 && $nilai_angka <= 100) {
-                  $nilai_huruf = 'A';
-                  $nilai_index= '4';
-                } else if ($nilai_angka >= 75 && $nilai_angka <= 84) {
-                  $nilai_huruf = 'B';
-                  $nilai_index= '3.0';
-                }
-                else if ($nilai_angka >= 65 && $nilai_angka <= 74) {
-                  $nilai_huruf = 'C';
-                  $nilai_index= '2.0';
-                }
-                else if ($nilai_angka >= 45 && $nilai_angka <= 64) {
-                  $nilai_huruf = 'D';
-                  $nilai_index= '1.0';
-                }
-                else if ($nilai_angka >= 0 && $nilai_angka <= 44) {
-                  $nilai_huruf = 'E';
-                  $nilai_index= '0';
-                }
-                else {
-                  $nilai_huruf = 'T';
-                  $nilai_index= '0';
+
+                $data_nilai = array(
+                    'id_krs' => $_POST["id_data_krs"][$i],
+                    'nilai_angka' => $_POST["nilai_angka"][$i],
+                    'nilai_huruf' => $nilai_huruf,
+                    'nilai_index' => $_POST["nilai_index"][$i],
+                    'status_upload' => 'N'
+                );
+                $insert = $this->App_model->insertRecord("tb_nilai",$data_nilai);
+                if ($insert==true) {
+                    $berhasil++;
+                  $krs = array(
+                    'status_nilai' => "Y",
+                    'status_komplain' => 'N'
+                  );
+                  $update = $this->App_model->update('tb_mhs_data_krs',"id_data_krs",$_POST["id_data_krs"][$i],$krs);
+                  if ($update==true) {
+                    $berhasil_update++;
+                  } else {
+                    $gagal_update++;
+                  }
+
+                } else {
+                    $gagal++;
                 }
             }
 
-          $data_nilai = array(
-            'id_krs' => $id_data_krs,
-            'nilai_angka' => $nilai_angka,
-            'nilai_index' => $nilai_index,
-            'nilai_huruf' => $nilai_huruf,
-            'status_upload' =>'N'
-          );
-          $insert = $this->App_model->insertRecord("tb_nilai",$data_nilai);
-          if ($insert==true) {
-            $krs = array(
-              'status_nilai' => "Y"
-            );
-            $update = $this->App_model->update('tb_mhs_data_krs',"id_data_krs",$id_data_krs,$krs);
-            if ($update==true) {
-              $this->session->set_flashdata('message', 'Nilai Berhasil Dimasukan');
-              redirect(site_url('kelas_dosen/view_data_krs/'.$id_kelas));
-            } else {
-              echo "Tidak Dapat Update Krs";
-            }
-
-          } else {
-            echo "Nilai Nda Masuk";
-          }
         }
-      }
+
+        $this->session->set_flashdata('message', 'Nilai Berhasil Ditambahkan : '.$berhasil.'<br> Gagal Ditambahkan : '.$gagal.'<br> Status Update KRS Berhasil : '.$berhasil_update.'<br> Status Update KRS Gagal : '.$gagal_update);
+        redirect(site_url('kelas_dosen/view_data_krs/'.$id_kelas));
     }
-
     public function cetak_dpna($id_kelas)
     {
       $kelas = $this->App_model->get_query("SELECT * FROM v_kelas_dosen WHERE id_kelas_kuliah='".$id_kelas."'");

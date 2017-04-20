@@ -1,13 +1,8 @@
 <div class="container-fluid">
   <div class="page-header" style="margin-top: 50px;">
     <div class="row" style="margin-bottom: 10px">
-        <div class="col-md-4">
+        <div class="col-md-8">
             <h3><?php echo $title_page; ?></h3>
-        </div>
-        <div class="col-md-4 text-center">
-            <div style="margin-top: 4px"  id="message">
-                <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
-            </div>
         </div>
         <div class="col-md-4 text-right">
           <form class="" action="" method="post">
@@ -19,20 +14,57 @@
     </div>
   </div>
   <div class="row">
+    <strong>Keterangan : </strong><hr>
+    <div class="col-md-4">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td>Nama Kelas : </td>
+            <td><?php echo $data_kelas->nm_kelas ?></td>
+          </tr>
+          <tr>
+            <td>Mata Kuliah : </td>
+            <td><?php echo $data_kelas->nm_mk ?></td>
+          </tr>
+          <tr>
+            <td>Nama Dosen : </td>
+            <td><?php echo $data_kelas->nm_dosen ?></td>
+          </tr>
+          <tr>
+            <td>Periode : </td>
+            <td><?php echo $data_kelas->ta ?></td>
+          </tr>
+          <tr>
+            <td>Jurusan : </td>
+            <td><?php echo $data_kelas->nm_prodi ?></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-8">
+      <p><?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?></p>
+    </div>
+  </div>
+  <div class="row">
+    <strong>Masukan Data Nilai </strong><hr>
     <div class="col-md-12">
-        <table class="table table-bordered table-striped" id="mytable">
+      <form action="<?php echo site_url('kelas_dosen/new_add') ?>" method="post">
+        <div class="form-group">
+          <input id="" type="text" class="form-control input-sm hide" placeholder="" name="id_kelas" id="" value="<?php echo $id_kelas ?>" readonly>
+        </div>
+        <table class="table table-bordered table-striped" id="">
             <thead>
                 <tr>
                   <th width="40px">No</th>
-                  <th>NIM</th>
+                  <th width="100px">NIM</th>
                   <th>Nama Mahasiswa</th>
-                  <th>Kode Mata Kuliah</th>
-                  <th>Nama Mata Kuliah</th>
-                  <th>Nama Kelas</th>
+                  <th>Komplain</th>
+                  <!-- <th>Nama Mata Kuliah</th> -->
+                  <!-- <th>Nama Kelas</th> -->
                   <th>Periode</th>
-                  <th>Kode Prodi</th>
-                  <th>Nama Prodi</th>
-                  <th>Nilai : Angka|Huruf|Index</th>
+                  <!-- <th>Kode Prodi</th> -->
+                  <!-- <th>Nama Prodi</th> -->
+                  <th>Nilai : Angka|Index</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,30 +77,75 @@
                   <td><?php echo ++$start ?></td>
                   <td><?php echo $key->nim ?></td>
                   <td><?php echo $key->nm_mhs ?></td>
-                  <td><?php echo $key->id_matkul ?></td>
-                  <td><?php echo $key->nm_mk ?></td>
-                  <td><?php echo $key->nm_kelas ?></td>
+
+                  <td>
+                    <?php if ($key->status_komplain=='Y'): ?>
+                      <span class="label label-danger"> Telah Dikomplain</span>
+                    <?php else: ?>
+                      <span class="label label-success"> Belum Ada Komplain</span>
+                    <?php endif; ?>
+                  </td>
+                  <!-- <td><?php echo $key->nm_mk ?></td> -->
+                  <!-- <td><?php echo $key->nm_kelas ?></td> -->
                   <td><?php echo $key->ta ?></td>
-                  <td><?php echo $key->id_prodi ?></td>
-                  <td><?php echo $key->nm_prodi ?></td>
-                  <td style="text-align:center" width="200px">
+                  <!-- <td><?php echo $key->id_prodi ?></td> -->
+                  <!-- <td><?php echo $key->nm_prodi ?></td> -->
+                  <td style="text-align:center" width="300px">
                     <?php
                       if ($key->status_nilai=="N") {
                         ?>
-                        <form action="<?php echo site_url('kelas_dosen/add_nilai') ?>" method="post">
-                          <div class="input-group">
-                            <input type="text" class="form-control input-sm" placeholder="" name="nilai_angka" id="" value="">
-                            <input id="btn-input" type="text" class="form-control input-sm hide" placeholder="" name="id_data_krs" id="" value="<?php echo $key->id_data_krs ?>">
-                            <input id="btn-input" type="text" class="form-control input-sm hide" placeholder="" name="id_kelas" id="" value="<?php echo $key->id_kelas ?>">
-                            <span class="input-group-btn">
-                              <span class="input-group-btn">
-                                <button type="submit" class="btn btn-warning btn-sm"><i class="fa fa-cloud-upload" aria-hidden="true"></i></button>
-                              </span>
-                            </span>
+                        <div class="form-group">
+                          <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" placeholder="" name="nilai_angka[]" id="">
+                            <input id="" type="text" class="form-control input-sm hide" placeholder="" name="id_data_krs[]" id="" value="<?php echo $key->id_data_krs ?>" readonly>
                           </div>
-                        </form>
+                          <div class="col-md-6">
+                            <select class="form-control input-sm" name="nilai_index[]">
+                              <option value="">---------------------</option>
+                              <option value="4">A</option>
+                              <option value="3.75">A-</option>
+                              <option value="3.5">B+</option>
+                              <option value="3.0">B</option>
+                              <option value="2.75">B-</option>
+                              <option value="2.5">C+</option>
+                              <option value="2.0">C</option>
+                              <option value="1.75">C-</option>
+                              <option value="1.0">D</option>
+                              <option value="0">E</option>
+                              <option value="-1">TUNDA</option>
+                            </select>
+                          </div>
+                        </div>
                         <?php
-                      } else {
+                      }
+                      elseif ($key->status_komplain=='Y' AND $key->status_nilai=="Y") {
+                        ?>
+                        <div class="form-group">
+                          <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" placeholder="" name="nilai_angka[]" id="">
+                            <input id="" type="text" class="form-control input-sm hide" placeholder="" name="id_data_krs[]" id="" value="<?php echo $key->id_data_krs ?>" readonly>
+                          </div>
+                          <div class="col-md-6">
+                            <select class="form-control input-sm" name="nilai_index[]">
+                              <option value="">---------------------</option>
+                              <option value="4">A</option>
+                              <option value="3.75">A-</option>
+                              <option value="3.5">B+</option>
+                              <option value="3.0">B</option>
+                              <option value="2.75">B-</option>
+                              <option value="2.5">C+</option>
+                              <option value="2.0">C</option>
+                              <option value="1.75">C-</option>
+                              <option value="1.0">D</option>
+                              <option value="0">E</option>
+                              <option value="-1">TUNDA</option>
+                            </select>
+                          </div>
+                        </div>
+                        <?php
+                      }
+
+                      else {
                         ?>
                           <a href="<?php echo site_url('kelas_dosen/cetak_bap_edit/'.$key->id_kelas.'/'.$key->nim) ?>" target="_blank"><i class='fa fa-pencil-square-o'></i></a>
                         <?php
@@ -82,6 +159,10 @@
             ?>
             </tbody>
         </table>
+        <div class="form-group">
+          <button type="submit" name="" class="btn btn-primary btn-block">Upload</button>
+        </div>
+      </form>
     </div>
   </div>
   <div class="row">
