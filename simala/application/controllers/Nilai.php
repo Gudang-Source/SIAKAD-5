@@ -15,7 +15,8 @@ class Nilai extends CI_Controller
             redirect('auth/logout');
         }
         else {
-          $this->load->model('Nilai_model');
+            $this->load->model('Nilai_model');
+          $this->load->model('Data_krs_model');
           $this->load->model('App_model','app_model');
           $this->load->library('form_validation');
         }
@@ -29,7 +30,7 @@ class Nilai extends CI_Controller
 
         }
         else{
-            $nilai = $this->app_model->get_query("SELECT * FROM v_nilai WHERE ".$filter." LIKE '%".$nm_filter."%' AND ( ) ")->result();
+            $nilai = $this->app_model->get_query("SELECT * FROM v_nilai WHERE ".$filter." LIKE '%".$nm_filter."%'")->result();
         }
         $data = array(
             'nilai_data' => $nilai
@@ -289,5 +290,16 @@ class Nilai extends CI_Controller
       $this->dompdf->load_html($html);
       $this->dompdf->render();
       $this->dompdf->stream("testing.pdf",array('Attachment'=>0));
+    }
+
+    public function sondeng($id='')
+    {
+      $row = $this->app_model->get_query("SELECT * FROM tb_nilai WHERE id_nilai=".$id)->row();
+      $data_edit = array(
+          'status_komplain' => 'Y'
+      );
+      $this->Data_krs_model->update($row->id_krs, $data_edit);
+      $this->Nilai_model->delete($id);
+      redirect(site_url('nilai'));
     }
 }

@@ -314,7 +314,7 @@
   <div class="row">
     <div class="col-md-6">
       <div class="panel panel-danger">
-        <div class="panel-heading"><b>Presentase Aktifitas Mahasiswa</b></div>
+        <div class="panel-heading"><b>Aktifitas Mahasiswa</b></div>
         <div class="panel-body">
           <table class="table table-stripped" id="tb1">
             <thead>

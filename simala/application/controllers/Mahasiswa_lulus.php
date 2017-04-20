@@ -81,7 +81,8 @@ class Mahasiswa_lulus extends CI_Controller
       	    'sk_yudisium' => set_value('sk_yudisium'),
       	    'tgl_yudisium' => set_value('tgl_yudisium'),
       	    'IPK' => set_value('IPK'),
-      	    'no_ijazah' => set_value('no_ijazah'),
+            'no_ijazah' => set_value('no_ijazah'),
+      	    'id_skripsi' => set_value('id_skripsi'),
       	    'ket' => set_value('ket'),
       	);
         $data['jenis_keluar']=$jenis_keluar;
@@ -109,11 +110,12 @@ class Mahasiswa_lulus extends CI_Controller
           		'sk_yudisium' => $this->input->post('sk_yudisium',TRUE),
           		'tgl_yudisium' => $this->input->post('tgl_yudisium',TRUE),
           		'IPK' => $this->input->post('IPK',TRUE),
-          		'no_ijazah' => $this->input->post('no_ijazah',TRUE),
+                'no_ijazah' => $this->input->post('no_ijazah',TRUE),
+          		'id_skripsi' => $this->input->post('id_skripsi',TRUE),
           		'ket' => $this->input->post('ket',TRUE),
           	);
             $data_mhs = array(
-              'status_mhs' => 3 
+              'status_mhs' => 3
             );
 
             $this->mahasiswa->update($this->input->post('id_mhs',TRUE),$data_mhs);

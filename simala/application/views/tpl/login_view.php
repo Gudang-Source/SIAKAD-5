@@ -63,6 +63,24 @@
                                     <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" >
                                 </div>
                                 <div class="form-group">
+                                	<label>Periode</label>
+                                    <select class="form-control" name="ta" required>
+                                        <option value="">--- Pilih Periode ---</option>
+                                        <?php foreach ($kurikulum as $key): ?>
+                                            <?php
+                                                 $periode = substr($key->ta, 0,4);
+                                                 $smt = substr($key->ta, 4);
+                                             ?>
+                                            <?php if ($smt=='1'): ?>
+                                                <option value="<?php echo $key->ta ?>"><?php echo $periode ?><span class="label label-success"> Ganjil</span></option>
+                                            <?php else: ?>
+                                                <option value="<?php echo $key->ta ?>"><?php echo $periode ?> <span class="label label-primary"> Genap</span></option>
+                                            <?php endif; ?>
+
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label>Database Mode : </label>
                                     <input type="checkbox" id="db_cek" name="db_ws" checked class="form-control" data-label-text="Live" data-on-color="success" data-off-color="danger" data-size="small">
                                 </div>

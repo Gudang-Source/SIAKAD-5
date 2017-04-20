@@ -1,7 +1,5 @@
 <?php
-
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Data_krs extends CI_Controller
 {
@@ -28,19 +26,10 @@ class Data_krs extends CI_Controller
 
     public function index()
     {
-        $data_mhs_krs_periode = $this->App_model->get_query("SELECT * FROM tb_kurikulum m1 ORDER BY m1.ta DESC ")->result();
-        // if ($filter == '') {
-        //     $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs ORDER BY ta DESC LIMIT 0,50 ")->result();
-        // }
-        // else {
-        //     $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs WHERE ".$filter." LIKE '%".$nm_filter."%' ")->result();
-        // }
-        // // $data_krs = $this->Data_krs_model->get_all_view();
-        //
-        // $data = array(
-        //   'data_mhs_krs' => $data_mhs_krs
-        // );
-        $data['data_mhs_krs_periode'] = $data_mhs_krs_periode;
+        $data_mhs_krs_periode_ti = $this->App_model->get_query("SELECT * FROM tb_kurikulum m1 WHERE m1.kd_prodi=55201 ORDER BY m1.ta DESC ")->result();
+        $data_mhs_krs_periode_si = $this->App_model->get_query("SELECT * FROM tb_kurikulum m1 WHERE m1.kd_prodi=57201 ORDER BY m1.ta DESC ")->result();
+        $data['data_mhs_krs_periode_ti'] = $data_mhs_krs_periode_ti;
+        $data['data_mhs_krs_periode_si'] = $data_mhs_krs_periode_si;
         $data['site_title'] = 'SIMALA';
         $data['title_page'] = 'Periode KRS Berdasarkan Periode';
         $data['assign_js'] = 'data_krs/js/index.js';
@@ -209,17 +198,17 @@ class Data_krs extends CI_Controller
         }
     }
 
-    public function delete($id,$periode='',$kd_prodi='')
+    public function delete($id,$nim,$ta,$id_krs,$id_kurikulum,$kd_prodi) //$nim,$ta,$id_krs,$id_kurikulum,$kd_prodi
     {
         $row = $this->Data_krs_model->get_by_id($id);
 
         if ($row) {
             $this->Data_krs_model->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('data_krs/periodeData/'.$periode.'/'.$kd_prodi));
+            redirect(site_url('data_krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs."/".$id_kurikulum."/".$kd_prodi));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('data_krs/periodeData/'.$periode.'/'.$kd_prodi));
+            redirect(site_url('data_krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs."/".$id_kurikulum."/".$kd_prodi));
         }
     }
 
@@ -433,13 +422,11 @@ class Data_krs extends CI_Controller
       {
 
           $jumlah = count($_POST["item"]);
-          echo $jumlah = count($_POST["ulang"]);
           $id_krs = $this->input->post('id_krs');
           $id_kurikulum = $this->input->post('id_kurikulum');
           $nim = $this->input->post('nim');
+          $kd_prodi = $this->input->post('kd_prodi');
           $ta = $this->input->post('ta');
-          $kode_prodi = $this->input->post('kode_prodi');
-
           $data = array();
           $sks_arr = array();
           $gagal = 0;
@@ -462,26 +449,27 @@ class Data_krs extends CI_Controller
                   );
               }
 
-          }
+            }
           $sks=0;
           foreach ($sks_arr as $cek_sks => $ceking) {
               $sks = $sks+$ceking['sks'];
           }
           if ($sks > 24) {
               $this->session->set_flashdata('message', '<span class="label label-danger">SKS MAKSIMAL ADALAH 24 SKS SILAHKAN PILIH LAGI</span>');
-              redirect(site_url('data_krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs."/".$id_kurikulum."/".$kode_prodi));
+              redirect(site_url('data_krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs."/".$id_kurikulum."/".$kd_prodi));
           }
           else {
               $berhasil=0;
               foreach ($data as $key => $value) {
-                  $insert = 1;//$this->App_model->insertRecord('tb_mhs_data_krs',$value);
+                  echo $insert = $this->App_model->insertRecord('tb_mhs_data_krs',$value);
                   if ($insert==true) {
                       $berhasil++;
 
                   }
               }
+
               $this->session->set_flashdata('message', '<span class="label label-success">'.$berhasil.' Belanja Mata Kuliah Berhasil dan '.$gagal.' Belanja Mata Kuliah Gagal</span>');
-              //redirect(site_url('data_krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs."/".$id_kurikulum."/".$kode_prodi));
+              redirect(site_url('data_krs/proses_krs/'.$nim.'/'.$ta.'/'.$id_krs."/".$id_kurikulum."/".$kd_prodi));
           }
     }
     public function getKelasMataKuliah($ta='',$kode_prodi=''){

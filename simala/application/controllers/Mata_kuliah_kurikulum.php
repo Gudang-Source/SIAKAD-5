@@ -24,13 +24,27 @@ class Mata_kuliah_kurikulum extends CI_Controller
 
     public function index()
     {
-        $mata_kuliah_kurikulum = $this->app_model->get_all_view_mk_kur();
+        $data_mhs_krs_periode_ti = $this->app_model->get_query("SELECT * FROM tb_kurikulum m1 WHERE m1.kd_prodi=55201 ORDER BY m1.ta DESC ")->result();
+        $data_mhs_krs_periode_si = $this->app_model->get_query("SELECT * FROM tb_kurikulum m1 WHERE m1.kd_prodi=57201 ORDER BY m1.ta DESC ")->result();
+        $data['data_mhs_krs_periode_ti'] = $data_mhs_krs_periode_ti;
+        $data['data_mhs_krs_periode_si'] = $data_mhs_krs_periode_si;
+        $data['site_title'] = 'SIMALA';
+        $data['title_page'] = 'Olah Data Mata Kuliah Perkurikulum';
+        $data['assign_js'] = 'mata_kuliah_kurikulum/js/index.js';
+        load_view('mata_kuliah_kurikulum/data_krs_list', $data);
+    }
+
+    public function periodeMk($periode='',$kd_prodi='')
+    {
+        $mata_kur_row = $this->app_model->get_query("SELECT * FROM v_mk_kurikulum m1 WHERE m1.ta=".$periode." AND m1.kd_prodi=".$kd_prodi." GROUP BY m1.ta")->row();
+        $mata_kuliah_kurikulum = $this->app_model->get_query("SELECT * FROM v_mk_kurikulum m1 WHERE m1.ta=".$periode." AND m1.kd_prodi=".$kd_prodi)->result();
 
         $data = array(
-            'mata_kuliah_kurikulum_data' => $mata_kuliah_kurikulum
+            'mata_kuliah_kurikulum_data' => $mata_kuliah_kurikulum,
+            'mata_kur_row' => $mata_kur_row
         );
         $data['site_title'] = 'SIMALA';
-        $data['title_page'] = 'Olah Data Mata Kuliah Perkurikulum | Periode';
+        $data['title_page'] = 'Olah Data Mata Kuliah';
         $data['assign_js'] = 'mata_kuliah_kurikulum/js/index.js';
         load_view('mata_kuliah_kurikulum/tb_mk_kurikulum_list', $data);
     }

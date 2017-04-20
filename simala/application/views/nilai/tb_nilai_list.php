@@ -15,37 +15,16 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
-      <strong>
-        <em>Cari Nilai Mahasiswa</em>
-      </strong><hr>
-    </div>
-      <form class="form-horizontal" action="" method="post" role="form">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="" class="col-md-2 form-label">Kelas</label>
-            <div class="col-md-10">
-              <input type="text" class="form-control" name="" value="">
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row">
     <div class="col-md-10">
       <table class="table table-bordered table-striped" id="mytable">
           <thead>
               <tr>
-                  <th width="80px">No</th>
+                  <th width="20px">No</th>
                   <th>NIM</th>
                   <th>Nama Mahasiswa</th>
                   <th>Kode MK</th>
                   <th>Mata Kuliah</th>
-                  <th>Periode</th>
+                  <!-- <th>Periode</th> -->
                   <th>Nama Kelas</th>
                   <th>Nilai Angka</th>
                   <th>Nilai Huruf</th>
@@ -64,14 +43,16 @@
                   <td><?php echo $nilai->nm_mhs ?></td>
                   <td><?php echo $nilai->kode_mk ?></td>
                   <td><?php echo $nilai->nm_mk ?></td>
-                  <td><?php echo $nilai->ta ?></td>
+                  <!-- <td><?php echo $nilai->ta ?></td> -->
                   <td><?php echo $nilai->nm_kelas?></td>
                   <td><?php echo $nilai->nilai_angka ?></td>
                   <td><?php echo $nilai->nilai_huruf ?></td>
-                  <td style="text-align:center" width="200px">
-                    <a href='<?php echo site_url('nilai/read/'.$nilai->id_nilai) ?>'><i class='fa fa-eye'></i></a> |
-                    <a href='<?php echo site_url('nilai/update/'.$nilai->id_nilai) ?>'><i class='fa fa-pencil-square-o'></i></a> |
-                    <a href='<?php echo site_url('nilai/delete/'.$nilai->id_nilai) ?>' onclick='javasciprt: return confirm("Are You Sure ?")'><i class='fa fa-trash-o'></i></a>
+                  <td style="text-align:center" width="150px">
+                    <a class="btn btn-xs btn-success" href='<?php echo site_url('nilai/read/'.$nilai->id_nilai) ?>'><i class='fa fa-eye'></i></a> |
+                    <a class="btn btn-xs btn-primary" href='<?php echo site_url('nilai/update/'.$nilai->id_nilai) ?>'><i class='fa fa-pencil-square-o'></i></a> |
+                    <!-- <a href='<?php echo site_url('nilai/delete/'.$nilai->id_nilai) ?>' onclick='javasciprt: return confirm("Are You Sure ?")'><i class='fa fa-trash-o'></i></a>
+                    | -->
+                    <a class="btn btn-xs btn-danger" href='<?php echo site_url('nilai/sondeng/'.$nilai->id_nilai) ?>' onclick='javasciprt: return confirm("Nilai Akan Di hapus dari database hingga dosen melakukan Update Nilai, Tetap Lakukan Komplain? ")'><i class='fa fa-pencil-square-o'> Komplain</i></a>
                   </td>
                 </tr>
               <?php

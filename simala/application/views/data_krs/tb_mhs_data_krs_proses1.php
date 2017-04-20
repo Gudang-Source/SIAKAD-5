@@ -72,7 +72,7 @@
               <td><?php echo $data_krs->nm_kelas ?></td>
               <td><?php echo $data_krs->sks ?></td>
               <td style="text-align:center">
-                <a href='<?php echo site_url('data_krs/delete/'.$data_krs->id_data_krs.'/'.$ta.'/'.$kode_prodi) ?>' onclick=''><i class='fa fa-trash-o'></i></a>
+                <a href='<?php echo site_url('data_krs/delete/'.$data_krs->id_data_krs.'/'.$nim.'/'.$ta.'/'.$id_krs.'/'.$id_kurikulum.'/'.$kode_prodi) ?>' onclick=''><i class='fa fa-trash-o'></i></a>
               </td>
              </tr>
               <?php
@@ -162,10 +162,10 @@
             </tbody>
           </table>
           <input type="text" class="form-control hide" name="id_krs" id="id_krs" value="<?php echo $id_krs ?>" />
-          <input type="text" class="form-control hide" name="id_kurikulum" id="id_kurikulum" value="<?php echo $id_kurikulum ?>" />
-          <input type="text" class="form-control hide" name="kode_prodi" id="id_kurikulum" value="<?php echo $kode_prodi ?>" />
-          <input type="text" class="form-control hide" name="ta" id="id_kurikulum" value="<?php echo $ta ?>" />
-          <input type="text" class="form-control hide" name="nim" id="id_kurikulum" value="<?php echo $nim ?>" />
+          <input type="text" class="form-control hide" name="id_kurikulum" id="" value="<?php echo $id_kurikulum ?>" />
+          <input type="text" class="form-control hide" name="kode_prodi" id="" value="<?php echo $kode_prodi ?>" />
+          <input type="text" class="form-control hide" name="ta" id="" value="<?php echo $ta ?>" />
+          <input type="text" class="form-control hide" name="nim" id="" value="<?php echo $nim ?>" />
           <button type="submit" class="btn btn-primary btn-block" onclick='javasciprt: return confirm("Dengan Mengunggah Kartu Rencan STUDI Anda Berarti Anda Telah Memberikan Data Yang Valid Dan Jika Suatu Hari Saya Terbukti Memberikan Data Yang Tidak Benar Maka Saya Bersedia Untuk Menyelesaikan dengan baik")'>Upload Kartu Rencana Studi</button>
         </form>
       </div>

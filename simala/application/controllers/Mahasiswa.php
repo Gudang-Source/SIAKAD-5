@@ -46,29 +46,69 @@ class Mahasiswa extends CI_Controller
     }
 
     public function read($id){
-        $row = $this->Mahasiswa_model->get_by_id($id);
+        $row = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$id."'")->row();
+
+        $data_kur = $this->app_model->get_query("SELECT * FROM tb_kurikulum WHERE kd_prodi=".$row->kd_prodi." ORDER BY ta ASC")->result();
+        $data2=array();
+        foreach ($data_kur as $key) {
+            // echo "SELECT * FROM v_mhs_krs m1 WHERE m1.nim='".$id."' AND  (m1.ta=".$key->ta." AND kd_prodi=".$row->kd_prodi.")";
+            $data_mhs_krs = $this->app_model->get_query("SELECT * FROM v_mhs_krs m1 WHERE m1.nim='".$id."' AND m1.ta=".$key->ta." ")->row();
+            $data_krs = $this->app_model->get_query("SELECT COUNT(*) AS jumlah_mk, SUM(m1.sks) AS total_sks FROM v_data_krs m1 WHERE m1.nim='".$id."' AND m1.ta=".$key->ta." ")->row();
+            if ($key->ta >= $row->smt_masuk) {
+                if ($data_mhs_krs) {
+                    $data2[] = array(
+                                        'periode' => $key->ta,
+                                        'jumlah_mk' => $data_krs->jumlah_mk,
+                                        'total_sks' => $data_krs->total_sks,
+                                        'status' => 'aktif',
+                                        'cek' => TRUE
+                                    );
+                }
+                else {
+                    $data2[] = array(
+                                        'periode' => $key->ta,
+                                        'jumlah_mk' => $data_krs->jumlah_mk,
+                                        'total_sks' => $data_krs->total_sks,
+                                        'status' => 'non aktif',
+                                        'cek' => TRUE
+                                    );
+                }
+            }
+            else {
+                $data2[] = array(
+                                    'periode' => $key->ta,
+                                    'jumlah_mk' => $data_krs->jumlah_mk,
+                                    'total_sks' => $data_krs->total_sks,
+                                    'status' => 'non aktif',
+                                    'cek' => FALSE
+                                );
+            }
+        }
+
         if ($row) {
           $data = array(
-          		'nim' => $row->nim,
-          		'nm_mhs' => $row->nm_mhs,
-          		'tpt_lhr' => $row->tpt_lhr,
-          		'tgl_lahir' => $row->tgl_lahir,
-          		'jenkel' => $row->jenkel,
-          		'agama' => $row->agama,
-          		'kelurahan' => $row->kelurahan,
-          		'wilayah' => $row->wilayah,
-          		'nm_ibu' => $row->nm_ibu,
-          		'kd_prodi' => $row->kd_prodi,
-          		'tgl_masuk' => $row->tgl_masuk,
-          		'smt_masuk' => $row->smt_masuk,
-          		'status_mhs' => $row->status_mhs,
-          		'status_awal' => $row->status_awal,
-          		'email' => $row->email,
-        	);
-          $data['site_title'] = 'SIMALA';
-      		$data['title_page'] = 'Olah Data Mahasiswa';
-      		$data['assign_js'] = 'mahasiswa/js/index.js';
-          load_view('mahasiswa/tb_mhs_read', $data);
+                'nim' => $row->nim,
+                'nm_mhs' => $row->nm_mhs,
+                'tpt_lhr' => $row->tpt_lhr,
+                'tgl_lahir' => $row->tgl_lahir,
+                'jenkel' => $row->jenkel,
+                'agama' => $row->agama,
+                'kelurahan' => $row->alamat,
+                'wilayah' => $row->wilayah,
+                'kd_prodi' => $row->kd_prodi,
+                'nm_prodi' => $row->nm_prodi,
+                'tgl_masuk' => $row->tgl_masuk,
+                'smt_masuk' => $row->smt_masuk,
+                'status_mhs' => $row->nm_status,
+                'status_awal' => $row->keterangan,
+                'email' => $row->email,
+            );
+            // echo json_encode($data2);
+            $data['aktifitas'] = $data2;
+            $data['site_title'] = 'SIPAD';
+            $data['title_page'] = 'Data Profil Anda';
+            $data['assign_js'] = 'mahasiswa/js/index.js';
+            load_view('mahasiswa/tb_mhs_read', $data);
         }
         else{
             $this->session->set_flashdata('message', 'Record Not Found');

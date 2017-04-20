@@ -18,7 +18,7 @@
   </div>
   <div class="row">
     <div class="col-md-5">
-      <strong>Data KRS Jurusan SI</strong><hr>
+      <strong>Data KHS Jurusan SI</strong><hr>
       <table class="table table-bordered table-striped" id="krstable">
         <thead>
             <tr>
@@ -42,7 +42,7 @@
                 <td><?php echo  $key->nm_kurikulum ?></td>
                 <td><?php echo  $key->kd_prodi ?></td>
                 <td style="text-align:center">
-                  <a href="<?php echo site_url('data_krs/periodeData/'.$key->ta.'/'.$key->kd_prodi) ?>"><i class='fa fa-gears'> </i></a>
+                  <a href="<?php echo site_url('khs/periodeData/'.$key->ta.'/'.$key->kd_prodi) ?>"><i class='fa fa-gears'> </i></a>
               </tr>
             <?php
           }
@@ -51,8 +51,8 @@
       </table>
     </div>
     <div class="col-md-5">
-      <strong>Data KRS Jurusan TI</strong><hr>
-      <table class="table table-bordered table-striped" id="krstable1">
+      <strong>Data KHS Jurusan TI</strong><hr>
+      <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>No</th>
@@ -75,7 +75,7 @@
                 <td><?php echo  $key->nm_kurikulum ?></td>
                 <td><?php echo  $key->kd_prodi ?></td>
                 <td style="text-align:center">
-                  <a href="<?php echo site_url('data_krs/periodeData/'.$key->ta.'/'.$key->kd_prodi) ?>"><i class='fa fa-gears'> </i></a>
+                  <a href="<?php echo site_url('khs/periodeData/'.$key->ta.'/'.$key->kd_prodi) ?>"><i class='fa fa-gears'> </i></a>
               </tr>
             <?php
           }
@@ -85,7 +85,7 @@
     </div>
     <div class="col-md-2">
       <div class="col-md-12"><br>
-        <!-- <?php echo anchor(site_url('data_krs/create'), 'Tambah KRS', 'class="btn btn-primary btn-block"'); ?> -->
+        <?php echo anchor(site_url('data_krs/create'), 'Tambah KRS', 'class="btn btn-primary btn-block"'); ?>
         <?php echo anchor(site_url('data_krs/excel'), 'Import Excel', 'class="btn btn-primary btn-block"'); ?>
         <?php echo anchor(site_url('data_krs/word'), 'Import Word', 'class="btn btn-primary btn-block"'); ?>
       </div>

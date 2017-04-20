@@ -26,10 +26,23 @@ class Khs extends CI_Controller
     }
 
     public function index(){
-      $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs")->result();
+        $data_mhs_krs_periode_ti = $this->App_model->get_query("SELECT * FROM tb_kurikulum m1 WHERE m1.kd_prodi=55201 ORDER BY m1.ta DESC ")->result();
+        $data_mhs_krs_periode_si = $this->App_model->get_query("SELECT * FROM tb_kurikulum m1 WHERE m1.kd_prodi=57201 ORDER BY m1.ta DESC ")->result();
+        $data['data_mhs_krs_periode_ti'] = $data_mhs_krs_periode_ti;
+        $data['data_mhs_krs_periode_si'] = $data_mhs_krs_periode_si;
+        $data['site_title'] = 'SIMALA';
+        $data['title_page'] = 'Olah Kartu Hasil Studi Mahasiswa';
+        $data['assign_js'] = 'khs/js/index.js';
+        load_view('khs/data_khs_index', $data);
+    }
+
+    public function periodeData($periode='',$kd_prodi=''){
+      $data_mhs_krs = $this->App_model->get_query("SELECT * FROM v_mhs_krs m1 WHERE m1.ta=".$periode." AND m1.kd_prodi=".$kd_prodi)->result();
       $data = array(
         'data_mhs_krs' => $data_mhs_krs
       );
+      $data_akm = $this->App_model->get_query("SELECT * FROM v_akm_mhs WHERE ta=".$periode." AND id_prodi=".$kd_prodi." GROUP BY id_prodi,angkatan ORDER BY angkatan DESC limit 0,10")->result();
+      $data['data_akm'] = $data_akm;
       $data['site_title'] = 'SIMALA';
       $data['title_page'] = 'Olah Kartu Hasil Studi Mahasiswa';
       $data['assign_js'] = 'khs/js/index.js';
@@ -37,21 +50,9 @@ class Khs extends CI_Controller
     }
 
     public function proses_khs($nim,$ta,$id_krs){
-      $t=time();
-      // $status_tutup=false;
-      // $status_buka_1 = false;
-      // $status_buka = false;
-      // $count_down = date("Y-m-d H:i:s",$t); //komen dibuka setelah selesai semua $this->session->userdata('kode_prodi')."'";
-      // $count_masa_isi = $this->App_model->get_query("SELECT * FROM v_count_down_khs WHERE ta='". $this->session->userdata('ta') ."' AND kd_prodi='". $this->session->userdata('kode_prodi')."'")->row();
-      $status_tutup=false;
-      $beli_mk = $this->App_model->get_query("SELECT * FROM v_nilai WHERE ta='".$ta."'")->result();
+      $beli_mk = $this->App_model->get_query("SELECT * FROM v_nilai WHERE ta='".$ta."' AND nim='".$nim."'")->result();
       $data['data_krs_data']= $beli_mk;
       $data['id_krs']= $id_krs;
-      // $data['tgl_tutup'] = $count_masa_isi->waktu_tutup;
-      // $data['tgl_buka'] = $count_masa_isi->waktu_buka;
-      // $data['status_tutup'] = $status_tutup;
-      // $data['status_buka_1'] = $status_buka_1;
-      // $data['status_buka'] = $status_buka;
       $data['site_title'] = 'SIMALA';
       $data['nim'] = $nim;
       $data['ta'] = $ta;

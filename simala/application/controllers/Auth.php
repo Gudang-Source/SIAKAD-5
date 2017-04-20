@@ -22,7 +22,10 @@ class Auth extends CI_Controller {
 				redirect('Index');
 		}
 		else {
+
+			$kurikulum = $this->app_model->get_query("SELECT * FROM tb_kurikulum GROUP BY ta ORDER BY ta DESC")->result();
 			$data['site_title'] = 'Please Login';
+			$data['kurikulum'] = $kurikulum;
 			$this->load->view('tpl/login_view',$data);
 		}
 	}
@@ -37,6 +40,7 @@ class Auth extends CI_Controller {
 				$data = array('username' => $this->input->post('username', TRUE),'password' => $this->input->post('password', TRUE));
 				//echo json_encode($data);
 				$temp_db = $this->input->post('db_ws',TRUE);
+				$ta = $this->input->post('ta',TRUE);
 
 				$hasil = $this->app_model->cek_user($data);
 				if ($hasil->num_rows() == 1) {
@@ -52,6 +56,7 @@ class Auth extends CI_Controller {
 										 'url' => base_url(),
 									 'user' => $this->user,
 									 'level' => $this->level,
+									 'ta' => $ta,
 									 'nama' => $this->nama
 						);
 

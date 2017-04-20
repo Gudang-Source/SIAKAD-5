@@ -23,9 +23,9 @@
                   <th>NIK</th>
                   <th>Nama</th>
                   <th>Jen Kel</th>
-                  <th>Tmp Lahir</th>
-                  <th>Tgl Lahir</th>
-                  <th>Agama</th>
+                  <!-- <th>Tmp Lahir</th> -->
+                  <!-- <th>Tgl Lahir</th> -->
+                  <!-- <th>Agama</th> -->
                   <th>Jabatan</th>
                   <th>Alamat</th>
                   <th>No Hp</th>
@@ -43,9 +43,9 @@
                 <td><?php echo ++$start ?></td>
                 <td><?php echo $kariawan->nik ?></td>
                 <td><?php echo $kariawan->nama ?></td>
-                <td><?php echo $kariawan->jen_kel ?></td>
-                <td><?php echo $kariawan->tmp_lahir ?></td>
-                <td><?php echo $kariawan->tgl_lahir ?></td>
+                <!-- <td><?php echo $kariawan->jen_kel ?></td> -->
+                <!-- <td><?php echo $kariawan->tmp_lahir ?></td> -->
+                <!-- <td><?php echo $kariawan->tgl_lahir ?></td> -->
                 <td><?php echo $kariawan->agama ?></td>
                 <td><?php echo $kariawan->jabatan ?></td>
                 <td><?php echo $kariawan->alamat ?></td>

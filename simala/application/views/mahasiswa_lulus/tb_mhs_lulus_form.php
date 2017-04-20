@@ -11,6 +11,14 @@
       <form action="<?php echo $action; ?>" method="post">
         <input type="hidden" name="id_mhs" value="<?php echo $id_mhs; ?>" />
         <div class="form-group">
+          <label for="ket">Id Skripsi <?php echo form_error('id_skripsi') ?></label>
+          <input class="form-control" rows="3" name="id_skripsi" id="id_skripsi" value="<?php echo $id_skripsi; ?>" placeholder="ID SKRIPSI">
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-warning pull-right" name="">Cari Mahasiswa</button>
+        </div>
+        <br>
+        <div class="form-group">
           <label for="int">NIM <?php echo form_error('id_mhs') ?></label>
           <input type="text" class="form-control" name="id_mhs" value="<?php echo $id_mhs; ?>" placeholder="NIM" value="<?php echo $id_mhs; ?>" />
         </div>
