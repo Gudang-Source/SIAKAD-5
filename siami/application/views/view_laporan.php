@@ -45,6 +45,7 @@
           <option value="1">Semua Jurusan</option>
         </select>
       </div>
+
       <div class="form-group">
         <button type="submit" formtarget="_blank" name="submit" class="btn btn-success pull-right"> Buat Laporan</button>
       </div>
@@ -52,7 +53,7 @@
   </div>
   <div class="col-md-4">
     <b>Laporan Pembayaran Semester</b><hr>
-    <form class="form" role="form" action="<?php echo site_url('') ?>" method="post">
+    <form class="form" role="form" action="<?php echo site_url('transaksi/laporan_smt') ?>" method="post">
       <div class="form-group">
         <label for="">Jurusan</label>
         <select id="jurusan" name="jurusan" class="form-control" required="required">
@@ -63,18 +64,12 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="">Tahun Ajaran</label>
-        <select id="thn" name="thn" class="form-control" required="required">
-          <option value="">--Pilih Tahun--</option>
-          <?php
-            for ($i=2015; $i <= 2020; $i++) {
-              for ($a=1; $a <=2 ; $a++) {
-              ?>
-                <option value="<?php echo $i."/".$a ?>"><?php echo $i."/".$a ?></option>
-              <?php
-              }
-            }
-          ?>
+        <label for="">Periode</label>
+        <select class="form-control" name="ta" required>
+          <option value="">---- Periode -----</option>
+          <?php foreach ($data_kurikulum as $key): ?>
+            <option value="<?php echo $key->ta ?>"><?php echo $key->ta ?></option>
+          <?php endforeach; ?>
         </select>
       </div>
       <div class="form-group">

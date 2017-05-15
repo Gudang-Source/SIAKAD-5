@@ -42,6 +42,7 @@ class Transaksi extends CI_Controller {
 
 	public function laporan(){
 		$x['jenis_bayar'] = $this->model_transaksi->get_query("SELECT * FROM jenis_bayar")->result();
+		$x['data_kurikulum'] = $this->model_transaksi->get_query("SELECT * FROM tb_kurikulum m1 GROUP BY m1.ta")->result();
 		$data['data'] = $this->load->view('view_laporan',$x,true);
 		$data['active'] = 'laporan';
 		$this->load->view('view_home',$data);
@@ -81,6 +82,44 @@ class Transaksi extends CI_Controller {
 		$this->dompdf->load_html($html);
 		$this->dompdf->render();
 		$this->dompdf->stream("".$angkatan."-".date('D-M-Y').".pdf",array('Attachment'=>0));
+	}
+
+	public function laporan_smt()
+	{
+		$this->load->library('fpdf_gen');
+		$kode_prodi = $this->input->post('jurusan');
+		$ta = $this->input->post('ta');
+		$tahun = substr($ta, 0,4);
+
+		if ($jurusan == '1') {
+			$data_laporan = $this->model_transaksi->get_query("SELECT * FROM v_laporan_smt WHERE ta=".$ta)->result();
+		}
+		else {
+			$data_laporan = $this->model_transaksi->get_query("SELECT * FROM v_laporan_smt WHERE kd_prodi=".$kode_prodi." AND ta=".$ta)->result();
+		}
+
+
+		if ($kode_prodi=='55201') {
+			$data['jurusan'] = "Teknik Informatika";
+		}
+		else if ($kode_prodi=='57201') {
+			$data['jurusan'] = "Sistem Informasi";
+		}
+		else{
+			$data['jurusan'] = "Semua Jurusan";
+		}
+		$data['data_laporan'] = $data_laporan;
+		$data['ta'] = $ta;
+		$data['jenis_bayar'] = "Semester";
+		$data['tahun'] = $tahun;
+		$data['kode_prodi'] = $kode_prodi;
+		$this->load->view("cetak_laporan_smt",$data);
+
+		$html = $this->output->get_output();
+		$this->dompdf->set_paper("legal", 'potrait');
+		$this->dompdf->load_html($html);
+		$this->dompdf->render();
+		$this->dompdf->stream("semester".$angkatan."-".date('D-M-Y').".pdf",array('Attachment'=>0));
 	}
 
 	public function p($id){
@@ -149,11 +188,11 @@ class Transaksi extends CI_Controller {
 					$a = $this->sendEmail("meongbego@gmail.com",$kur,$this->input->post("nim"),$kodebayar,$token);
 					if ($a) {
 						$this->session->set_flashdata('message', 'Sinkronisasi Siakad Dan Email Berhasil Dan Pembayaran Disimpan');
-						//redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+						redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
 					}
 					else {
 						$this->session->set_flashdata('message', 'Error Pada Saat Mengirim Email : Suruh Mahasiswa Untuk Melakukan Validasi Manual');
-						//redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+						redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
 					}
 				}
 			}
@@ -164,7 +203,7 @@ class Transaksi extends CI_Controller {
 		}
 	}
 
-	public function sendEmail($email='',$periode='',$nim='',$kode_bayar='',$token)
+	public function sendEmail($email,$periode='',$nim='',$kode_bayar='',$token)
 	{
 		$this->load->library('email');
 		$subject = 'Verifikasi Akun Pembayaran';
