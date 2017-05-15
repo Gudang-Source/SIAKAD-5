@@ -84,7 +84,7 @@
                     <li><a href="<?php echo base_url('data_krs.html') ?>"><i class="fa fa-newspaper-o"></i> KRS Mahasiswa</a></li>
                     <li><a href="<?php echo base_url('khs.html') ?>"><i class="fa fa-newspaper-o"></i> KHS Mahasiswa</a></li>
                     <li><a href="<?php echo base_url('kelas_dosen.html') ?>"><i class="fa fa-briefcase"></i> Kelas Dosen</a></li>
-                    <li><a href="<?php echo base_url('') ?>"><i class="fa fa-briefcase"></i> Hitung AKM</a></li>
+                    <li><a href="<?php echo base_url('akm.html') ?>"><i class="fa fa-briefcase"></i> Hitung AKM</a></li>
                     <li><a href="<?php echo base_url('jadwal.html') ?>"><i class="fa fa-briefcase"></i> Jadwal Perkuliahan</a></li>
                     <li><a href="<?php echo base_url('nilai.html') ?>"><i class="fa fa-tasks"></i> Nilai</a></li>
                     <li><a href="<?php echo base_url('nilai_trans.html') ?>"><i class="fa fa-tasks"></i> Nilai Transfer</a></li>

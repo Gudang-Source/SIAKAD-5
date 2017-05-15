@@ -52,7 +52,6 @@
             <?php endforeach; ?>
           </tbody>
         </table>
-        <p><small><em>* Data Valid Hanya Angkatan 2016 | Untuk Membandingkan Perhatikan Jumlah KHS (Meskipun IPK Tinggi Jika Jumlah SKS Kecil Maka Urutan Ada Di Posisi Bawah)</em></small></p>
       </div>
       <div class="col-md-2">
 

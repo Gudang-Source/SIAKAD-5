@@ -425,7 +425,7 @@ class Data_krs extends CI_Controller
           $id_krs = $this->input->post('id_krs');
           $id_kurikulum = $this->input->post('id_kurikulum');
           $nim = $this->input->post('nim');
-          $kd_prodi = $this->input->post('kd_prodi');
+          $kd_prodi = $this->input->post('kode_prodi');
           $ta = $this->input->post('ta');
           $data = array();
           $sks_arr = array();

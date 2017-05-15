@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'testing');
 
 /*
  *---------------------------------------------------------------
@@ -75,6 +75,7 @@ switch (ENVIRONMENT)
 	case 'testing':
 		ini_set('memory_limit', '-1'); //nanti centangnya di buka kalo sdh export data
 		ini_set('max_execution_time', 4000); //nanti centangnya di buka kalo sdh export data
+		// error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_WARNING);
 		break;
 	case 'production':
 		ini_set('display_errors', 0);
