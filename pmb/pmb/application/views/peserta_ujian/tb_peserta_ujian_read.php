@@ -5,7 +5,10 @@
     <tr><td>Kode Ruangan</td><td><?php echo $kode_ruangan; ?></td></tr>
     <tr><td>Status Ujian</td><td><?php echo $status_ujian; ?></td></tr>
     <tr>
-        <td><a href="<?php echo site_url('peserta_ujian/kartu_ujian') ?>" class="btn btn-success btn-block">Proses Kartu Ujian</a></td>
+        <td>
+          <!-- <a href="<?php echo site_url('peserta_ujian/kartu_ujian') ?>" class="btn btn-success btn-block">Proses Kartu Ujian</a> -->
+          <a href="#" class="btn btn-success btn-block">Cetak Kartu Ujian</a>
+        </td>
         <td>
         	<a href="<?php echo site_url('beranda') ?>" class="btn btn-danger btn-block">Cancel</a>
         </td>

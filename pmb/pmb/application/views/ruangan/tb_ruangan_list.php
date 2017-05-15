@@ -2,7 +2,7 @@
 <h5><h1 class="page-header"><?php echo $title ?></h1></h5>
 <div class="row" style="margin-bottom: 10px">
     <div class="col-md-6">
-        <?php echo anchor(site_url('ruangan/create'),'Create', 'class="btn btn-primary"'); ?>
+        <!-- <?php echo anchor(site_url('ruangan/create'),'Create', 'class="btn btn-primary"'); ?> -->
     </div>
     <div class="col-md-6 text-center">
         <div style="margin-top: 8px" id="message">
@@ -26,12 +26,12 @@
 			<td><?php echo $ruangan->kode_ruangan ?></td>
 			<td><?php echo $ruangan->nm_ruangan ?></td>
 			<td style="text-align:center" width="200px">
-				<?php 
-				echo anchor(site_url('ruangan/read/'.$ruangan->id_ruangan),'Read'); 
-				echo ' | '; 
-				echo anchor(site_url('ruangan/update/'.$ruangan->id_ruangan),'Update'); 
-				echo ' | '; 
-				echo anchor(site_url('ruangan/delete/'.$ruangan->id_ruangan),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
+				<?php
+				echo anchor(site_url('ruangan/read/'.$ruangan->id_ruangan),'Read');
+				echo ' | ';
+				echo anchor(site_url('ruangan/update/'.$ruangan->id_ruangan),'Update');
+				echo ' | ';
+				echo anchor(site_url('ruangan/delete/'.$ruangan->id_ruangan),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"');
 				?>
 			</td>
 		</tr>

@@ -58,6 +58,7 @@ class Ibu_model extends CI_Model
     function insert($data)
     {
         $this->db->insert($this->table, $data);
+        return ($this->db->affected_rows() != 1) ? false : true;
     }
 
     // update data

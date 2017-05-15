@@ -56,21 +56,21 @@
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Program Studi
 						</a>
 					</li>
-					<li>
+					<!-- <li>
 						<a class="" href="<?php echo site_url('ruangan') ?>">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Ruangan
 						</a>
-					</li>
-					<li>
+					</li> -->
+					<!-- <li>
 						<a class="" href="<?php echo site_url('status_awal') ?>">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Status Awal Mahasiswa
 						</a>
-					</li>
-					<li>
+					</li> -->
+					<!-- <li>
 						<a class="" href="<?php echo site_url('status_mhs') ?>">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Status Mahasiswa
 						</a>
-					</li>
+					</li> -->
 					<li>
 						<a class="" href="<?php echo site_url('wilayah') ?>">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Wilayah
@@ -101,7 +101,7 @@
 						</a>
 					</li>
 					<li>
-						<a class="" href="<?php echo site_url('peserta_ujian') ?>">
+						<a class="" href="<?php echo site_url('peserta_ujian/hasil_ujian') ?>">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Lihat Hasil Ujian
 						</a>
 					</li>
@@ -126,7 +126,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<?php echo $view; ?>
 	</div>	<!--/.main-->
-
+	<script>var top_url = '<?php echo base_url();?>'; </script>
 	<script src="<?php echo base_url('assets/js/jquery-1.11.1.min.js') ?>"></script>
 	<script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
 	<script src="<?php echo base_url('assets/js/easypiechart.js') ?>"></script>

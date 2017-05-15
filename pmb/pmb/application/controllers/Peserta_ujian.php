@@ -38,7 +38,7 @@ class Peserta_ujian extends CI_Controller
     {
         $data_ruangan = $this->App_model->get_query("SELECT COUNT(*) AS jml_peserta,m1.kode_ruangan,m1.nm_ruangan FROM v_peserta_ujian m1 GROUP BY m1.kode_ruangan ORDER BY m1.kode_ruangan DESC")->result();
         $ruangan='';
-        $data_cmhs = $this->App_model->get_query("SELECT * FROM v_cmhs")->row();
+        $data_cmhs = $this->App_model->get_query("SELECT * FROM v_cmhs WHERE kode_formulir ='". $this->session->userdata('kode_formulir')."'")->row();
         foreach ($data_ruangan as $key) {
             if ($key->jml_peserta <= 40) {
                 $ruangan = $key->kode_ruangan;
@@ -49,7 +49,7 @@ class Peserta_ujian extends CI_Controller
             'button' => 'Proses Kartu Ujian',
             'action' => site_url('peserta_ujian/create_action'),
             'id_ujian' => set_value('id_ujian'),
-            'kode_ujian' => "cbt".$data_cmhs->kode_prodi.$data_cmhs->kode_angkatan.$data_cmhs->kode_formulir,
+            'kode_ujian' => "cbt.".$data_cmhs->kode_prodi.".".substr($data_cmhs->kode_angkatan, 2,2).".".$data_cmhs->id_mhs,
             'kode_cmhs' => $data_cmhs->kode_cmhs,
             'kode_ruangan' => $ruangan
         );
@@ -212,6 +212,29 @@ class Peserta_ujian extends CI_Controller
         exit();
     }
 
+  public function hasil_ujian()
+  {
+      $data = $this->App_model->get_query("SELECT * FROM v_peserta_ujian WHERE kode_formulir = '". $this->session->userdata('kode_formulir') ."'")->row();
+      $row = $this->App_model->get_query("SELECT * FROM v_hasil_ujian WHERE kode_cmhs = '".$data->kode_cmhs."'")->row();
+
+      if ($row) {
+          $data = array(
+              'id_ujian' => $row->id_ujian,
+              'kode_ujian' => $row->kode_ujian,
+              'n_wawancara' => $row->n_wawancara,
+              'n_psikotes' => $row->n_psikotes,
+              'n_umum' => $row->n_umum,
+              'status_ujian' => $row->status_ujian
+          );
+          $data['site_title'] = 'Peserta_ujian';
+          $data['title'] = 'Hasil Ujian Anda';
+          $data['assign_js'] = '';
+          load_view('peserta_ujian/hasil_ujian', $data);
+      } else {
+          $this->session->set_flashdata('message', 'Record Not Found');
+          redirect(site_url('peserta_ujian/create'));
+      }
+  }
 }
 
 /* PTT */

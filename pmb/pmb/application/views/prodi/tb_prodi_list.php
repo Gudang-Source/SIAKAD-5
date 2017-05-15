@@ -2,7 +2,7 @@
 <h5><h1 class="page-header"><?php echo $title ?></h1></h5>
 <div class="row" style="margin-bottom: 10px">
     <div class="col-md-6">
-        <?php echo anchor(site_url('prodi/create'),'Create', 'class="btn btn-primary"'); ?>
+        <!-- <?php echo anchor(site_url('prodi/create'),'Create', 'class="btn btn-primary"'); ?> -->
     </div>
     <div class="col-md-6 text-center">
         <div style="margin-top: 8px" id="message">
@@ -26,12 +26,12 @@
 			<td><?php echo $prodi->kode_prodi ?></td>
 			<td><?php echo $prodi->nm_prodi ?></td>
 			<td style="text-align:center" width="200px">
-				<?php 
-				echo anchor(site_url('prodi/read/'.$prodi->id_prodi),'Read'); 
-				echo ' | '; 
-				echo anchor(site_url('prodi/update/'.$prodi->id_prodi),'Update'); 
-				echo ' | '; 
-				echo anchor(site_url('prodi/delete/'.$prodi->id_prodi),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
+				<?php
+				echo anchor(site_url('prodi/read/'.$prodi->id_prodi),'Read');
+				echo ' | ';
+				echo anchor(site_url('prodi/update/'.$prodi->id_prodi),'Update');
+				echo ' | ';
+				echo anchor(site_url('prodi/delete/'.$prodi->id_prodi),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"');
 				?>
 			</td>
 		</tr>
