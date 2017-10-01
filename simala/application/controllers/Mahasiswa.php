@@ -30,8 +30,8 @@ class Mahasiswa extends CI_Controller
             $mahasiswa = $this->app_model->get_query("SELECT * FROM v_mhs_aktif ORDER BY smt_masuk DESC LIMIT 0,10")->result();
             $data['mahasiswa_data'] = $mahasiswa;
             $data['site_title'] = 'SIMALA';
-    		$data['title_page'] = 'Olah Data Mahasiswa';
-    		$data['assign_js'] = 'mahasiswa/js/index.js';
+		    $data['title_page'] = 'Olah Data Mahasiswa';
+		    $data['assign_js'] = 'mahasiswa/js/index.js';
             load_view('mahasiswa/tb_mhs_list', $data);
         }
         else {
@@ -89,6 +89,7 @@ class Mahasiswa extends CI_Controller
           $data = array(
                 'nim' => $row->nim,
                 'nm_mhs' => $row->nm_mhs,
+                'no_ktp' => $row->no_ktp,
                 'tpt_lhr' => $row->tpt_lhr,
                 'tgl_lahir' => $row->tgl_lahir,
                 'jenkel' => $row->jenkel,
@@ -121,7 +122,8 @@ class Mahasiswa extends CI_Controller
         $data = array(
             'button' => 'Create',
             'action' => site_url('mahasiswa/create_action'),
-      	    'nim' => set_value('nim'),
+            'nim' => set_value('nim'),
+      	    'no_ktp' => set_value('no_ktp'),
       	    'nm_mhs' => set_value('nm_mhs'),
       	    'tpt_lhr' => set_value('tpt_lhr'),
       	    'tgl_lahir' => set_value('tgl_lahir'),
@@ -158,7 +160,8 @@ class Mahasiswa extends CI_Controller
             $this->create();
         } else {
             $data = array(
-            'nim' => $this->input->post('nim',TRUE),
+                'nim' => $this->input->post('nim',TRUE),
+                'no_ktp' => $this->input->post('no_ktp',TRUE),
         		'nm_mhs' => $this->input->post('nm_mhs',TRUE),
         		'tpt_lhr' => $this->input->post('tpt_lhr',TRUE),
         		'tgl_lahir' => $this->input->post('tgl_lahir',TRUE),
@@ -188,7 +191,8 @@ class Mahasiswa extends CI_Controller
             $data = array(
             'button' => 'Update',
             'action' => site_url('mahasiswa/update_action'),
-        		'nim' => set_value('nim', $row->nim),
+            'nim' => set_value('nim', $row->nim),
+        		'no_ktp' => set_value('no_ktp', $row->no_ktp),
         		'nm_mhs' => set_value('nm_mhs', $row->nm_mhs),
         		'tpt_lhr' => set_value('tpt_lhr', $row->tpt_lhr),
         		'tgl_lahir' => set_value('tgl_lahir', $row->tgl_lahir),
@@ -229,6 +233,7 @@ class Mahasiswa extends CI_Controller
             $this->update($this->input->post('nim', TRUE));
         } else {
             $data = array(
+            'no_ktp' => $this->input->post('no_ktp',TRUE),
             'nm_mhs' => $this->input->post('nm_mhs',TRUE),
             'tpt_lhr' => $this->input->post('tpt_lhr',TRUE),
             'tgl_lahir' => $this->input->post('tgl_lahir',TRUE),
@@ -267,7 +272,8 @@ class Mahasiswa extends CI_Controller
 
     public function _rules()
     {
-    	$this->form_validation->set_rules('nm_mhs', 'nm mhs', 'trim|required');
+        $this->form_validation->set_rules('nm_mhs', 'No KTP', 'trim|required');
+    	$this->form_validation->set_rules('no_ktp', 'nm mhs', 'trim|required');
     	$this->form_validation->set_rules('tpt_lhr', 'tpt lhr', 'trim|required');
     	$this->form_validation->set_rules('tgl_lahir', 'tgl lahir', 'trim|required');
     	$this->form_validation->set_rules('jenkel', 'jenkel', 'trim|required');
@@ -366,9 +372,9 @@ class Mahasiswa extends CI_Controller
       $row_mhs = $this->app_model->get_query("SELECT * FROM v_mhs_aktif WHERE nim='".$nim."'")->row();
       //qr
       header("Content-Type: image/png");
-      $params['data'] = $row_mhs->nim;
+      $params['data'] = "http://localhost/SIAKAD/simala/mahasiswa/kartu_mhs/".$row_mhs->nim;
       $params['level']='H';
-      $params['size']=2;
+      $params['size']=6;
       $params['savename']=FCPATH."/assets/qrcode/".$nim.'_ktm.png';
       $this->ciqrcode->generate($params);
 
@@ -388,3 +394,4 @@ class Mahasiswa extends CI_Controller
     }
 
 }
+

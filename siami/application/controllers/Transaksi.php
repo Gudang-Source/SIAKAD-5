@@ -136,8 +136,6 @@ class Transaksi extends CI_Controller {
 
 		$kodebayar = md5(date("dmYHis").$this->input->post("nim"));
 		$kur = $this->input->post("id_smt");
-
-
 		$no = 1;
 		$token = "";
 
@@ -152,6 +150,10 @@ class Transaksi extends CI_Controller {
 		$dt_mhs = $this->model_transaksi->get_query("SELECT * FROM view_mahasiswa WHERE nim='".$this->input->post("nim")."'")->row();
 		$tgl = explode("-",$this->input->post("tglbayar"));
 		$tgl = $tgl[2]."-".$tgl[1]."-".$tgl[0];
+
+		$jb = $this->model_transaksi->get_query("SELECT * FROM biaya WHERE kode_biaya='".$this->input->post("jb")."'")->row();
+		$jn_by = $this->model_transaksi->get_query("SELECT * FROM jenis_bayar WHERE kode_jns_bayar='".$jb->kode_jns_bayar."'")->row();
+
 		$data =  array(
 			"kode_bayar" => $kodebayar,
 			"kode_biaya" => $this->input->post("kkb"),
@@ -159,18 +161,15 @@ class Transaksi extends CI_Controller {
 			"nik" => "140201025",
 			"jumlah_bayar" => $this->input->post("jby"),
 			"tgl_byr" => $tgl,
-			"keterangan" => $this->input->post("ket"),
+			"keterangan" => $ket = $this->input->post("ket"),
 			"no_referensi" => $this->input->post("norefbank")
 		);
+
+
+
 		$db_siakad = $this->load->database('siakad',TRUE);
-		$data_siakad = array(
-			"kode_pembayaran" => $kodebayar,
-			"id_mhs" => $this->input->post("nim"),
-			"id_kurikulum" => $kur,
-			"status_ambil" => "T",
-			"status_cek" => "Y",
-			"token" => $token
-		);
+
+
 		$cek1 = $this->model_transaksi->simpanbayar($data);
 		if (!$cek1) {
 			echo "Gagal Di simpan";
@@ -197,8 +196,30 @@ class Transaksi extends CI_Controller {
 				}
 			}
 			else {
-				$this->session->set_flashdata('message', 'Pembayaran Lainnya Berhasil Disimpan');
-				redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+
+				if ($jn_by->kode_jns_bayar=='JB005' || $jn_by->kode_jns_bayar=='JB006' ) { // proposal skripsi
+					$data_bayar = array(
+						"id_mhs" => $this->input->post("nim"),
+						"kode_bayar" => $kodebayar,
+						"kode_jns_bayar" => $jn_by->kode_jns_bayar,
+						"nm_jns_bayar" => $jn_by->nama_jns_bayar,
+						"status_bayar" => "Y",
+						"token" => $token
+					);
+					$cek3 = $db_siakad->insert("tb_mhs_bayar",$data_bayar);
+					if (!$cek3) {
+						$this->session->set_flashdata('message', 'Pembayaran Propopsal/Skripsi Gagal Disimpan');
+						redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+					} else {
+						$this->session->set_flashdata('message', 'Pembayaran Propopsal/Skripsi Gagal Disimpan');
+						redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+					}
+
+				}
+				else {
+					$this->session->set_flashdata('message', 'Pembayaran Lainnya Berhasil Disimpan');
+					redirect("mahasiswa/d/".base64_encode($this->input->post("nim")));
+				}
 			}
 		}
 	}

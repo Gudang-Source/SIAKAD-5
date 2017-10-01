@@ -75,14 +75,6 @@
         </tr>
         <tr>
           <td colspan='4'></td>
-          <td><br></td>
-        </tr>
-        <tr>
-          <td colspan='4'></td>
-          <td><br></td>
-        </tr>
-        <tr>
-          <td colspan='4'></td>
           <td><b><u><?php echo $data_dosen->nm_dosen ?>,..........,...........</u></b></td>
         </tr>
         <tr>
@@ -97,8 +89,7 @@
 <page size="potrait">
   <div class="page_potrait">
     <p>
-      <center><b style="font-size: 12pt;">DAFTAR HADIR MAHASISWA</b></center><br>
-      <center><b style="font-size: 12pt;">PERCOBAAN</b></center>
+      <center><b style="font-size: 12pt;">DAFTAR HADIR MAHASISWA</b></center>
     </p>
     <br>
     <p>
@@ -147,14 +138,6 @@
           </tr>
           <tr>
             <td colspan='4'></td>
-            <td><br></td>
-          </tr>
-          <tr>
-            <td colspan='4'></td>
-            <td><br></td>
-          </tr>
-          <tr>
-            <td colspan='4'></td>
             <td><b><u><?php echo $data_dosen->nm_dosen ?>,..........,...........</u></b></td>
           </tr>
           <tr>
@@ -166,3 +149,4 @@
     </p>
   </div>
 </page>
+

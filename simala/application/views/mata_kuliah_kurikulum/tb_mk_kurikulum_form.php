@@ -15,7 +15,12 @@
         </div>
         <div class="form-group">
           <label for="int">Id Kurikulum <?php echo form_error('id_kurikulum') ?></label>
-          <select type="text" class="form-control" name="id_kurikulum" id="id_kurikulum"></select>
+          <?php if ($id_kurikulum==''): ?>
+            <select type="text" class="form-control" name="id_kurikulum" id="id_kurikulum"></select>
+          <?php else: ?>
+            <input type="text" class="form-control" name="id_kurikulum" id="" value="<?php echo $id_kurikulum ?>" readonly>
+            <!-- <input type="text" class="form-control hide" name="tahun" id="" value="<?php echo $tahun ?>" readonly> -->
+          <?php endif; ?>
         </div>
         <input type="hidden" name="id_kur_mk" value="<?php echo $id_kur_mk; ?>" />
         <button type="submit" class="btn btn-primary"><?php echo $button ?></button>

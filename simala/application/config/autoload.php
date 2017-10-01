@@ -63,7 +63,8 @@ $autoload['libraries'] = array(
                                 'session',
                                 'nusoap_lib',
                                 'form_validation',
-                                'mailer'
+                                'mailer',
+                                'encryption'
                               );
 
 /*

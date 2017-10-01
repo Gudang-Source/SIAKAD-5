@@ -72,6 +72,7 @@
 							?>
 						</tbody>
 					</table>
+          <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
 				</div>
 			</div>
 		</div>

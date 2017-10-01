@@ -1,5 +1,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
+	$("#krsIsiTabelNilai").dataTable({
+		"lengthMenu" : [[100,150,-1],[100,150,"all"]]
+	});
       $("#mytable").dataTable();
         $("#kurTable").dataTable();
         $('#id_dosen').select2({

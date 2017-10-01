@@ -12,8 +12,12 @@
         <h3>Masukan Data Mahasiswa</h3><hr>
         <form action="<?php echo $action; ?>" method="post">
           <div class="form-group">
-            <label for="enum">NIM <?php echo form_error('nim') ?></label>
+            <label for="">NIM <?php echo form_error('nim') ?></label>
             <input type="text" class="form-control" name="nim" id="nim" value="<?php echo $nim; ?>" placeholder="NIM" value="<?php echo $nim; ?>" />
+          </div>
+          <div class="form-group">
+            <label for="">No KTP <?php echo form_error('no_ktp') ?></label>
+            <input type="text" class="form-control" name="no_ktp" id="no_ktp" value="<?php echo $no_ktp; ?>" placeholder="Nomor KTP" value="<?php echo $no_ktp; ?>" />
           </div>
           <div class="form-group">
             <label for="varchar">Nama Mahasiswa <?php echo form_error('nm_mhs') ?></label>
@@ -94,3 +98,4 @@
     </div>
   </div>
 </div>
+

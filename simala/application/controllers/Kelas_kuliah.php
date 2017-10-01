@@ -378,11 +378,11 @@ class Kelas_kuliah extends CI_Controller
       $data['assign_css'] = 'kelas_kuliah/css/app.css';
       $data['assign_js'] = 'kelas_kuliah/js/index.js';
       load_pdf('kelas_kuliah/absensi_kelas_baak', $data);
-      $this->load->library('fpdf_gen');
-      $html = $this->output->get_output();
-      $this->dompdf->set_paper('legal', 'landscape');
-      $this->dompdf->load_html($html);
-      $this->dompdf->render();
-      $this->dompdf->stream(date('D-M-Y').$ta."absensi".$id_kelas.".pdf",array('Attachment'=>0));
+     // $this->load->library('fpdf_gen');
+     // $html = $this->output->get_output();
+     // $this->dompdf->set_paper('legal', 'landscape');
+     // $this->dompdf->load_html($html);
+     // $this->dompdf->render();
+     // $this->dompdf->stream(date('D-M-Y').$ta."absensi".$id_kelas.".pdf",array('Attachment'=>0));
     }
 }

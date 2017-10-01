@@ -9,7 +9,6 @@ class Rak extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Rak_model');
-        $this->load->model('App_model');
         $this->load->library('form_validation');
     }
 
@@ -20,49 +19,39 @@ class Rak extends CI_Controller
         $data = array(
             'rak_data' => $rak
         );
-        $data['breadcrumb']='Rak Buku';
-        $data['title']='Olah Data Rak Buku';
-        $data['assign_js']='rak/js/index.js';
-        load_view('rak/tb_rak_list', $data);
+
+        $this->load->view('rak/tb_rak_list', $data);
     }
 
-    public function read($id)
+    public function read($id) 
     {
         $row = $this->Rak_model->get_by_id($id);
         if ($row) {
             $data = array(
-          		'id_rak' => $row->id_rak,
-          		'id_kategori' => $row->id_kategori,
-          		'nm_rak' => $row->nm_rak,
-	          );
-            $data['breadcrumb']='Rak Buku';
-            $data['title']='Olah Data Rak Buku';
-            $data['assign_js']='rak/js/index.js';
-            load_view('rak/tb_rak_read', $data);
+		'id_rak' => $row->id_rak,
+		'id_kategori' => $row->id_kategori,
+		'nm_rak' => $row->nm_rak,
+	    );
+            $this->load->view('rak/tb_rak_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('rak'));
         }
     }
 
-    public function create()
+    public function create() 
     {
-        $data_kategori = $this->App_model->get_query("SELECT * FROM tb_kategori")->result();
         $data = array(
             'button' => 'Create',
             'action' => site_url('rak/create_action'),
-      	    'id_rak' => set_value('id_rak'),
-      	    'id_kategori' => set_value('id_kategori'),
-      	    'nm_rak' => set_value('nm_rak'),
-      	);
-        $data['kategori']=$data_kategori;
-        $data['breadcrumb']='Rak Buku';
-        $data['title']='Olah Data Rak Buku';
-        $data['assign_js']='rak/js/index.js';
-        load_view('rak/tb_rak_form', $data);
+	    'id_rak' => set_value('id_rak'),
+	    'id_kategori' => set_value('id_kategori'),
+	    'nm_rak' => set_value('nm_rak'),
+	);
+        $this->load->view('rak/tb_rak_form', $data);
     }
-
-    public function create_action()
+    
+    public function create_action() 
     {
         $this->_rules();
 
@@ -70,41 +59,36 @@ class Rak extends CI_Controller
             $this->create();
         } else {
             $data = array(
-          		'id_kategori' => $this->input->post('id_kategori',TRUE),
-          		'nm_rak' => $this->input->post('nm_rak',TRUE),
-        	  );
+		'id_kategori' => $this->input->post('id_kategori',TRUE),
+		'nm_rak' => $this->input->post('nm_rak',TRUE),
+	    );
+
             $this->Rak_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('rak'));
         }
     }
-
-    public function update($id)
+    
+    public function update($id) 
     {
         $row = $this->Rak_model->get_by_id($id);
-        $kategori_row = $this->App_model->get_query("SELECT * FROM tb_kategori WHERE id_kategori='".$row->id_kategori."'")->row();
-        $kategori = $this->App_model->get_query("SELECT * FROM tb_kategori")->result();
+
         if ($row) {
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('rak/update_action'),
-            		'id_rak' => set_value('id_rak', $row->id_rak),
-            		'id_kategori' => set_value('id_kategori', $row->id_kategori),
-            		'nm_rak' => set_value('nm_rak', $row->nm_rak),
-            );
-            $data['kategori_row']=$kategori_row;
-            $data['kategori']=$kategori;
-            $data['breadcrumb']='Rak Buku';
-            $data['title']='Olah Data Rak Buku';
-            $data['assign_js']='rak/js/index.js';
-            load_view('rak/tb_rak_form', $data);
+		'id_rak' => set_value('id_rak', $row->id_rak),
+		'id_kategori' => set_value('id_kategori', $row->id_kategori),
+		'nm_rak' => set_value('nm_rak', $row->nm_rak),
+	    );
+            $this->load->view('rak/tb_rak_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('rak'));
         }
     }
-
-    public function update_action()
+    
+    public function update_action() 
     {
         $this->_rules();
 
@@ -112,18 +96,20 @@ class Rak extends CI_Controller
             $this->update($this->input->post('id_rak', TRUE));
         } else {
             $data = array(
-          		'id_kategori' => $this->input->post('id_kategori',TRUE),
-          		'nm_rak' => $this->input->post('nm_rak',TRUE),
-        	  );
+		'id_kategori' => $this->input->post('id_kategori',TRUE),
+		'nm_rak' => $this->input->post('nm_rak',TRUE),
+	    );
+
             $this->Rak_model->update($this->input->post('id_rak', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('rak'));
         }
     }
-
-    public function delete($id)
+    
+    public function delete($id) 
     {
         $row = $this->Rak_model->get_by_id($id);
+
         if ($row) {
             $this->Rak_model->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
@@ -134,13 +120,13 @@ class Rak extends CI_Controller
         }
     }
 
-    public function _rules()
+    public function _rules() 
     {
-    	$this->form_validation->set_rules('id_kategori', 'id kategori', 'trim|required');
-    	$this->form_validation->set_rules('nm_rak', 'nm rak', 'trim|required');
+	$this->form_validation->set_rules('id_kategori', 'id kategori', 'trim|required');
+	$this->form_validation->set_rules('nm_rak', 'nm rak', 'trim|required');
 
-    	$this->form_validation->set_rules('id_rak', 'id_rak', 'trim');
-    	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+	$this->form_validation->set_rules('id_rak', 'id_rak', 'trim');
+	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
     public function excel()
@@ -165,8 +151,8 @@ class Rak extends CI_Controller
 
         $kolomhead = 0;
         xlsWriteLabel($tablehead, $kolomhead++, "No");
-      	xlsWriteLabel($tablehead, $kolomhead++, "Id Kategori");
-      	xlsWriteLabel($tablehead, $kolomhead++, "Nm Rak");
+	xlsWriteLabel($tablehead, $kolomhead++, "Id Kategori");
+	xlsWriteLabel($tablehead, $kolomhead++, "Nm Rak");
 
 	foreach ($this->Rak_model->get_all() as $data) {
             $kolombody = 0;
@@ -185,3 +171,9 @@ class Rak extends CI_Controller
     }
 
 }
+
+/* End of file Rak.php */
+/* Location: ./application/controllers/Rak.php */
+/* Please DO NOT modify this information : */
+/* Generated by Harviacode Codeigniter CRUD Generator 2016-09-14 13:17:13 */
+/* http://harviacode.com */

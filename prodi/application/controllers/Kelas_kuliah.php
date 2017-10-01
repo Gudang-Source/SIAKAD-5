@@ -169,7 +169,7 @@ class Kelas_kuliah extends CI_Controller
 
             $this->Kelas_kuliah_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('kelas_kuliah'));
+            redirect(site_url('kelas_kuliah/get_kelas/'.$this->input->post('id_kurikulum',TRUE)));
         }
     }
 

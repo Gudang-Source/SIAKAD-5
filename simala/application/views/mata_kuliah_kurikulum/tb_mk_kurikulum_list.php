@@ -176,7 +176,8 @@
       </table>
     </div>
     <div class="col-md-2">
-      <?php echo anchor(site_url('mata_kuliah_kurikulum/create'), 'Create', 'class="btn btn-primary btn-block"'); ?>
+      <?php echo anchor(site_url('mata_kuliah_kurikulum/create/'.$mata_kur_row->id_kurikulum), 'Create This Kurikulum', 'class="btn btn-primary btn-block"'); ?>
+      <?php echo anchor(site_url('mata_kuliah_kurikulum/create'), 'Tambah', 'class="btn btn-primary btn-block"'); ?>
       <?php echo anchor(site_url('mata_kuliah_kurikulum/excel'), 'Excel', 'class="btn btn-primary btn-block"'); ?>
       <?php echo anchor(site_url('mata_kuliah_kurikulum/word'), 'Word', 'class="btn btn-primary btn-block"'); ?>
     </div>

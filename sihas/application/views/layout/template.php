@@ -79,7 +79,7 @@
                     <li><a href="<?php echo base_url('kelas_kuliah.html') ?>"><i class="fa fa-university"></i> Kelas Kuliah</a></li>
                     <li><a href="<?php echo base_url('krs.html') ?>"><i class="fa fa-briefcase"></i> KRS</a></li>
                     <li><a href="<?php echo base_url('khs.html') ?>"><i class="fa fa-briefcase"></i> KHS</a></li>
-                    <li><a href="<?php echo base_url('nilai.html') ?>"><i class="fa fa-briefcase"></i>Analisis Nilai</a></li>
+                    <li><a href="<?php echo base_url('nilai.html') ?>"><i class="fa fa-briefcase"></i> Nilai</a></li>
                   </ul>
                 </li>
                 <li class="dropdown">

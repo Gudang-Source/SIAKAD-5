@@ -1,18 +1,13 @@
 <class="container-fluid">
   <div class="page-header" style="margin-top: 50px;">
     <div class="row" style="margin-bottom: 10px">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <h3><?php echo $title_page; ?></h3>
         </div>
-        <div class="col-md-4 text-center">
+        <div class="col-md-2 text-center">
             <div style="margin-top: 4px"  id="message">
                 <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
             </div>
-        </div>
-        <div class="col-md-4 text-right">
-            <!-- <?php echo anchor(site_url('kelas_kuliah/create'), 'Create', 'class="btn btn-primary"'); ?>
-            <?php echo anchor(site_url('kelas_kuliah/excel'), 'Excel', 'class="btn btn-primary"'); ?>
-            <?php echo anchor(site_url('kelas_kuliah/word'), 'Word', 'class="btn btn-primary"'); ?> -->
         </div>
     </div>
   </div>

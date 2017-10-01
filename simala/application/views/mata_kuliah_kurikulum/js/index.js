@@ -31,7 +31,7 @@
         });
 
         $('#kode_mk').select2({
-          placeholder: "Masukan Kata Mata kuliah kurikulum kode_mk | Nama MK | Nama Kurikulum |Periode",
+          placeholder: "Masukan Kata Kunci kode_mk | Nama MK ",
           //minimumInputLength: 1,
           ajax: {
             url: top_url+'mata_kuliah_kurikulum/get_mata_kuliah',
@@ -48,8 +48,8 @@
               return {
                 results: $.map(data, function(obj) {
                   return {
-                    id: obj.id_kur_mk,
-      							text:obj.kode_mk+" | "+obj.nm_mk+" | "+obj.nm_kurikulum+" | "+obj.ta
+                    id: obj.kode_mk,
+      				text:obj.kode_mk+" | "+obj.nm_mk
                   };
                 })
               };

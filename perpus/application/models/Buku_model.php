@@ -6,7 +6,6 @@ if (!defined('BASEPATH'))
 class Buku_model extends CI_Model
 {
 
-    public $view = 'v_buku';
     public $table = 'tb_buku';
     public $id = 'id_buku';
     public $order = 'DESC';
@@ -23,19 +22,13 @@ class Buku_model extends CI_Model
         return $this->db->get($this->table)->result();
     }
 
-    function get_all_view()
-    {
-        $this->db->order_by($this->id, $this->order);
-        return $this->db->get($this->view)->result();
-    }
-
     // get data by id
     function get_by_id($id)
     {
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
-
+    
     // get total rows
     function total_rows($q = NULL) {
         $this->db->like('id_buku', $q);

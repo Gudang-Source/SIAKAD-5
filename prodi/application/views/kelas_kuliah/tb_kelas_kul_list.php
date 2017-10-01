@@ -1,16 +1,13 @@
 <class="container-fluid">
   <div class="page-header" style="margin-top: 50px;">
     <div class="row" style="margin-bottom: 10px">
-        <div class="col-md-4">
+        <div class="col-md-8">
             <h3><?php echo $title_page; ?></h3>
         </div>
         <div class="col-md-4 text-center">
             <div style="margin-top: 4px"  id="message">
                 <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
             </div>
-        </div>
-        <div class="col-md-4 text-right">
-
         </div>
     </div>
   </div>

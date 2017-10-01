@@ -52,7 +52,7 @@
         <div class="form-group">
           <input id="" type="text" class="form-control input-sm hide" placeholder="" name="id_kelas" id="" value="<?php echo $id_kelas ?>" readonly>
         </div>
-        <table class="table table-bordered table-striped" id="">
+        <table class="table table-bordered table-striped" id="krsIsiTabelNilai">
             <thead>
                 <tr>
                   <th width="40px">No</th>

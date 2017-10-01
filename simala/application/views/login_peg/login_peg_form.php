@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
           <label for="varchar">Password <?php echo form_error('password') ?></label>
-          <input type="text" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>" />
+          <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>" />
         </div>
         <div class="form-group">
           <label for="enum">Level <?php echo form_error('level') ?></label>

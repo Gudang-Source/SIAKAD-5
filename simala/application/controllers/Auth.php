@@ -12,6 +12,15 @@ class Auth extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('App_model','app_model');
+		$this->encryption->initialize(
+						array(
+										'cipher' => 'aes-256',
+										'mode' => 'ctr',
+										'key' => '<a 32-character random string>',
+										'driver' => 'mcrypt'
+						)
+		);
+
 	}
 
 	public function index()
@@ -36,13 +45,18 @@ class Auth extends CI_Controller {
 			$this->form_validation->set_rules('password','Password Feeder','required');
 
 			if ($this->form_validation->run() == TRUE) {
-				$data = array('username' => $this->input->post('username', TRUE),'password' => $this->input->post('password', TRUE));
-				//echo json_encode($data);
+				$pass = $this->input->post('password', TRUE);
+				$user = $this->input->post('username', TRUE);
+
 				$temp_db = $this->input->post('db_ws',TRUE);
 				$ta = $this->input->post('ta',TRUE);
 
-				$hasil = $this->app_model->cek_user($data);
-				if ($hasil->num_rows() == 1) {
+				$hasil = $this->app_model->get_query("SELECT * FROM login_peg WHERE username='".$user."'");
+				$data_user = $hasil->row();
+				// echo json_encode();
+				$pass_dec = $this->encryption->decrypt($data_user->password);
+
+				if ($user == $data_user->username && $pass_dec == $pass) {
 					foreach ($hasil->result() as $sess){
 						$this->user = $sess->username;
 						$this->pass = $sess->password;
@@ -70,7 +84,7 @@ class Auth extends CI_Controller {
 						}
 				}
 				else {
-					echo "Not Macth";
+					redirect('auth');
 				}
 			}
 		}
@@ -156,48 +170,37 @@ class Auth extends CI_Controller {
 
 	public function konfirmasiEmail($kode_bayar,$nim,$periode,$token)
 	{
-		$this->load->model('Mhs_krs_model');
+
 		$data_validasi = $this->app_model->get_query("SELECT * FROM tb_mhs_krs WHERE kode_pembayaran='".$kode_bayar."'AND (token='".$token."' AND id_mhs='".$nim."')
 			")->row();
 
-		if (($data_validasi != NULL || $data_validasi != '') && $data_validasi->status_ambil != 'Y') {
+		if ($data_validasi != NULL || $data_validasi != '') {
 			$data = array(
 					'status_ambil' => 'Y'
 			);
-			$token = str_shuffle("093111stmik@#$");
+			$token = str_shuffle("12345abcdefghijklmnop");
 
-			$this->Mhs_krs_model->update($data_validasi->id_krs, $data);
-
+			//$this->Mhs_krs_model->update($id_krs, $data);
 			$dataUser = array(
 				'id_user' => NULL,
 				'id_krs' => $data_validasi->id_krs,
 				'username' => $nim,
-				'password' => $token,
+				'password' => $nim,
 				'level' =>'mhs',
 				'val_periode' => 'Y'
 			);
-			$insertUser= $this->app_model->insertRecord('login_mhs',$dataUser);
+			$insertUser=  1;//$this->app_model->insertRecord('login_mhs',$dataUser);
 			if ($insertUser==true) {
 				$isi = "<p>Terimakasih Atas Verifikasi Yang anda Lakukan</p>";
 				$isi .= "<p>
 							NIM : ".$nim." <br>
-							USERNAME : ".$nim." <br>
+							USERNAME : ".$username." <br>
 							PASSWORD : ".$token."
 
 				</p>";
-				$isi .= "<p>Silahkan Login Di  : <a href='http://siakad.stmikadhiguna.ac.id/siakad/sihas/auth/'>Disini</a></p>";
+				$isi .= "<p>Silahkan Login Di  : <a href='http://siakad.stmikadhiguna.ac.id/siakad/simala/auth/'>Disini</a></p>";
 				$isi .= "<p>Terima kasih atas perhatiannya<br>- Best Regard,<br>Admin</p>";
-				$a = $this->sendEmail('meongbego@gmail.com',$isi);
-				$isi1 = "";
-				if ($a) {
-					$isi1 .= "<p>Silahkan Login Di  : <a href='http://siakad.stmikadhiguna.ac.id/siakad/sihas/auth/'>Disini</a></p>";
-					$isi1 .= "<p>Terima kasih atas perhatiannya<br>- Best Regard,<br>Admin</p>";
-					echo $isi1;
-				}
-				else {
-					# code...
-				}
-
+				$this->sendEmail('meongbego@gmail.com',$isi);
 			}
 			else {
 				$isi = "<p>Mohon Maaf Verifikasi Yang anda Lakukan Gagal Tersimpan</p>";
@@ -211,6 +214,7 @@ class Auth extends CI_Controller {
 			echo "Data Anda Tidak Ditemukan";
 		}
 	}
+
 	private function sendEmail($email='',$isi)
 	{
 		$this->load->library('email');
@@ -222,11 +226,12 @@ class Auth extends CI_Controller {
         ->subject($subject)
         ->message($isi)
         ->send();
-		if ($result) {
-			return TRUE;
-		}
-		else {
-			return FALSE;
-		}
+		// if ($result) {
+		// 	return TRUE;
+		// }
+		// else {
+		// 	return FALSE;
+		// }
+
 	}
 }

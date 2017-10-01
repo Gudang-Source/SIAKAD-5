@@ -33,6 +33,16 @@ class App_model extends CI_Model
     return $this->db->get($t)->result();
   }
 
+  function get_limit_mk($t,$limit, $start = 0, $q = NULL) {
+    $this->db->order_by("", $this->order);
+    $this->db->like('kode_mk', $q);
+    $this->db->or_like('nm_mk', $q);
+    $this->db->or_like('semester', $q);
+    $this->db->limit($limit, $start);
+    return $this->db->get($t)->result();
+  }
+
+
   function get_limit_mhs_krs($t,$limit, $start = 0, $q = NULL) {
       $this->db->order_by("", $this->order);
       $this->db->like('id_krs', $q);

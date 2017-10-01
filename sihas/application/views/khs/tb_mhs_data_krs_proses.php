@@ -72,7 +72,7 @@
                     </tr>
                     <tr>
                       <th colspan="7"><center>Indeks Prestasi Sementara</center></th>
-                      <th><?php echo $ipk ?></th>
+                      <th><?php echo number_format($ipk,2) ?></th>
                     </tr>
                 </tfoot>
             </table>

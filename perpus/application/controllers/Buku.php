@@ -9,71 +9,55 @@ class Buku extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Buku_model');
-        $this->load->model('App_model');
         $this->load->library('form_validation');
     }
 
     public function index()
     {
-        $buku = $this->Buku_model->get_all_view();
+        $buku = $this->Buku_model->get_all();
 
         $data = array(
             'buku_data' => $buku
         );
-        $data['breadcrumb']='buku';
-    		$data['title']='Olah Data Buku';
-        $data['assign_js']='buku/js/index.js';
-        load_view('buku/tb_buku_list', $data);
+
+        $this->load->view('buku/tb_buku_list', $data);
     }
 
-    public function read($id)
+    public function read($id) 
     {
         $row = $this->Buku_model->get_by_id($id);
         if ($row) {
             $data = array(
-          		'id_buku' => $row->id_buku,
-          		'id_rak' => $row->id_rak,
-              'id_penerbit' => $row->id_penerbit,
-          		'kode_buku' => $row->kode_buku,
-          		'nm_buku' => $row->nm_buku,
-          		'thn_terbit' => $row->thn_terbit,
-              'nm_penulis' => $row->nm_penulis,
-          		'isbn' => $row->isbn,
-        	  );
-            $data['breadcrumb']='buku';
-        		$data['title']='Olah Data Buku';
-            load_view('buku/tb_buku_read', $data);
+		'id_buku' => $row->id_buku,
+		'id_rak' => $row->id_rak,
+		'id_penerbit' => $row->id_penerbit,
+		'nm_buku' => $row->nm_buku,
+		'thn_terbit' => $row->thn_terbit,
+		'nm_penulis' => $row->nm_penulis,
+	    );
+            $this->load->view('buku/tb_buku_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('buku'));
         }
     }
 
-    public function create()
+    public function create() 
     {
-        $rak = $this->App_model->get_query("SELECT * FROM tb_rak")->result();
-        $penerbit = $this->App_model->get_query("SELECT * FROM tb_penerbit")->result();
         $data = array(
             'button' => 'Create',
             'action' => site_url('buku/create_action'),
-      	    'id_buku' => set_value('id_buku'),
-      	    'id_rak' => set_value('id_rak'),
-            'id_penerbit' => set_value('id_penerbit'),
-      	    'kode_buku' => set_value('kode_buku'),
-      	    'nm_buku' => set_value('nm_buku'),
-      	    'thn_terbit' => set_value('thn_terbit'),
-            'nm_penulis' => set_value('nm_penulis'),
-      	    'isbn' => set_value('isbn'),
-      	);
-        $data['rak']=$rak;
-        $data['penerbit']=$penerbit;
-        $data['breadcrumb']='buku';
-        $data['title']='Olah Data Buku';
-    		$data['assign_js']='buku/js/index.js';
-        load_view('buku/tb_buku_form', $data);
+	    'id_buku' => set_value('id_buku'),
+	    'id_rak' => set_value('id_rak'),
+	    'id_penerbit' => set_value('id_penerbit'),
+	    'nm_buku' => set_value('nm_buku'),
+	    'thn_terbit' => set_value('thn_terbit'),
+	    'nm_penulis' => set_value('nm_penulis'),
+	);
+        $this->load->view('buku/tb_buku_form', $data);
     }
-
-    public function create_action()
+    
+    public function create_action() 
     {
         $this->_rules();
 
@@ -81,57 +65,42 @@ class Buku extends CI_Controller
             $this->create();
         } else {
             $data = array(
-          		'id_rak' => $this->input->post('id_rak',TRUE),
-              'id_penerbit' => $this->input->post('id_penerbit',TRUE),
-          		'kode_buku' => $this->input->post('kode_buku',TRUE),
-          		'nm_buku' => $this->input->post('nm_buku',TRUE),
-          		'thn_terbit' => $this->input->post('thn_terbit',TRUE),
-              'nm_penulis' => $this->input->post('nm_penulis',TRUE),
-          		'isbn' => $this->input->post('isbn',TRUE),
-        	  );
+		'id_rak' => $this->input->post('id_rak',TRUE),
+		'id_penerbit' => $this->input->post('id_penerbit',TRUE),
+		'nm_buku' => $this->input->post('nm_buku',TRUE),
+		'thn_terbit' => $this->input->post('thn_terbit',TRUE),
+		'nm_penulis' => $this->input->post('nm_penulis',TRUE),
+	    );
+
             $this->Buku_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('buku'));
         }
     }
-
-    public function update($id)
+    
+    public function update($id) 
     {
-
         $row = $this->Buku_model->get_by_id($id);
-        $rak_row = $this->App_model->get_query("SELECT * FROM tb_rak WHERE id_rak='".$row->id_rak."'")->row();
-        $rak = $this->App_model->get_query("SELECT * FROM tb_rak")->result();
 
-        $penerbit_row = $this->App_model->get_query("SELECT * FROM tb_penerbit WHERE id_penerbit='".$row->id_penerbit."'")->row();
-        $penerbit = $this->App_model->get_query("SELECT * FROM tb_penerbit")->result();
         if ($row) {
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('buku/update_action'),
-            		'id_buku' => set_value('id_buku', $row->id_buku),
-            		'id_rak' => set_value('id_rak', $row->id_rak),
-                'id_penerbit' => set_value('id_penerbit', $row->id_penerbit),
-            		'kode_buku' => set_value('kode_buku', $row->kode_buku),
-            		'nm_buku' => set_value('nm_buku', $row->nm_buku),
-            		'thn_terbit' => set_value('thn_terbit', $row->thn_terbit),
-                'nm_penulis' => set_value('nm_penulis', $row->nm_penulis),
-            		'isbn' => set_value('isbn', $row->isbn),
-	          );
-            $data['rak']=$rak;
-            $data['rak_row']=$rak_row;
-            $data['penerbit']=$penerbit;
-            $data['penerbit_row']=$penerbit_row;
-            $data['breadcrumb']='buku';
-            $data['title']='Olah Data Buku';
-        		$data['assign_js']='buku/js/index.js';
-            load_view('buku/tb_buku_form', $data);
+		'id_buku' => set_value('id_buku', $row->id_buku),
+		'id_rak' => set_value('id_rak', $row->id_rak),
+		'id_penerbit' => set_value('id_penerbit', $row->id_penerbit),
+		'nm_buku' => set_value('nm_buku', $row->nm_buku),
+		'thn_terbit' => set_value('thn_terbit', $row->thn_terbit),
+		'nm_penulis' => set_value('nm_penulis', $row->nm_penulis),
+	    );
+            $this->load->view('buku/tb_buku_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('buku'));
         }
     }
-
-    public function update_action()
+    
+    public function update_action() 
     {
         $this->_rules();
 
@@ -139,21 +108,20 @@ class Buku extends CI_Controller
             $this->update($this->input->post('id_buku', TRUE));
         } else {
             $data = array(
-          		'id_rak' => $this->input->post('id_rak',TRUE),
-              'id_penerbit' => $this->input->post('id_penerbit',TRUE),
-          		'kode_buku' => $this->input->post('kode_buku',TRUE),
-          		'nm_buku' => $this->input->post('nm_buku',TRUE),
-          		'thn_terbit' => $this->input->post('thn_terbit',TRUE),
-              'nm_penulis' => $this->input->post('nm_penulis',TRUE),
-          		'isbn' => $this->input->post('isbn',TRUE),
-        	  );
+		'id_rak' => $this->input->post('id_rak',TRUE),
+		'id_penerbit' => $this->input->post('id_penerbit',TRUE),
+		'nm_buku' => $this->input->post('nm_buku',TRUE),
+		'thn_terbit' => $this->input->post('thn_terbit',TRUE),
+		'nm_penulis' => $this->input->post('nm_penulis',TRUE),
+	    );
+
             $this->Buku_model->update($this->input->post('id_buku', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('buku'));
         }
     }
-
-    public function delete($id)
+    
+    public function delete($id) 
     {
         $row = $this->Buku_model->get_by_id($id);
 
@@ -167,18 +135,16 @@ class Buku extends CI_Controller
         }
     }
 
-    public function _rules()
+    public function _rules() 
     {
-    	$this->form_validation->set_rules('id_rak', 'id rak', 'trim|required');
-      $this->form_validation->set_rules('id_penerbit', 'id penerbit', 'trim|required');
-    	$this->form_validation->set_rules('kode_buku', 'kode buku', 'trim|required');
-    	$this->form_validation->set_rules('nm_buku', 'nm buku', 'trim|required');
-    	$this->form_validation->set_rules('thn_terbit', 'thn terbit', 'trim|required');
-      $this->form_validation->set_rules('nm_penulis', 'nm penulis', 'trim|required');
-    	$this->form_validation->set_rules('isbn', 'ISBN ', 'trim|required');
+	$this->form_validation->set_rules('id_rak', 'id rak', 'trim|required');
+	$this->form_validation->set_rules('id_penerbit', 'id penerbit', 'trim|required');
+	$this->form_validation->set_rules('nm_buku', 'nm buku', 'trim|required');
+	$this->form_validation->set_rules('thn_terbit', 'thn terbit', 'trim|required');
+	$this->form_validation->set_rules('nm_penulis', 'nm penulis', 'trim|required');
 
-    	$this->form_validation->set_rules('id_buku', 'id_buku', 'trim');
-    	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+	$this->form_validation->set_rules('id_buku', 'id_buku', 'trim');
+	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
     public function excel()
@@ -207,8 +173,7 @@ class Buku extends CI_Controller
 	xlsWriteLabel($tablehead, $kolomhead++, "Id Penerbit");
 	xlsWriteLabel($tablehead, $kolomhead++, "Nm Buku");
 	xlsWriteLabel($tablehead, $kolomhead++, "Thn Terbit");
-  xlsWriteLabel($tablehead, $kolomhead++, "Nm Penulis");
-	xlsWriteLabel($tablehead, $kolomhead++, "ISBN");
+	xlsWriteLabel($tablehead, $kolomhead++, "Nm Penulis");
 
 	foreach ($this->Buku_model->get_all() as $data) {
             $kolombody = 0;
@@ -219,8 +184,7 @@ class Buku extends CI_Controller
 	    xlsWriteNumber($tablebody, $kolombody++, $data->id_penerbit);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->nm_buku);
 	    xlsWriteLabel($tablebody, $kolombody++, $data->thn_terbit);
-      xlsWriteLabel($tablebody, $kolombody++, $data->nm_penulis);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->isbn);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->nm_penulis);
 
 	    $tablebody++;
             $nourut++;
@@ -231,3 +195,9 @@ class Buku extends CI_Controller
     }
 
 }
+
+/* End of file Buku.php */
+/* Location: ./application/controllers/Buku.php */
+/* Please DO NOT modify this information : */
+/* Generated by Harviacode Codeigniter CRUD Generator 2016-09-14 13:15:50 */
+/* http://harviacode.com */

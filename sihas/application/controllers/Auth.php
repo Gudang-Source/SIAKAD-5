@@ -112,14 +112,14 @@ class Auth extends CI_Controller {
 	}
 
 	function captcha() {
-			// $this->load->plugin('captcha');
+			$this->load->helper('captcha');
 			$str = 'ABCDEFGHJKLMNOPQRSTUVWXYZ';
 			$random_word = str_shuffle($str);
 			$random_word = substr($random_word, 0, 5);
 			$vals = array(
 					'word' => $random_word,
 					'img_path' => './captcha/',
-					'img_url' => base_url().'captcha/',
+					'img_url' => base_url().'/captcha/',
 					'img_width' => '250',
 					'img_height' => "40",
 					'expiration' => 1000

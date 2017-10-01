@@ -20,7 +20,7 @@ class Akm extends CI_Controller
 
     public function index()
     {
-      $data_angkatan_akm
+      $data_angkatan_akm;
       $data_akm = $this->App_model->get_query("SELECT * FROM v_akm_mhs ORDER BY angkatan DESC")->result();
       $data['data_akm'] = $data_akm;
 

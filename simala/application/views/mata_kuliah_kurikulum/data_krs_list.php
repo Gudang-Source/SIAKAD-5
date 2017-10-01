@@ -18,7 +18,7 @@
   </div>
   <div class="row">
     <div class="col-md-5">
-      <strong>Data KHS Jurusan SI</strong><hr>
+      <strong>Data Kurikulum Jurusan SI</strong><hr>
       <table class="table table-bordered table-striped" id="krstable">
         <thead>
             <tr>
@@ -51,7 +51,7 @@
       </table>
     </div>
     <div class="col-md-5">
-      <strong>Data KHS Jurusan TI</strong><hr>
+      <strong>Data Kurikulum Jurusan TI</strong><hr>
       <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -85,7 +85,7 @@
     </div>
     <div class="col-md-2">
       <div class="col-md-12"><br>
-        <?php echo anchor(site_url('data_krs/create'), 'Tambah KRS', 'class="btn btn-primary btn-block"'); ?>
+        <!-- <?php echo anchor(site_url('data_krs/create'), 'Tambah KRS', 'class="btn btn-primary btn-block"'); ?> -->
         <?php echo anchor(site_url('data_krs/excel'), 'Import Excel', 'class="btn btn-primary btn-block"'); ?>
         <?php echo anchor(site_url('data_krs/word'), 'Import Word', 'class="btn btn-primary btn-block"'); ?>
       </div>

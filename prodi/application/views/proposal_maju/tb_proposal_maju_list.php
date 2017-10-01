@@ -58,8 +58,7 @@
                   <?php if ($proposal_maju->valid_prodi=='N'): ?>
                     <i class='fa fa-gears'> Penguji</i>
                   <?php else: ?>
-                    <a href="<?php echo site_url('dosen_penguji/get_penguji/'.$proposal_maju->id_proposal_maju.'/'.$proposal_maju->nim.'/'.$proposal_maju->nidn_pembimbing_1.'/'.$proposal_maju->nidn_pembimbing_2) ?>" target="_blank"><i class='fa fa-gears'> Penguji</i></a> |
-                    <a href="<?php echo site_url('proposal_maju/cetak_surat/'.$proposal_maju->id_proposal_maju) ?>" target="_blank"><i class='fa fa-gears'> SK Penguji</i></a>
+                    <a href="<?php echo site_url('dosen_penguji/get_penguji/'.$proposal_maju->id_proposal_maju.'/'.$proposal_maju->nim.'/'.$proposal_maju->nidn_pembimbing_1.'/'.$proposal_maju->nidn_pembimbing_2) ?>" target="_blank"><i class='fa fa-gears'> Penguji</i></a>
                   <?php endif; ?>
                 </td>
                 <td style="text-align:center" width="200px">
@@ -69,7 +68,7 @@
                   <?php if ($proposal_maju->valid_prodi == 'N'): ?>
                   | <i class='fa fa-gears'> SK</i>
                   <?php else: ?>
-                    <a href="<?php echo site_url('proposal_maju/cetak_surat_mhs/'.$proposal_maju->id_proposal_maju) ?>" target="_blank"><i class='fa fa-gears'> SK Mahasiswa</i></a>
+                  | <a href="<?php echo site_url('proposal_maju/cetak_surat/'.$proposal_maju->id_proposal_maju) ?>" target="_blank"><i class='fa fa-gears'> SK</i></a>
                   <?php endif; ?>
                 </td>
               </tr>

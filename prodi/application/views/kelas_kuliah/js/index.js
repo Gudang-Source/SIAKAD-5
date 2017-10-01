@@ -1,6 +1,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#mytable").dataTable();
+        $("#mytable").dataTable({
+          "lengthMenu": [[25, 50, -1], [25, 50, "All"]]
+        });
+
+        // $("#mytable1").dataTable({
+        //   "lengthMenu": [[25, 50, -1], [25, 50, "All"]]
+        // });
+
         $("#kurTable").dataTable();
         $('#id_kurikulum').select2({
           placeholder: "Masukan Kata Kunci Kurikulum Nama | Periode| Kode Prodi",

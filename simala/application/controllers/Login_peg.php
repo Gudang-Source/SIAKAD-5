@@ -15,9 +15,19 @@ class Login_peg extends CI_Controller
             redirect('auth/logout');
         }
         else {
+          $this->encryption->initialize(
+    			        array(
+    			                'cipher' => 'aes-256',
+    			                'mode' => 'ctr',
+    			                'key' => '<a 32-character random string>',
+    											'driver' => 'mcrypt'
+    			        )
+    			);
+
           $this->load->model('Login_peg_model');
           $this->load->library('form_validation');
         }
+
     }
 
     public function index()
@@ -40,7 +50,7 @@ class Login_peg extends CI_Controller
             $data = array(
           		'uid' => $row->uid,
           		'username' => $row->username,
-          		'password' => $row->password,
+          		'password' => $this->encryption->decrypt($row->password),
           		'level' => $row->level,
         	  );
             $data['site_title'] = 'SIMALA';
@@ -78,7 +88,7 @@ class Login_peg extends CI_Controller
         } else {
             $data = array(
           		'username' => $this->input->post('username',TRUE),
-          		'password' => $this->input->post('password',TRUE),
+          		'password' => $this->encryption->encrypt($this->input->post('password',TRUE)),
           		'level' => $this->input->post('level',TRUE),
           	);
             $this->Login_peg_model->insert($data);
@@ -97,7 +107,7 @@ class Login_peg extends CI_Controller
                 'action' => site_url('login_peg/update_action'),
             		'uid' => set_value('uid', $row->uid),
             		'username' => set_value('username', $row->username),
-            		'password' => set_value('password', $row->password),
+            		'password' => set_value('password', $this->encryption->decrypt($row->password)),
             		'level' => set_value('level', $row->level),
             );
             $data['site_title'] = 'SIMALA';
@@ -119,7 +129,7 @@ class Login_peg extends CI_Controller
         } else {
             $data = array(
           		'username' => $this->input->post('username',TRUE),
-          		'password' => $this->input->post('password',TRUE),
+          		'password' => $this->encryption->encrypt($this->input->post('password',TRUE)),
           		'level' => $this->input->post('level',TRUE),
           	);
 

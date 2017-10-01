@@ -68,15 +68,16 @@ class Mata_kuliah_kurikulum extends CI_Controller
         }
     }
 
-    public function create()
+    public function create($id_kur='')
     {
         $data = array(
             'button' => 'Create',
             'action' => site_url('mata_kuliah_kurikulum/create_action'),
       	    'id_kur_mk' => set_value('id_kur_mk'),
       	    'kode_mk' => set_value('kode_mk'),
-      	    'id_kurikulum' => set_value('id_kurikulum'),
+      	    'id_kurikulum' => $id_kur
         );
+
         $data['site_title'] = 'SIMALA';
         $data['title_page'] = 'Olah Data Mata Kuliah Perkurikulum | Periode';
         $data['assign_js'] = 'mata_kuliah_kurikulum/js/index.js';
@@ -87,17 +88,26 @@ class Mata_kuliah_kurikulum extends CI_Controller
     {
         $this->_rules();
 
+
         if ($this->form_validation->run() == FALSE) {
             $this->create();
         } else {
             $data = array(
-		'kode_mk' => $this->input->post('kode_mk',TRUE),
-		'id_kurikulum' => $this->input->post('id_kurikulum',TRUE),
+            'kode_mk' => $this->input->post('kode_mk',TRUE),
+            'id_kurikulum' => $this->input->post('id_kurikulum',TRUE),
 	    );
-
+            $id_kurikulum = $this->input->post('id_kurikulum',TRUE);
+            $row = $this->app_model->get_query("SELECT * FROM tb_kurikulum WHERE id_kurikulum=".$id_kurikulum)->row();
             $this->Mata_kuliah_kurikulum_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('mata_kuliah_kurikulum'));
+
+            if ($row == NULL) {
+                redirect(site_url('mata_kuliah_kurikulum/'));
+            }
+            else {
+                redirect(site_url('mata_kuliah_kurikulum/periodemk/'.$row->ta.'/'.$row->kd_prodi));
+            }
+
         }
     }
 
@@ -222,19 +232,16 @@ class Mata_kuliah_kurikulum extends CI_Controller
       $temp_cari = $cari==''?'':$cari;
       $page = $this->input->post('page');
       if ($page=='') {
-        $mk = $this->app_model->get_query("SELECT * FROM v_mk_kurikulum")->result();
+        $mk = $this->app_model->get_query("SELECT * FROM tb_mata_kuliah")->result();
       }
       else {
-        $mk = $this->app_model->get_limit_mk_kurikulum('v_mk_kurikulum',$page,0,$cari);
+        $mk = $this->app_model->get_limit_mk('tb_mata_kuliah',$page,0,$cari);
       }
       $temps = array();
       foreach ($mk as $key) {
         $temps[] = array(
-          'id_kur_mk' => $key->id_kur_mk,
           'kode_mk' => $key->kode_mk,
-          'nm_mk' => $key->nm_mk,
-          'nm_kurikulum' => $key->nm_kurikulum,
-          'ta' => $key->ta
+          'nm_mk' => $key->nm_mk
         );
       }
       echo json_encode($temps);

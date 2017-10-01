@@ -9,7 +9,6 @@ class Kategori extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Kategori_model');
-        $this->load->model('App_model');
         $this->load->library('form_validation');
     }
 
@@ -20,45 +19,37 @@ class Kategori extends CI_Controller
         $data = array(
             'kategori_data' => $kategori
         );
-        $data['breadcrumb']='Kategori Buku';
-    		$data['title']='Olah Data Kategori Buku';
-        $data['assign_js']='kategori/js/index.js';
-        load_view('kategori/tb_kategori_list', $data);
+
+        $this->load->view('kategori/tb_kategori_list', $data);
     }
 
-    public function read($id)
+    public function read($id) 
     {
         $row = $this->Kategori_model->get_by_id($id);
         if ($row) {
             $data = array(
-          		'id_kategori' => $row->id_kategori,
-          		'nm_kategori' => $row->nm_kategori,
-      	    );
-            $data['breadcrumb']='Kategori Buku';
-            $data['title']='Olah Data Kategori Buku';
-            $data['assign_js']='kategori/js/index.js';
-            load_view('kategori/tb_kategori_read', $data);
+		'id_kategori' => $row->id_kategori,
+		'nm_kategori' => $row->nm_kategori,
+	    );
+            $this->load->view('kategori/tb_kategori_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('kategori'));
         }
     }
 
-    public function create()
+    public function create() 
     {
         $data = array(
             'button' => 'Create',
             'action' => site_url('kategori/create_action'),
-      	    'id_kategori' => set_value('id_kategori'),
-      	    'nm_kategori' => set_value('nm_kategori'),
-      	);
-        $data['breadcrumb']='Kategori Buku';
-        $data['title']='Olah Data Kategori Buku';
-        $data['assign_js']='kategori/js/index.js';
-        load_view('kategori/tb_kategori_form', $data);
+	    'id_kategori' => set_value('id_kategori'),
+	    'nm_kategori' => set_value('nm_kategori'),
+	);
+        $this->load->view('kategori/tb_kategori_form', $data);
     }
-
-    public function create_action()
+    
+    public function create_action() 
     {
         $this->_rules();
 
@@ -66,36 +57,34 @@ class Kategori extends CI_Controller
             $this->create();
         } else {
             $data = array(
-      		      'nm_kategori' => $this->input->post('nm_kategori',TRUE),
-      	    );
+		'nm_kategori' => $this->input->post('nm_kategori',TRUE),
+	    );
+
             $this->Kategori_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('kategori'));
         }
     }
-
-    public function update($id)
+    
+    public function update($id) 
     {
         $row = $this->Kategori_model->get_by_id($id);
 
         if ($row) {
             $data = array(
-              'button' => 'Update',
-              'action' => site_url('kategori/update_action'),
-          		'id_kategori' => set_value('id_kategori', $row->id_kategori),
-          		'nm_kategori' => set_value('nm_kategori', $row->nm_kategori),
-      	    );
-            $data['breadcrumb']='Kategori Buku';
-            $data['title']='Olah Data Kategori Buku';
-            $data['assign_js']='kategori/js/index.js';
-            load_view('kategori/tb_kategori_form', $data);
+                'button' => 'Update',
+                'action' => site_url('kategori/update_action'),
+		'id_kategori' => set_value('id_kategori', $row->id_kategori),
+		'nm_kategori' => set_value('nm_kategori', $row->nm_kategori),
+	    );
+            $this->load->view('kategori/tb_kategori_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('kategori'));
         }
     }
-
-    public function update_action()
+    
+    public function update_action() 
     {
         $this->_rules();
 
@@ -103,17 +92,19 @@ class Kategori extends CI_Controller
             $this->update($this->input->post('id_kategori', TRUE));
         } else {
             $data = array(
-        		    'nm_kategori' => $this->input->post('nm_kategori',TRUE),
-        	  );
+		'nm_kategori' => $this->input->post('nm_kategori',TRUE),
+	    );
+
             $this->Kategori_model->update($this->input->post('id_kategori', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('kategori'));
         }
     }
-
-    public function delete($id)
+    
+    public function delete($id) 
     {
         $row = $this->Kategori_model->get_by_id($id);
+
         if ($row) {
             $this->Kategori_model->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
@@ -124,11 +115,12 @@ class Kategori extends CI_Controller
         }
     }
 
-    public function _rules()
+    public function _rules() 
     {
-    	$this->form_validation->set_rules('nm_kategori', 'nm kategori', 'trim|required');
-    	$this->form_validation->set_rules('id_kategori', 'id_kategori', 'trim');
-    	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+	$this->form_validation->set_rules('nm_kategori', 'nm kategori', 'trim|required');
+
+	$this->form_validation->set_rules('id_kategori', 'id_kategori', 'trim');
+	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
     public function excel()

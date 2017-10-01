@@ -34,7 +34,7 @@
         <tr>
           <td><?php echo ++$start ?></td>
           <td><?php echo $login_peg->username ?></td>
-          <td><?php echo $login_peg->password ?></td>
+          <td><?php echo $this->encryption->decrypt($login_peg->password) ?></td>
           <td><?php echo $login_peg->level ?></td>
           <td style="text-align:center" width="200px">
           <?php
